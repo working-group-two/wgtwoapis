@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package clientmanagement;
+option java_multiple_files = true;
+option java_package = "io.omnicate.clientmanagement.proto";
+
+import "google/protobuf/timestamp.proto";
+
+message PhoneNumber {
+
+    /* Phone number formatted as E.164 with leading plus sign
+     *
+     * Test your number at https://libphonenumber.appspot.com/
+     * Example: +12024561111 */
+    string e164 = 1;
+}
+
+message UserTokenMetadata {
+    string human_readable_name = 1;
+    string correlation_id = 2;
+    string service_id = 3;
+    repeated PhoneNumber phoneNumbers = 4;
+    repeated string rights = 5;
+    map<string, string> tags = 6;
+    google.protobuf.Timestamp created_time = 7;
+    google.protobuf.Timestamp last_used_time = 8;
+    google.protobuf.Timestamp deleted_time = 9;
+}
+
+message CreateUserTokenRequest {
+    string human_name = 1;
+    string correlation_id = 2;
+    repeated PhoneNumber phoneNumbers = 3;
+    repeated string rights = 4;
+    map<string, string> tags = 5;
+}
+
+message CreateUserTokenResponse {
+    UserTokenMetadata user_token_metadata = 1;
+    string user_token = 2;
+}
+
+message ListUserTokenRequest {
+    PhoneNumber phoneNumber = 1;
+}
+
+message ListUserTokenResponse {
+    repeated UserTokenMetadata user_token_metadata = 1;
+}
+
+message GetUserTokenRequest {
+    string correlation_id = 1;
+}
+
+message GetUserTokenResponse {
+    UserTokenMetadata user_token_metadata = 1;
+}
+
+message RevokeUserTokenRequest {
+    string correlation_id = 2;
+}
+
+message RevokeUserTokenResponse {
+    UserTokenMetadata user_token_metadata = 1;
+}
+
+service UserTokenService {
+    rpc Create (CreateUserTokenRequest) returns (CreateUserTokenResponse) {}
+    rpc Get (GetUserTokenRequest) returns (GetUserTokenResponse) {}
+    rpc List (ListUserTokenRequest) returns (ListUserTokenResponse) {}
+    rpc Revoke (RevokeUserTokenRequest) returns (RevokeUserTokenResponse) {}
+}
