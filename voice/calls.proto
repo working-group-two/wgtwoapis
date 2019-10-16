@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.omnicate.proto.calls";
+option objc_class_prefix = "WG2";
+
+package calls;
+
+service CallHistory {
+  rpc GetCalls (GetCallsRequest) returns (GetCallsResponse) {}
+}
+
+message GetCallsRequest {
+  enum Key {
+    REMOTE_MSISDN = 0;
+  }
+  message Filters {
+    Key key = 1;
+    string regex = 2;
+  }
+
+  string msisdn = 1;
+  uint32 limit = 2;
+  repeated Filters filters = 5;
+}
+
+message GetCallsResponse {
+  repeated Call calls = 1;
+}
+
+message Call {
+  enum Type {
+    INCOMING = 0;
+    OUTGOING = 1;
+  }
+  enum Status {
+    MISSED = 0;
+    ANSWERED = 1;
+  }
+
+  string callId = 1;
+  string remoteMsisdn = 2;
+  uint64 startedTime = 3;
+  uint64 endedTime = 4;
+  Type type = 5;
+  Status status = 6;
+}

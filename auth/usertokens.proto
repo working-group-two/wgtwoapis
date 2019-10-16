@@ -24,7 +24,6 @@ message UserTokenMetadata {
     map<string, string> tags = 6;
     google.protobuf.Timestamp created_time = 7;
     google.protobuf.Timestamp last_used_time = 8;
-    google.protobuf.Timestamp deleted_time = 9;
 }
 
 message CreateUserTokenRequest {
@@ -61,7 +60,6 @@ message RevokeUserTokenRequest {
 }
 
 message RevokeUserTokenResponse {
-    UserTokenMetadata user_token_metadata = 1;
 }
 
 service UserTokenService {

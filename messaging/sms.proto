@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.omnicate.proto.sms";
+option objc_class_prefix = "WG2";
+
+package sms;
+
+service SmsHistory {
+  rpc GetSms(GetSmsRequest) returns (GetSmsResponse) {}
+}
+
+service SmsService {
+  rpc SendSms(SendSmsRequest) returns (SendSmsResponse) {}
+}
+
+message SendSmsRequest {
+  string fromMsisdn = 1;
+  string toMsisdn = 2;
+  string content = 3;
+}
+
+message SendSmsResponse { string messageId = 1; }
+
+enum Direction {
+  INCOMING = 0;
+  OUTGOING = 1;
+  BOTH = 2;
+}
+
+message GetSmsRequest {
+  enum Key {
+    FROM = 0;
+    TO = 1;
+    MESSAGE = 2;
+  }
+  message Filters {
+    Key key = 1;
+    string regex = 2;
+  }
+
+  string msisdn = 1;
+  uint32 limit = 2;
+  uint32 offset = 3;
+  Direction direction = 4;
+  repeated Filters filters = 5;
+}
+
+message GetSmsResponse { repeated Sms messages = 1; }
+
+message Sms {
+  string messageId = 1;
+  string message = 2;
+  string fromMsisdn = 3;
+  string toMsisdn = 4;
+  Direction direction = 5;
+  uint32 timestamp = 6;
+}

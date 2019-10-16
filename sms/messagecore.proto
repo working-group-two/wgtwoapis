@@ -1,0 +1,262 @@
+syntax = "proto3";
+
+package messaging;
+
+option java_package = "io.omnicate.messaging.protobuf";
+
+service MessageCore {
+  rpc SendMessage (Message) returns (SendResult) {}
+
+  rpc ReceiveMessages (ReceiveMessagesRequest) returns (stream MessageBox) {}
+
+  rpc AckMessage (AckMessageRequest) returns (AckMessageResponse) {}
+
+  rpc UnsuspendAddress (Address) returns (UnsuspendResult) {}
+}
+
+message ReceiveMessagesRequest {
+}
+
+message AckMessageResponse {
+}
+
+message AckMessageRequest {
+    ReceiveStatus ackStatus = 1;
+}
+
+// Direction of the message. An incoming message is heading towards our subscriber, and hence the subscriber can
+// be found in to_address. An outgoing message has been send by our subscriber going to someone else, and
+// the subscriber can be found in from_address. Note that a message send from our subscriber to our subscriber will
+// appear twice in our system, once with direction outgoing and once with direction incoming. Hence, a SmsMessage
+// can only be for one subscriber at a time. As an optimization it would be possible to consider the case
+// where both addresses are our subscribers as a special direction "INTERNAL" where both origin and destination address
+// are our subscribers, but we don't do that. For that reason, when "the subscriber" is mentioned in the context
+// of an sms its always unambiguous which subscriber we are talking about. In addition, some kinds of addresses are
+// not possible to use for the subscriber, and some addresses are not possible for the non-subscriber.
+// The special direction BOTH is for structures that contains multiple messages, and indicates that messages might
+// be in either direction and thus each individual message has to be inspected.
+enum Direction {
+  DIRECTION_NOT_SET = 0;
+  INCOMING = 1;
+  OUTGOING = 2;
+}
+
+// A message has a source and destination address. The address of the of the subscriber is always INTERNATIONAL_NUMBER
+// in case the message originates from the subscriber, and always either INTERNATIONAL_NUMBER or IMSI when the
+// subscriber is the destination. TEXT and NATIONAL_NUMBER addresses are only ever used for non-subscribers.
+message Address {
+    enum Type {
+        TYPE_NOT_SET = 0;
+        UNKNOWN = 1;
+        INTERNATIONAL_NUMBER = 2;
+        NATIONAL_NUMBER = 3;
+        TEXT = 4;
+        EMAIL = 5;
+        IMSI = 6;
+        RESERVED = 7;
+    }
+    Type type = 1;
+    string number = 2;
+}
+
+enum Charset {
+    CHARSET_NOT_SET = 0;
+    UNKNOWN = 1;
+    GSM7 = 2;
+    GSM8 = 3;
+    UCS2 = 4;
+    ISO_8859_1 = 5;
+}
+
+// A box of messages. It can either be an inbox, an outbox or both depending on direction. Messages in the box
+// will have the direction as specified by the box. Note that the special direction BOTH means that messages might
+// be in either direction.
+message MessageBox {
+  Address forAddress = 1;
+  enum BoxDirection {
+    BOX_DIRECTION_NOT_SET = 0;
+    INCOMING = 1;
+    OUTGOING = 2;
+    BOTH = 3;
+  }
+  BoxDirection direction = 2;
+  repeated Message messages = 3;
+}
+
+message Message {
+  // Id refering to a unique instance of this message during its routing. If the same message is waiting
+  // for two different routes, this id will be different between the two of them. See uuid that is constant
+  // across all routes.
+  int64 messageId = 1;
+
+  SmsFragmentedContent fragments = 2;
+
+  // Depending on the direction either the fromAddress or toAddress has to be an international number or imsi.
+  Address fromAddress = 3;
+  Address toAddress = 4;
+
+  Direction direction = 5;
+
+  uint64 expires = 6;
+
+  string producer = 7;
+
+  uint64 sendTimestamp = 9;
+
+  MessageRoute route = 10;
+
+  message RoutingState {
+     oneof alt {
+       ReceiveAttemptStatus receiveAttempt = 1;
+       sint32 takenChoice = 2;
+       sint32 takenFork = 3;
+     }
+  }
+
+  repeated RoutingState routingState = 11;
+
+  string uuid = 12;
+}
+
+message MessageRoute {
+  message RejectingRoute {
+
+  }
+
+  message RetryingRoute {
+    MessageRoute subRoute = 1;
+    int32 maxAttemptsBeforeFail = 2;
+    message BackoffParameters {
+      int32 backoffIntervalSeconds = 1;
+      int32 maxBackoffPower = 2;
+    }
+    BackoffParameters errorBackoff = 3;
+  }
+
+  message StaticRoute {
+    string consumer = 1;
+    int32 receiveTimeout = 2;
+  }
+
+  message DestinationRewrite {
+    Address newAddress = 1;
+  }
+
+  message ThenDo {
+    MessageRoute firstRoute = 1;
+    MessageRoute onOk = 2;
+    MessageRoute onReject = 3;
+    MessageRoute onError = 4;
+    MessageRoute onSuspend = 5;
+    MessageRoute onTimeout = 6;
+    MessageRoute onAckTimeout = 7;
+  }
+
+  message Choice {
+    message ChoiceCondition {
+      oneof alt {
+        string destinationInternationalRegexp = 1;
+        string destinationNationalRegexp = 2;
+        string destinationTextRegexp = 3;
+        bool catchAll = 4;
+        string destinationUnknownRegexp = 5;
+      }
+    }
+    repeated ChoiceCondition condition = 1;
+    repeated MessageRoute route = 2;
+  }
+
+  message Fork {
+    repeated MessageRoute route = 1;
+  }
+
+  oneof route {
+    RejectingRoute rejecting = 1;
+    RetryingRoute retrying = 2;
+    StaticRoute static = 3;
+    DestinationRewrite destinationRewrite = 4;
+    ThenDo thenDo = 5;
+    Choice choice = 6;
+    Fork fork = 7;
+  }
+}
+
+message SmsFragmentedContent {
+  int32 of = 1;
+  // Must be set if of > 1
+  bool udhi = 2;
+
+  repeated SmsFragment fragments = 3;
+
+  // Only first 8 bits must be used, rest fixed at 0.
+  int32 protocolIdentifier = 4;
+
+  bool reportStatus = 5;
+
+  uint64 sendDate = 6;
+
+  enum MessageClass {
+    MESSAGE_CLASS_NOT_SET = 0;
+    UNSPECIFIED = 1;
+    CLASS0 = 2;
+    CLASS1 = 3;
+    CLASS2 = 4;
+    CLASS3 = 5;
+  }
+
+  MessageClass messageClass = 7;
+}
+
+message SmsFragment {
+  int32 part = 1;
+  bytes content = 2;
+  Charset encoding = 3;
+}
+
+enum SendAttemptStatus {
+  SEND_ATTEMPT_STATUS_NOT_SET = 0;
+  SEND_OK = 1;
+  SEND_REJECT = 2;
+  SEND_ERROR = 3;
+}
+
+message SendResult {
+  int64 messageId = 1;
+  SendAttemptStatus status = 2;
+  string description = 3;
+}
+
+message ReceiveStatus {
+  int64 messageId = 1;
+  ReceiveAttemptStatus status = 2;
+  string description = 3;
+}
+
+enum ReceiveAttemptStatus {
+  RECEIVE_ATTEMPT_STATUS_NOT_SET = 0;
+  // Message was received ok by the consumer.
+  RECEIVE_OK = 1;
+  // Message is rejected by the consumer. Rejection implies that the consumer do not want the message.
+  RECEIVE_REJECT = 2;
+  // The consumer experienced an error when receiving the message. Errors implies the consumer is willing to try again.
+  RECEIVE_ERROR = 3;
+  // The consumer suspends the message. Suspension implies that the consumer cant deliver the message right now,
+  // but will be notified in case that changes. Unlike ERROR, suspension is an expected scenario not implying fault.
+  RECEIVE_SUSPEND = 4;
+  // The consumer did not receive the message before receive timeout was reached.
+  RECEIVE_TIMEOUT = 5;
+  // The consumer received the message but did not ack it within the ack timeout.
+  RECEIVE_ACK_TIMEOUT = 6;
+}
+
+enum UnsuspendStatus {
+  UNSUSPEND_STATUS_NOT_SET = 0;
+  UNSUSPEND_OK = 1;
+  UNSUSPEND_REJECT = 2;
+  UNSUSPEND_ERROR = 3;
+}
+
+message UnsuspendResult {
+  UnsuspendStatus status = 1;
+  string description = 2;
+}
