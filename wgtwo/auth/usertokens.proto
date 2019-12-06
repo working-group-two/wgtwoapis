@@ -5,7 +5,7 @@ option java_multiple_files = true;
 option java_package = "io.omnicate.clientmanagement.proto";
 
 import "google/protobuf/timestamp.proto";
-import "proto/external/common/phonenumber.proto";
+import "common/phonenumber.proto";
 
 message UserTokenMetadata {
     string human_readable_name = 1;

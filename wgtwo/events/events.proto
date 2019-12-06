@@ -5,7 +5,7 @@ package events;
 option java_package = "io.omnicate.events.protobuf";
 
 import "google/protobuf/timestamp.proto";
-import "proto/external/common/phonenumber.proto";
+import "common/phonenumber.proto";
 
 service EventsService {
   rpc Subscribe (SubscribeEventsRequest) returns (stream SubscribeEventsResponse) {
