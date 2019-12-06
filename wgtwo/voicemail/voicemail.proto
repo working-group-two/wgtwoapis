@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package voicemail;
+
+option java_package = "io.omnicate.messaging.protobuf";
+
+service VoicemailMediaService {
+  rpc getAllVoicemailMetadata (GetAllVoicemailMetadataRequest) returns (GetAllVoicemailMetadataResponse) {}
+  rpc getVoicemail (GetVoicemailRequest) returns (GetVoicemailResponse) {}
+  rpc markVoicemailAsRead (MarkVoicemailAsReadRequest) returns (MarkVoicemailAsReadResponse) {}
+  rpc deleteVoicemail (DeleteVoicemailRequest) returns (DeleteVoicemailResponse) {}
+}
+
+message VoicemailMetadata {
+  string voicemail_id = 1;
+  string sentTo = 2;
+  string sentFrom = 3;
+  string length = 4;
+  bool played = 5;
+  uint64 created = 6;
+  uint64 expires = 7;
+}
+
+message GetAllVoicemailMetadataRequest {
+  string msisdn = 1;
+}
+
+message GetAllVoicemailMetadataResponse {
+  repeated VoicemailMetadata voicemailsMetadata = 1;
+}
+
+message GetVoicemailRequest {
+  string voicemail_id = 1;
+}
+
+message GetVoicemailResponse {
+  bytes voicemail_file = 1;
+}
+
+message MarkVoicemailAsReadRequest {
+  string voicemail_id = 1;
+}
+
+message MarkVoicemailAsReadResponse {
+}
+
+message DeleteVoicemailRequest {
+  string voicemail_id = 1;
+}
+
+message DeleteVoicemailResponse {
+}

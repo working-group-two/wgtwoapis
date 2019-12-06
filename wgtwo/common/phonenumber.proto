@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package common;
+
+option java_package = "io.omnicate.proto.common";
+
+message PhoneNumber {
+
+    /* Phone number formatted as E.164 with leading plus sign
+     *
+     * This contains of three components:
+     * - The plus prefix
+     * - Country code, max 3 digits
+     * - Subscriber number
+     *
+     * Test your number at https://libphonenumber.appspot.com/
+     * Example: +12024561111
+     */
+    string e164 = 1;
+}

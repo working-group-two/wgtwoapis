@@ -1,0 +1,485 @@
+/**
+ * The message core API provides access to low-level send and receive SMS APIs. That means that
+ * while the normal case of sending a full text message from a number to another number
+ * is supported, there is also support for many other use cases related to fragmented messages, binary
+ * messages, and message classes.
+ *
+ * A message can be sent in two directions, either sent to a subscriber (INCOMING) or from a subscriber (OUTGOING).
+ * Different client rights are needed depending on which direction the message is being sent.
+ */
+syntax = "proto3";
+
+package messaging;
+
+option java_package = "io.omnicate.messaging.protobuf";
+
+service MessageCore {
+  /**
+   * Send a message (synchronously). A successful call means that the message has been persisted and
+   * will be forwarded towards the destination. It might take significant time for a sent message
+   * to get accepted by the destination, for example if the destination is
+   * a phone that is turned off. It is also possible that a message will not be successfully
+   * forwarded even though it has been sent. To send INCOMING messages you need to have
+   * the sms.send.to_subscriber right for the toAddress address, and to send OUTGOING messages
+   * you need to have the sms.send.from_subscriber right for the fromAddress address.
+   */
+  rpc SendMessage (Message) returns (SendResult) {}
+
+  /**
+   * Receive messages (asynchronously). Receiving messages will give an infinite stream of messages
+   * that are being sent to the client. To receive messages you need either the sms.receive.from_subscriber
+   * or the sms.receive.to_subscriber right. In addition to the rights, each subscriber might have
+   * routing rules that determine if a particular client will receive messages or not.
+   *
+   * A message that has been received needs to be acknowledged, otherwise it might be received again.
+   *
+   * Received messages are wrapped in MessageBoxes, with one box per subscriber. A message
+   * box can contain multiple messages. When a message box for a subscriber has been received,
+   * no more messages for that subscriber will be received until all messages in the box have been
+   * acknowledged. This means that messages will always be received non-concurrently for a particular
+   * subscriber. The order of messages is usually consistent with the time the message was sent, but that is not guaranteed.
+   *
+   * If a message is not received within a certain time limit, it expires.
+   */
+  rpc ReceiveMessages (ReceiveMessagesRequest) returns (stream MessageBox) {}
+
+  /**
+   * Acknowledge a single received message. A message is acknowledged using its messageId. Depending on the
+   * ackStatus and the routing rules of the subscriber the message might be sent to a
+   * different client, or the message might become suspended.
+   */
+  rpc AckMessage (AckMessageRequest) returns (AckMessageResponse) {}
+
+  /**
+   * When a message sent to a subscriber is not correctly received by a client the address
+   * which the message was sent to can end up in a suspended state. Addresses in a suspended state
+   * will not receive messages until a timeout occurs. Unsuspending an address will cause all
+   * messages towards that address to be sent immediately.
+   */
+  rpc UnsuspendAddress (Address) returns (UnsuspendResult) {}
+}
+
+message ReceiveMessagesRequest {
+}
+
+message AckMessageResponse {
+}
+
+message AckMessageRequest {
+    ReceiveStatus ackStatus = 1;
+}
+
+/**
+ * Direction of the message. An incoming message is heading towards a subscriber, and hence the subscriber can
+ * be found in toAddress. An outgoing message has been sent by a subscriber to someone else, and
+ * the subscriber can be found in fromAddress. Note that a message sent from a subscriber to a subscriber will
+ * appear twice, once with direction outgoing and once with direction incoming. Hence, a SmsMessage
+ * can only be for one subscriber at a time. For that reason, when "the subscriber" is mentioned in the context
+ * of an SMS it is always unambiguous which subscriber we are talking about. In addition, some kinds of addresses are
+ * not possible to use for the subscriber, and some addresses are not possible for the non-subscriber.
+ * The special direction BOTH is for structures that contains multiple messages, and indicates that messages might
+ * be in either direction and thus each individual message has to be inspected.
+ */
+enum Direction {
+  DIRECTION_NOT_SET = 0;
+  /**
+   * The direction of messages sent to a subscriber.
+   */
+  INCOMING = 1;
+  /**
+   * The direction of messages sent from a subscriber.
+   */
+  OUTGOING = 2;
+}
+
+/**
+ * A message has a source and a destination address. The address of the subscriber always has INTERNATIONAL_NUMBER type
+ * for outgoing messages, and always of either INTERNATIONAL_NUMBER or IMSI type
+ *  for the incoming ones. TEXT and NATIONAL_NUMBER addresses are only ever used for non-subscribers.
+ */
+message Address {
+    enum Type {
+        TYPE_NOT_SET = 0;
+        /**
+         * The address type is unknown. It is up to the receiver to interpret the address, for
+         * example by trying to parse it as a e.164 number or a national number.
+         */
+        UNKNOWN = 1;
+        /**
+         * The address is an e.164 international number without plus prefix. The number does not have
+         * to be in active use or even routable. If the address is that of a subscriber, the
+         * subscriber must exist.
+         */
+        INTERNATIONAL_NUMBER = 2;
+        /**
+         * The address is part of a national numbering plan. It is up to the receiver to interpret
+         * which numbering plan.
+         */
+        NATIONAL_NUMBER = 3;
+        /**
+         * The address is a text address. Text addresses are typically used for machine to human
+         * SMS such as marketing or informational messages.
+         */
+        TEXT = 4;
+        /**
+         * The address is an email address. Not in use.
+         */
+        EMAIL = 5;
+        /**
+         * The address in an IMSI belonging to a subscriber.
+         */
+        IMSI = 6;
+        /**
+         * The address type is reserved. Note that it's reserved by the underlying network SMS
+         * delivery protocols and not by this API. As such, this field will never become anything
+         * else than reserved even if the delivery protocols change.
+         */
+        RESERVED = 7;
+    }
+    Type type = 1;
+    string number = 2;
+}
+
+/**
+ * The charset of the message.
+ */
+enum Charset {
+    CHARSET_NOT_SET = 0;
+    /**
+     * The message is of unknown charset. It is up to the receiver to interpret what this means.
+     */
+    UNKNOWN = 1;
+    /**
+     * The message is encoded with the GSM7 7-bit alphabet as defined by 3GPP TS 23.038 in section 6.2.1.
+     */
+    GSM7 = 2;
+    /**
+     * The message is encoded with the GSM8 alphabet, i.e. binary.
+     *  It is up to the receiver to determine how to interpret the contents.
+     */
+    GSM8 = 3;
+    /**
+     * The message is encoded with UCS2, 2 byte wide characters. While such message should
+     * never be fragmented in the middle of a character, such thing happens and it is
+     * advised for the receiver to concatenate the fragments before decoding.
+``
+     */
+    UCS2 = 4;
+    /**
+     * The message is encoded with ISO-8859-1. This character set is not supported in
+     * the GSM network. Using it when sending means that the message will be re-encoded if it
+     * needs to be delivered over GSM.
+     */
+    ISO_8859_1 = 5;
+}
+
+/**
+ * A box of messages. It can either be an inbox, an outbox or both depending on direction. Messages in the box
+ * will have the direction as specified by the box. Note that the special direction BOTH means that messages might
+ * be in either direction.
+ */
+message MessageBox {
+  /**
+   * The owner of the messages in this box of messages. Depending on the direction of each individual
+   * message the owner is either the sender or the receiver of the message.
+   */
+  Address forAddress = 1;
+  /**
+   * The direction of the messages in the box.
+   */
+  enum BoxDirection {
+    BOX_DIRECTION_NOT_SET = 0;
+    /**
+     * All messages in the box are incoming messages.
+     */
+    INCOMING = 1;
+    /**
+     * All messages in the box are outgoing messages.
+     */
+    OUTGOING = 2;
+    /**
+     * Messages in the box are both incoming and outgoing messagess
+     */
+    BOTH = 3;
+  }
+  BoxDirection direction = 2;
+  /**
+   * List of messages in the box. All messages have owner as described by forAddress and
+   * direction as direction. Messages are usually ordered by the send timestamp, but that is not guaranteed.
+   */
+  repeated Message messages = 3;
+}
+
+message Message {
+  /**
+   * Identifier referring to a unique instance of this message during its routing. If the same message is waiting
+   * for two different routes, this ID will be different between them. See uuid that is constant
+   * across all routes.
+   * This field is read-only, setting it when sending has no effect.
+   */
+  int64 messageId = 1;
+
+  /**
+   * The fragmented content of the message.
+   */
+  SmsFragmentedContent fragments = 2;
+  Address fromAddress = 3;
+  Address toAddress = 4;
+
+  Direction direction = 5;
+
+  /**
+   * The time the message expires, in milliseconds since epoch. Note that it is still possible to receive
+   * an expired message, and it is then up to the receiver to either acknowledge the message without action or
+   * do something with it (for example, send a notification to the user that a message expired).
+   */
+  uint64 expires = 6;
+
+  // Deprecated
+  string producer = 7;
+
+  /**
+   * The time the message was sent, in milliseconds since epoch.
+   */
+  uint64 sendTimestamp = 9;
+
+  // Deprecated
+  MessageRoute route = 10;
+
+  // Deprecated
+  message RoutingState {
+     oneof alt {
+       ReceiveAttemptStatus receiveAttempt = 1;
+       sint32 takenChoice = 2;
+       sint32 takenFork = 3;
+     }
+  }
+
+  // Deprecated
+  repeated RoutingState routingState = 11;
+
+  /**
+   * Unique identifier of a message. If the message is delivered multiple times to the same receiver,
+   * this uuid will remain the same.
+   * This field is read-only, setting it when sending has no effect.
+   */
+  string uuid = 12;
+}
+
+// Deprecated
+message MessageRoute {
+  message RejectingRoute {
+
+  }
+
+  message RetryingRoute {
+    MessageRoute subRoute = 1;
+    int32 maxAttemptsBeforeFail = 2;
+    message BackoffParameters {
+      int32 backoffIntervalSeconds = 1;
+      int32 maxBackoffPower = 2;
+    }
+    BackoffParameters errorBackoff = 3;
+  }
+
+  message StaticRoute {
+    string consumer = 1;
+    int32 receiveTimeout = 2;
+  }
+
+  message DestinationRewrite {
+    Address newAddress = 1;
+  }
+
+  message ThenDo {
+    MessageRoute firstRoute = 1;
+    MessageRoute onOk = 2;
+    MessageRoute onReject = 3;
+    MessageRoute onError = 4;
+    MessageRoute onSuspend = 5;
+    MessageRoute onTimeout = 6;
+    MessageRoute onAckTimeout = 7;
+  }
+
+  message Choice {
+    message ChoiceCondition {
+      oneof alt {
+        string destinationInternationalRegexp = 1;
+        string destinationNationalRegexp = 2;
+        string destinationTextRegexp = 3;
+        bool catchAll = 4;
+        string destinationUnknownRegexp = 5;
+      }
+    }
+    repeated ChoiceCondition condition = 1;
+    repeated MessageRoute route = 2;
+  }
+
+  message Fork {
+    repeated MessageRoute route = 1;
+  }
+
+  oneof route {
+    RejectingRoute rejecting = 1;
+    RetryingRoute retrying = 2;
+    StaticRoute static = 3;
+    DestinationRewrite destinationRewrite = 4;
+    ThenDo thenDo = 5;
+    Choice choice = 6;
+    Fork fork = 7;
+  }
+}
+
+message SmsFragmentedContent {
+  /**
+   * Total amount of fragments in this message.
+   */
+  int32 of = 1;
+  /**
+   * Flag indicating if the message fragment has a user data header. Message of more than one
+   * fragment must have a user data header, as fragment numbering is part of that header.
+   * See https://en.wikipedia.org/wiki/User_Data_Header
+   */
+  bool udhi = 2;
+
+  /**
+   * Unsorted subset of message fragments. If the client supports defragmentation,
+   * this will contain all the fragments.
+   */
+  repeated SmsFragment fragments = 3;
+
+  /**
+   * SMS protocol identifier. Only the least-significant 8 bits must be used, rest fixed at 0.
+   */
+  int32 protocolIdentifier = 4;
+
+  /**
+   * Flag to indicate if delivery status report should be generated as the SMS is being delivered.
+   */
+  bool reportStatus = 5;
+
+  /**
+   * The time the fragment was sent, in milliseconds since epoch.
+   */
+  uint64 sendDate = 6;
+
+  /**
+   * Message classes for sms.
+   */
+  enum MessageClass {
+    MESSAGE_CLASS_NOT_SET = 0;
+    /**
+     * No message class set.
+     */
+    UNSPECIFIED = 1;
+    /**
+     * Flash sms. Not stored on device but shown as a popup.
+     */
+    CLASS0 = 2;
+    /**
+     * ME-specific. Handset handles it.
+     */
+    CLASS1 = 3;
+    /**
+     * SIM specific. SIM card handles it. Usually used for over the air upgrades of SIM card software
+     * or 2FA SIM applications.
+     */
+    CLASS2 = 4;
+    /**
+     * Terminal specific. Forwarded by the handset to an application which handles it.
+     */
+    CLASS3 = 5;
+  }
+
+  /**
+   * The class of the message. See https://en.wikipedia.org/wiki/Data_Coding_Scheme#Message_Classes
+   * Usually unspecified.
+   */
+  MessageClass messageClass = 7;
+}
+
+/**
+ * SMS fragment, including user data in case the user data header flag is set.
+ */
+message SmsFragment {
+  /**
+   * Part number of the fragment, between 1 and 255.
+   */
+  int32 part = 1;
+  /**
+   * The encoded content of the message, including user data header.
+   */
+  bytes content = 2;
+  /**
+   * The encoding of the message. Note that the user data header is not encoded with any encoding.
+   */
+  Charset encoding = 3;
+}
+
+enum SendAttemptStatus {
+  SEND_ATTEMPT_STATUS_NOT_SET = 0;
+  SEND_OK = 1;
+  SEND_REJECT = 2;
+  SEND_ERROR = 3;
+}
+
+message SendResult {
+  // Deprecated
+  int64 messageId = 1;
+  SendAttemptStatus status = 2;
+  string description = 3;
+  /**
+   * Unique ID assigned to the message. The ID can be read by all receivers of the message.
+   * If there are multiple receivers of the same message, this ID will be the same for all of
+   * them.
+   */
+  string uuid = 4;
+}
+
+message ReceiveStatus {
+  int64 messageId = 1;
+  ReceiveAttemptStatus status = 2;
+  string description = 3;
+}
+
+enum ReceiveAttemptStatus {
+  RECEIVE_ATTEMPT_STATUS_NOT_SET = 0;
+  /**
+   * Message was successfully received.
+   */
+  RECEIVE_OK = 1;
+  /**
+   * Message is rejected by the receiver. Rejection implies that the receiver does not want to handle the message.
+   */
+  RECEIVE_REJECT = 2;
+  /**
+   * The receiver has experienced an error when receiving the message. Error implies the receiver is willing to try again.
+   */
+  RECEIVE_ERROR = 3;
+  /**
+    * The receiver suspends the message. Suspension implies that the receiver cannot handle the message right now,
+``
+    * but wants to be notified about it later. Unlike ERROR, suspension is an expected scenario not implying fault.
+    */
+  RECEIVE_SUSPEND = 4;
+  /**
+   * The receiver did not attempt to receive the message before the timeout was reached.
+   */
+  RECEIVE_TIMEOUT = 5;
+  /**
+   * The receiver did not acknowledge the message within the acknowledge timeout after receiving it.
+   */
+  RECEIVE_ACK_TIMEOUT = 6;
+}
+
+enum UnsuspendStatus {
+  UNSUSPEND_STATUS_NOT_SET = 0;
+  UNSUSPEND_OK = 1;
+  UNSUSPEND_REJECT = 2;
+  UNSUSPEND_ERROR = 3;
+}
+
+message UnsuspendResult {
+  UnsuspendStatus status = 1;
+  string description = 2;
+}
