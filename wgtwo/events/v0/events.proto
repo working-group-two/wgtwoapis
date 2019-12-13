@@ -1,15 +1,14 @@
 syntax = "proto3";
 
-package events;
-
-option java_package = "io.omnicate.events.protobuf";
+package wgtwo.events.v0;
+option java_multiple_files = true;
+option java_package = "com.wgtwo.api.events.v0";
 
 import "google/protobuf/timestamp.proto";
 import "common/phonenumber.proto";
 
 service EventsService {
-  rpc Subscribe (SubscribeEventsRequest) returns (stream SubscribeEventsResponse) {
-  }
+  rpc Subscribe (SubscribeEventsRequest) returns (stream SubscribeEventsResponse) {}
 }
 
 message SubscribeEventsRequest {
@@ -19,14 +18,18 @@ message SubscribeEventsRequest {
     SMS_EVENT = 2;
   }
   repeated Type type = 1;
-  repeated common.PhoneNumber phone_numbers = 2;
 }
 
 message SubscribeEventsResponse {
-  google.protobuf.Timestamp time = 1;
+  repeated Event event = 1;
+}
+
+message Event {
+  google.protobuf.Timestamp timestamp = 1;
+  string service_id = 2;
   oneof event {
-    VoiceEvent voice_event = 2;
-    SmsEvent sms_event = 3;
+    VoiceEvent voice_event = 3;
+    SmsEvent sms_event = 4;
   }
 }
 
@@ -43,8 +46,8 @@ message VoiceEvent {
 
   string call_id = 1;
   VoiceEventType type = 2;
-  common.PhoneNumber a_number = 3;
-  common.PhoneNumber b_number = 4;
+  common.PhoneNumber from_number = 3;
+  common.PhoneNumber to_number = 4;
 }
 
 message SmsEvent {
