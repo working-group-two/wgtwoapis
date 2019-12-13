@@ -9,7 +9,7 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <name>${groupId} gRPC common</name>
+    <name>${project.groupId} gRPC common</name>
     <artifactId>common-grpc</artifactId>
     <packaging>jar</packaging>
 
@@ -28,6 +28,11 @@
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>wgtwo/common/*.proto</include>
+                    </includes>
+                </configuration>
             </plugin>
         </plugins>
     </build>

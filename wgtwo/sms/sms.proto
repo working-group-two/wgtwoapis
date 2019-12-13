@@ -2,7 +2,6 @@ syntax = "proto3";
 
 option java_multiple_files = true;
 option java_package = "io.omnicate.proto.sms";
-option objc_class_prefix = "WG2";
 
 package sms;
 

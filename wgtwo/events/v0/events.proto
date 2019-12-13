@@ -5,7 +5,7 @@ option java_multiple_files = true;
 option java_package = "com.wgtwo.api.events.v0";
 
 import "google/protobuf/timestamp.proto";
-import "common/phonenumber.proto";
+import "wgtwo/common/phonenumber.proto";
 
 service EventsService {
   rpc Subscribe (SubscribeEventsRequest) returns (stream SubscribeEventsResponse) {}

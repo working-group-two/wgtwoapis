@@ -8,7 +8,7 @@
         <relativePath>../../../pom.xml</relativePath>
     </parent>
 
-    <name>${groupId} gRPC events</name>
+    <name>${project.groupId} gRPC events</name>
     <artifactId>event-grpc</artifactId>
     <packaging>jar</packaging>
 
@@ -16,12 +16,6 @@
         <dependency>
             <groupId>com.wgtwo.api</groupId>
             <artifactId>common-grpc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -42,8 +36,8 @@
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <configuration>
                     <includes>
-                        <include>auth/*.proto</include>
-                        <include>common/*.proto</include>
+                        <include>wgtwo/events/v0/*.proto</include>
+                        <include>wgtwo/common/*.proto</include>
                     </includes>
                 </configuration>
             </plugin>

@@ -8,7 +8,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>${groupId} parent</name>
+    <name>${project.groupId} parent</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,9 +18,13 @@
 
     <modules>
         <module>clients/java/common</module>
-        <module>wgtwo/common</module>
         <module>wgtwo/auth</module>
+        <module>wgtwo/common</module>
         <module>wgtwo/events/v0</module>
+        <module>wgtwo/messaging</module>
+        <module>wgtwo/sms</module>
+        <module>wgtwo/voice</module>
+        <module>wgtwo/voicemail</module>
     </modules>
 
     <dependencyManagement>
@@ -79,7 +83,7 @@
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <version>0.6.1</version>
                 <configuration>
-                    <protoSourceRoot>../wgtwo</protoSourceRoot>
+                    <protoSourceRoot>${maven.multiModuleProjectDirectory}</protoSourceRoot>
                     <protocArtifact>com.google.protobuf:protoc:3.10.0:exe:${os.detected.classifier}</protocArtifact>
                     <pluginId>grpc-java</pluginId>
                     <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.25.0:exe:${os.detected.classifier}</pluginArtifact>

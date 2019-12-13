@@ -8,8 +8,8 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <name>${project.groupId} gRPC auth</name>
-    <artifactId>auth-grpc</artifactId>
+    <name>${project.groupId} gRPC messaging</name>
+    <artifactId>messaging-grpc</artifactId>
     <packaging>jar</packaging>
 
     <build>
@@ -29,8 +29,7 @@
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <configuration>
                     <includes>
-                        <include>wgtwo/auth/*.proto</include>
-                        <include>wgtwo/common/*.proto</include>
+                        <include>wgtwo/messaging/*.proto</include>
                     </includes>
                 </configuration>
             </plugin>
