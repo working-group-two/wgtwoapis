@@ -1,4 +1,4 @@
-package com.wgtwo.api.common;
+package com.wgtwo.api.util.auth;
 
 import io.grpc.CallCredentials;
 import io.grpc.Metadata;
@@ -7,16 +7,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.concurrent.Executor;
 
-public class OperatorToken extends CallCredentials {
+public class UserToken extends CallCredentials {
   private static final Metadata.Key<String> AUTH_HEADER =
       Metadata.Key.of("authorization", Metadata.ASCII_STRING_MARSHALLER);
 
-  private String clientId;
-  private String clientSecret;
+  private String token;
 
-  public OperatorToken(String clientId, String clientSecret) {
-    this.clientId = clientId;
-    this.clientSecret = clientSecret;
+  public UserToken(String token) {
+    this.token = token;
   }
 
   @Override
@@ -26,7 +24,7 @@ public class OperatorToken extends CallCredentials {
         () -> {
           try {
             Metadata headers = new Metadata();
-            headers.put(AUTH_HEADER, "Basic " + base64());
+            headers.put(AUTH_HEADER, "Bearer " + token);
             metadataApplier.apply(headers);
           } catch (Throwable e) {
             metadataApplier.fail(Status.UNAUTHENTICATED.withCause(e));
@@ -36,9 +34,4 @@ public class OperatorToken extends CallCredentials {
 
   @Override
   public void thisUsesUnstableApi() {}
-
-  private String base64() {
-    String credentials = clientId + ":" + clientSecret;
-    return Base64.getEncoder().encodeToString(credentials.getBytes(StandardCharsets.US_ASCII));
-  }
 }
