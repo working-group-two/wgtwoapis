@@ -10,5 +10,5 @@ Working Group Two's APIs uses gRPC backed by Protocol Buffers. This repository c
 .proto files that can be used to generate clients and documentation, in addition to ready made
 Maven packages to simplify integration.
 
-## Documentation:
+## Documentation
 See https://docs.wgtwo.com
