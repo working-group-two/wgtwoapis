@@ -11,13 +11,14 @@ service EventsService {
   rpc Subscribe (SubscribeEventsRequest) returns (stream SubscribeEventsResponse) {}
 }
 
+enum EventType {
+  UNSPECIFIED = 0;
+  VOICE_EVENT = 1;
+  SMS_EVENT = 2;
+}
+
 message SubscribeEventsRequest {
-  enum Type {
-    UNSPECIFIED = 0;
-    VOICE_EVENT = 1;
-    SMS_EVENT = 2;
-  }
-  repeated Type type = 1;
+  repeated EventType type = 1;
 }
 
 message SubscribeEventsResponse {
@@ -25,11 +26,12 @@ message SubscribeEventsResponse {
 }
 
 message Event {
-  google.protobuf.Timestamp timestamp = 1;
-  string service_id = 2;
+  string id = 1;
+  google.protobuf.Timestamp timestamp = 2;
+  string service_id = 3;
   oneof event {
-    VoiceEvent voice_event = 3;
-    SmsEvent sms_event = 4;
+    VoiceEvent voice_event = 4;
+    SmsEvent sms_event = 5;
   }
 }
 
