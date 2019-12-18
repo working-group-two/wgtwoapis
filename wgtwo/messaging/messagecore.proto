@@ -26,6 +26,12 @@ service MessageCore {
   rpc SendMessage (Message) returns (SendResult) {}
 
   /**
+   * Similar to SendMessage, except this method will split the message into several SMS if the body
+   * of the message is too long.
+   */
+  rpc SendTextMessage(TextMessage) returns (SendResult) {}
+
+  /**
    * Receive messages (asynchronously). Receiving messages will give an infinite stream of messages
    * that are being sent to the client. To receive messages you need either the sms.receive.from_subscriber
    * or the sms.receive.to_subscriber right. In addition to the rights, each subscriber might have
@@ -67,6 +73,13 @@ message AckMessageResponse {
 
 message AckMessageRequest {
     ReceiveStatus ackStatus = 1;
+}
+
+message TextMessage {
+  string body = 1;
+  Address fromAddress = 2;
+  Address toAddress = 3;
+  Direction direction = 4;
 }
 
 /**
@@ -264,6 +277,14 @@ message Message {
    * This field is read-only, setting it when sending has no effect.
    */
   string uuid = 12;
+
+  /**
+   * The network origin of the message. If the sender is connected to a telecom network when
+   * sending this field will tell where the sender was connected. It is typically enough to tell
+   * in which country the sender is in. If the sender is not on a telecom network the field
+   * will be set to the default value.
+   */
+  Address originNetworkNode = 13;
 }
 
 // Deprecated
