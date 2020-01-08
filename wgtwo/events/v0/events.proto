@@ -14,11 +14,14 @@ service EventsService {
 enum EventType {
   UNSPECIFIED = 0;
   VOICE_EVENT = 1;
-  SMS_EVENT = 2;
+  VOICEMAIL_EVENT = 2;
 }
 
 message SubscribeEventsRequest {
   repeated EventType type = 1;
+  oneof start_position {
+    uint64 sequence_id = 2;
+  }
 }
 
 message SubscribeEventsResponse {
@@ -26,12 +29,12 @@ message SubscribeEventsResponse {
 }
 
 message Event {
-  string id = 1;
+  uint64 sequence_id = 1;
   google.protobuf.Timestamp timestamp = 2;
   string service_id = 3;
   oneof event {
     VoiceEvent voice_event = 4;
-    SmsEvent sms_event = 5;
+    VoicemailEvent voicemail_event = 5;
   }
 }
 
@@ -41,9 +44,7 @@ message VoiceEvent {
     CALL_INITIATED = 1;
     CALL_RINGING = 2;
     CALL_ANSWERED = 3;
-    CALL_ACKED = 4;
-    CALL_REJECTED = 5;
-    CALL_ENDED = 6;
+    CALL_ENDED = 4;
   }
 
   string call_id = 1;
@@ -52,5 +53,14 @@ message VoiceEvent {
   common.PhoneNumber to_number = 4;
 }
 
-message SmsEvent {
+message VoicemailEvent {
+  enum VoicemailEventType {
+    UNSPECIFIED = 0;
+    NEW_VOICEMAIL = 1;
+  }
+
+  string voicemail_id = 1;
+  VoicemailEventType type = 2;
+  common.PhoneNumber from_number = 3;
+  common.PhoneNumber to_number = 4;
 }
