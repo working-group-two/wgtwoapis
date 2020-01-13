@@ -3,6 +3,9 @@ syntax = "proto3";
 package voicemail;
 
 option java_package = "io.omnicate.messaging.protobuf";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+import "common/phonenumber.proto";
 
 service VoicemailMediaService {
   rpc getAllVoicemailMetadata (GetAllVoicemailMetadataRequest) returns (GetAllVoicemailMetadataResponse) {}
@@ -13,16 +16,16 @@ service VoicemailMediaService {
 
 message VoicemailMetadata {
   string voicemail_id = 1;
-  string sentTo = 2;
-  string sentFrom = 3;
-  string length = 4;
+  common.PhoneNumber sentTo = 2;
+  common.PhoneNumber sentFrom = 3;
+  google.protobuf.Duration length = 4;
   bool played = 5;
-  uint64 created = 6;
-  uint64 expires = 7;
+  google.protobuf.Timestamp created = 6;
+  google.protobuf.Timestamp expires = 7;
 }
 
 message GetAllVoicemailMetadataRequest {
-  string msisdn = 1;
+  common.PhoneNumber msisdn = 1;
 }
 
 message GetAllVoicemailMetadataResponse {
