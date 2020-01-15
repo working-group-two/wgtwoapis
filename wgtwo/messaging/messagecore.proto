@@ -1,3 +1,18 @@
+// Copyright 2020 Working Group Two AS
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
 /**
  * The message core API provides access to low-level send and receive SMS APIs. That means that
  * while the normal case of sending a full text message from a number to another number
@@ -7,6 +22,7 @@
  * A message can be sent in two directions, either sent to a subscriber (INCOMING) or from a subscriber (OUTGOING).
  * Different client rights are needed depending on which direction the message is being sent.
  */
+
 syntax = "proto3";
 
 package messaging;
@@ -72,7 +88,7 @@ message AckMessageResponse {
 }
 
 message AckMessageRequest {
-    ReceiveStatus ackStatus = 1;
+  ReceiveStatus ackStatus = 1;
 }
 
 message TextMessage {
@@ -111,79 +127,79 @@ enum Direction {
  *  for the incoming ones. TEXT and NATIONAL_NUMBER addresses are only ever used for non-subscribers.
  */
 message Address {
-    enum Type {
-        TYPE_NOT_SET = 0;
-        /**
-         * The address type is unknown. It is up to the receiver to interpret the address, for
-         * example by trying to parse it as a e.164 number or a national number.
-         */
-        UNKNOWN = 1;
-        /**
-         * The address is an e.164 international number without plus prefix. The number does not have
-         * to be in active use or even routable. If the address is that of a subscriber, the
-         * subscriber must exist.
-         */
-        INTERNATIONAL_NUMBER = 2;
-        /**
-         * The address is part of a national numbering plan. It is up to the receiver to interpret
-         * which numbering plan.
-         */
-        NATIONAL_NUMBER = 3;
-        /**
-         * The address is a text address. Text addresses are typically used for machine to human
-         * SMS such as marketing or informational messages.
-         */
-        TEXT = 4;
-        /**
-         * The address is an email address. Not in use.
-         */
-        EMAIL = 5;
-        /**
-         * The address in an IMSI belonging to a subscriber.
-         */
-        IMSI = 6;
-        /**
-         * The address type is reserved. Note that it's reserved by the underlying network SMS
-         * delivery protocols and not by this API. As such, this field will never become anything
-         * else than reserved even if the delivery protocols change.
-         */
-        RESERVED = 7;
-    }
-    Type type = 1;
-    string number = 2;
+  enum Type {
+    TYPE_NOT_SET = 0;
+    /**
+     * The address type is unknown. It is up to the receiver to interpret the address, for
+     * example by trying to parse it as a e.164 number or a national number.
+     */
+    UNKNOWN = 1;
+    /**
+     * The address is an e.164 international number without plus prefix. The number does not have
+     * to be in active use or even routable. If the address is that of a subscriber, the
+     * subscriber must exist.
+     */
+    INTERNATIONAL_NUMBER = 2;
+    /**
+     * The address is part of a national numbering plan. It is up to the receiver to interpret
+     * which numbering plan.
+     */
+    NATIONAL_NUMBER = 3;
+    /**
+     * The address is a text address. Text addresses are typically used for machine to human
+     * SMS such as marketing or informational messages.
+     */
+    TEXT = 4;
+    /**
+     * The address is an email address. Not in use.
+     */
+    EMAIL = 5;
+    /**
+     * The address in an IMSI belonging to a subscriber.
+     */
+    IMSI = 6;
+    /**
+     * The address type is reserved. Note that it's reserved by the underlying network SMS
+     * delivery protocols and not by this API. As such, this field will never become anything
+     * else than reserved even if the delivery protocols change.
+     */
+    RESERVED = 7;
+  }
+  Type type = 1;
+  string number = 2;
 }
 
 /**
  * The charset of the message.
  */
 enum Charset {
-    CHARSET_NOT_SET = 0;
-    /**
-     * The message is of unknown charset. It is up to the receiver to interpret what this means.
-     */
-    UNKNOWN = 1;
-    /**
-     * The message is encoded with the GSM7 7-bit alphabet as defined by 3GPP TS 23.038 in section 6.2.1.
-     */
-    GSM7 = 2;
-    /**
-     * The message is encoded with the GSM8 alphabet, i.e. binary.
-     *  It is up to the receiver to determine how to interpret the contents.
-     */
-    GSM8 = 3;
-    /**
-     * The message is encoded with UCS2, 2 byte wide characters. While such message should
-     * never be fragmented in the middle of a character, such thing happens and it is
-     * advised for the receiver to concatenate the fragments before decoding.
+  CHARSET_NOT_SET = 0;
+  /**
+   * The message is of unknown charset. It is up to the receiver to interpret what this means.
+   */
+  UNKNOWN = 1;
+  /**
+   * The message is encoded with the GSM7 7-bit alphabet as defined by 3GPP TS 23.038 in section 6.2.1.
+   */
+  GSM7 = 2;
+  /**
+   * The message is encoded with the GSM8 alphabet, i.e. binary.
+   *  It is up to the receiver to determine how to interpret the contents.
+   */
+  GSM8 = 3;
+  /**
+   * The message is encoded with UCS2, 2 byte wide characters. While such message should
+   * never be fragmented in the middle of a character, such thing happens and it is
+   * advised for the receiver to concatenate the fragments before decoding.
 ``
-     */
-    UCS2 = 4;
-    /**
-     * The message is encoded with ISO-8859-1. This character set is not supported in
-     * the GSM network. Using it when sending means that the message will be re-encoded if it
-     * needs to be delivered over GSM.
-     */
-    ISO_8859_1 = 5;
+   */
+  UCS2 = 4;
+  /**
+   * The message is encoded with ISO-8859-1. This character set is not supported in
+   * the GSM network. Using it when sending means that the message will be re-encoded if it
+   * needs to be delivered over GSM.
+   */
+  ISO_8859_1 = 5;
 }
 
 /**
@@ -261,11 +277,11 @@ message Message {
 
   // Deprecated
   message RoutingState {
-     oneof alt {
-       ReceiveAttemptStatus receiveAttempt = 1;
-       sint32 takenChoice = 2;
-       sint32 takenFork = 3;
-     }
+    oneof alt {
+      ReceiveAttemptStatus receiveAttempt = 1;
+      sint32 takenChoice = 2;
+      sint32 takenFork = 3;
+    }
   }
 
   // Deprecated
@@ -301,6 +317,7 @@ message MessageRoute {
       int32 maxBackoffPower = 2;
     }
     BackoffParameters errorBackoff = 3;
+    repeated ReceiveAttemptStatus errorsToRetry = 4;
   }
 
   message StaticRoute {

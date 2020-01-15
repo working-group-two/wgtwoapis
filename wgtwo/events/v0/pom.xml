@@ -37,7 +37,7 @@
                 <configuration>
                     <includes>
                         <include>wgtwo/events/v0/*.proto</include>
-                        <include>wgtwo/common/*.proto</include>
+                        <include>wgtwo/common/v0/*.proto</include>
                     </includes>
                 </configuration>
             </plugin>

@@ -1,11 +1,27 @@
+// Copyright 2020 Working Group Two AS
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
 syntax = "proto3";
 
 package wgtwo.events.v0;
-option java_multiple_files = true;
-option java_package = "com.wgtwo.api.events.v0";
 
 import "google/protobuf/timestamp.proto";
-import "wgtwo/common/phonenumber.proto";
+import "wgtwo/common/v0/phonenumber.proto";
+
+option java_package = "com.wgtwo.api.events.v0";
+option java_outer_classname = "EventsProto";
 
 service EventsService {
   rpc Subscribe (SubscribeEventsRequest) returns (stream SubscribeEventsResponse) {}
@@ -49,8 +65,8 @@ message VoiceEvent {
 
   string call_id = 1;
   VoiceEventType type = 2;
-  common.PhoneNumber from_number = 3;
-  common.PhoneNumber to_number = 4;
+  wgtwo.common.v0.PhoneNumber from_number = 3;
+  wgtwo.common.v0.PhoneNumber to_number = 4;
 }
 
 message VoicemailEvent {
@@ -61,6 +77,6 @@ message VoicemailEvent {
 
   string voicemail_id = 1;
   VoicemailEventType type = 2;
-  common.PhoneNumber from_number = 3;
-  common.PhoneNumber to_number = 4;
+  wgtwo.common.v0.PhoneNumber from_number = 3;
+  wgtwo.common.v0.PhoneNumber to_number = 4;
 }

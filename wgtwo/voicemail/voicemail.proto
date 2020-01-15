@@ -1,55 +1,182 @@
+// Copyright 2020 Working Group Two AS
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+/**
+ * The voicemail media API allows manipulation of voicemail belonging to a given subscriber.
+ */
+
 syntax = "proto3";
 
-package voicemail;
+package wgtwo.voicemail.v0;
 
-option java_package = "io.omnicate.messaging.protobuf";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/duration.proto";
-import "wgtwo/common/phonenumber.proto";
+
+import "wgtwo/common/v0/phonenumber.proto";
+
+option java_package = "com.wgtwo.api.messaging.v0";
+option java_outer_classname = "VoicemailProto";
 
 service VoicemailMediaService {
+  /**
+   * Receive metadata for each voicemail available for a given MSISDN.
+   * The metadata contains information about the corresponding voicemail including its ID,
+   * allowing the user to fetch the voicemail media file.
+   *
+   * Client-side errors:
+   * - INVALID ARGUMENT: Invalid MSISDN
+   */
   rpc getAllVoicemailMetadata (GetAllVoicemailMetadataRequest) returns (GetAllVoicemailMetadataResponse) {}
+
+  /**
+   * Receive voicemail media file corresponding to the given voicemail ID.
+   *
+   * Client-side errors:
+   * - INVALID ARGUMENT: Invalid voicemail ID
+   * - NOT FOUND: Voicemail not found
+   *
+   * Server-side errors:
+   * - INTERNAL: Voicemail file is too big to be returned
+   */
   rpc getVoicemail (GetVoicemailRequest) returns (GetVoicemailResponse) {}
+
+  /**
+   * Mark as read the voicemail corresponding to the given voicemail ID.
+   * This updates the "played" metadata of the voicemail to true.
+   *
+   * Client-side errors:
+   * - INVALID ARGUMENT: Invalid voicemail ID
+   * - NOT FOUND: Voicemail not found
+   */
   rpc markVoicemailAsRead (MarkVoicemailAsReadRequest) returns (MarkVoicemailAsReadResponse) {}
+
+  /**
+   * Delete the voicemail corresponding to the given voicemail ID.
+   * The voicemail media file and its metadata will be deleted.
+   *
+   * Client-side errors:
+   * - INVALID ARGUMENT: Invalid voicemail ID
+   * - NOT FOUND: Voicemail not found
+   */
   rpc deleteVoicemail (DeleteVoicemailRequest) returns (DeleteVoicemailResponse) {}
 }
 
 message VoicemailMetadata {
+  /**
+   * The UUID of the voicemail.
+   */
   string voicemail_id = 1;
-  common.PhoneNumber sentTo = 2;
-  common.PhoneNumber sentFrom = 3;
+
+  /**
+   * The MSISDN of the receiver.
+   */
+  wgtwo.common.v0.PhoneNumber sentTo = 2;
+
+  /**
+   * The MSISDN of the sender.
+   */
+  wgtwo.common.v0.PhoneNumber sentFrom = 3;
+
+  /**
+   * The length of the voicemail media file in seconds.
+   */
   google.protobuf.Duration length = 4;
+
+  /**
+   * Whether or not the voicemail media file has been played.
+   */
   bool played = 5;
+
+  /**
+   * The creation date (epoch in seconds) of the voicemail media file.
+   */
   google.protobuf.Timestamp created = 6;
+
+  /**
+   * The expiry date (epoch in seconds) of the voicemail media file.
+   * 7 days from the moment the voicemail is created.
+   */
   google.protobuf.Timestamp expires = 7;
 }
 
+/**
+ * Request object to get metadata for all voicemails.
+ */
 message GetAllVoicemailMetadataRequest {
-  common.PhoneNumber msisdn = 1;
+  /**
+   * The MSISDN of the receiver.
+   */
+  wgtwo.common.v0.PhoneNumber msisdn = 1;
 }
 
+/**
+ * Response object for getting metadata for all voicemails.
+ */
 message GetAllVoicemailMetadataResponse {
   repeated VoicemailMetadata voicemailsMetadata = 1;
 }
 
+/**
+ * Request object for getting a voicemail.
+ */
 message GetVoicemailRequest {
+  /**
+   * The UUID of the voicemail.
+   */
   string voicemail_id = 1;
 }
 
+/**
+ * Response object for getting a voicemail.
+ */
 message GetVoicemailResponse {
+  /**
+   * The voicemail media file in .wav format.
+   */
   bytes voicemail_file = 1;
+  VoicemailMetadata voicemail_metadata = 2;
 }
 
+/**
+ * Request object to mark a voicemail as read.
+ */
 message MarkVoicemailAsReadRequest {
+  /**
+   * The UUID of the voicemail.
+   */
   string voicemail_id = 1;
 }
 
+/**
+ * Response object for successfully marking a voicemail as read.
+ */
 message MarkVoicemailAsReadResponse {
 }
 
+/**
+ * Request object to delete a voicemail.
+ */
 message DeleteVoicemailRequest {
+  /**
+   * The UUID of the voicemail.
+   */
   string voicemail_id = 1;
 }
 
+/**
+ * Response object for a successful deletion of a voicemail.
+ */
 message DeleteVoicemailResponse {
 }

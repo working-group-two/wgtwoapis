@@ -30,7 +30,7 @@
                 <configuration>
                     <includes>
                         <include>wgtwo/auth/*.proto</include>
-                        <include>wgtwo/common/*.proto</include>
+                        <include>wgtwo/common/v0/*.proto</include>
                     </includes>
                 </configuration>
             </plugin>

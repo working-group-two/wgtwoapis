@@ -31,7 +31,7 @@
                 <configuration>
                     <includes>
                         <include>wgtwo/voicemail/*.proto</include>
-                        <include>wgtwo/common/*.proto</include>
+                        <include>wgtwo/common/v0/*.proto</include>
                     </includes>
                 </configuration>
             </plugin>
