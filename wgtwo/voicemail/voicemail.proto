@@ -23,7 +23,6 @@ package wgtwo.voicemail.v0;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/duration.proto";
-
 import "wgtwo/common/v0/phonenumber.proto";
 
 option java_package = "com.wgtwo.api.messaging.v0";
