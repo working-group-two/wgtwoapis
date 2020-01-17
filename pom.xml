@@ -22,8 +22,6 @@
         <module>wgtwo/common/v0</module>
         <module>wgtwo/events/v0</module>
         <module>wgtwo/messaging</module>
-        <module>wgtwo/sms</module>
-        <module>wgtwo/voice</module>
         <module>wgtwo/voicemail</module>
     </modules>
 
