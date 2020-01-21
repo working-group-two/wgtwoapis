@@ -29,7 +29,7 @@
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <configuration>
                     <includes>
-                        <include>wgtwo/auth/*.proto</include>
+                        <include>wgtwo/auth/v0/*.proto</include>
                         <include>wgtwo/common/v0/*.proto</include>
                     </includes>
                 </configuration>
