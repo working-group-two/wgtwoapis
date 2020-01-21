@@ -18,11 +18,11 @@
 
     <modules>
         <module>clients/java/common</module>
-        <module>wgtwo/auth</module>
+        <module>wgtwo/auth/v0</module>
         <module>wgtwo/common/v0</module>
         <module>wgtwo/events/v0</module>
         <module>wgtwo/messaging</module>
-        <module>wgtwo/voicemail</module>
+        <module>wgtwo/voicemail/v0</module>
     </modules>
 
     <dependencyManagement>
