@@ -17,6 +17,7 @@ syntax = "proto3";
 
 package wgtwo.events.v0;
 
+import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
@@ -37,6 +38,8 @@ message SubscribeEventsRequest {
   repeated EventType type = 1;
   oneof start_position {
     uint64 sequence_id = 2;
+    google.protobuf.Timestamp timestamp = 3;
+    google.protobuf.Duration delta = 4;
   }
 }
 
