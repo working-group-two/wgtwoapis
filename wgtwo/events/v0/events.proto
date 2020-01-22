@@ -53,8 +53,13 @@ message SubscribeEventsResponse {
   repeated Event event = 1;
 }
 
-message Event {
+message EventMetadata {
   uint64 sequence = 1;
+  bool is_redelivered = 2;
+}
+
+message Event {
+  EventMetadata metadata = 1;
   google.protobuf.Timestamp timestamp = 2;
   string service_id = 3;
   oneof event {
