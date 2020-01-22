@@ -17,6 +17,7 @@ syntax = "proto3";
 
 package wgtwo.events.v0;
 
+import "google/protobuf/empty.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "wgtwo/common/v0/phonenumber.proto";
@@ -37,10 +38,15 @@ enum EventType {
 message SubscribeEventsRequest {
   repeated EventType type = 1;
   oneof start_position {
-    uint64 sequence_id = 2;
-    google.protobuf.Timestamp timestamp = 3;
-    google.protobuf.Duration delta = 4;
+    uint64 start_at_sequence = 2;
+    google.protobuf.Timestamp start_at_timestamp = 3;
+    google.protobuf.Duration start_at_time_delta = 4;
+    google.protobuf.Empty start_with_last_received = 5;
   }
+  string client_id = 6;
+  string queue_name = 7;
+  string durable_name = 8;
+  uint32 max_in_flight = 9;
 }
 
 message SubscribeEventsResponse {
@@ -48,7 +54,7 @@ message SubscribeEventsResponse {
 }
 
 message Event {
-  uint64 sequence_id = 1;
+  uint64 sequence = 1;
   google.protobuf.Timestamp timestamp = 2;
   string service_id = 3;
   oneof event {
@@ -64,6 +70,7 @@ message VoiceEvent {
     CALL_RINGING = 2;
     CALL_ANSWERED = 3;
     CALL_ENDED = 4;
+    CALL_FWD_VOICEMAIL = 5;
   }
 
   string call_id = 1;
