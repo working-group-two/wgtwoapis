@@ -27,12 +27,18 @@ option java_outer_classname = "EventsProto";
 
 service EventsService {
   rpc Subscribe (SubscribeEventsRequest) returns (stream SubscribeEventsResponse) {}
+  rpc Ack (AckRequest) returns (AckResponse) {}
 }
 
 enum EventType {
   UNSPECIFIED = 0;
   VOICE_EVENT = 1;
   VOICEMAIL_EVENT = 2;
+}
+
+message ManualAckConfig {
+  bool enable = 1;
+  google.protobuf.Duration timeout = 2;
 }
 
 message SubscribeEventsRequest {
@@ -47,6 +53,7 @@ message SubscribeEventsRequest {
   string queue_name = 7;
   string durable_name = 8;
   uint32 max_in_flight = 9;
+  ManualAckConfig manual_ack = 10;
 }
 
 message SubscribeEventsResponse {
@@ -56,6 +63,7 @@ message SubscribeEventsResponse {
 message EventMetadata {
   uint64 sequence = 1;
   bool is_redelivered = 2;
+  string ack_inbox = 3;
 }
 
 message Event {
@@ -94,4 +102,12 @@ message VoicemailEvent {
   VoicemailEventType type = 2;
   wgtwo.common.v0.PhoneNumber from_number = 3;
   wgtwo.common.v0.PhoneNumber to_number = 4;
+}
+
+message AckRequest {
+  string inbox = 1;
+  uint64 sequence = 2;
+}
+
+message AckResponse {
 }
