@@ -21,8 +21,7 @@ class UpdateRequest {
         String config;
     }
 
-    enum Action { ADD, REMOVE }
-    enum Service {
-        ROAMING_DATA
-    }
+    enum Action {ADD, REMOVE}
+
+    enum Service {ROAMING_DATA}
 }
