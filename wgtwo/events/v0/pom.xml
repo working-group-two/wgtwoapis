@@ -8,14 +8,15 @@
         <relativePath>../../../pom.xml</relativePath>
     </parent>
 
-    <name>${project.groupId} gRPC events</name>
-    <artifactId>event-grpc</artifactId>
+    <name>${project.groupId} events</name>
+    <artifactId>event</artifactId>
+    <groupId>com.wgtwo.api.grpc</groupId>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>com.wgtwo.api</groupId>
-            <artifactId>common-grpc</artifactId>
+            <groupId>com.wgtwo.api.grpc</groupId>
+            <artifactId>common</artifactId>
         </dependency>
     </dependencies>
 
