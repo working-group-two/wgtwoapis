@@ -34,6 +34,8 @@ enum EventType {
   UNSPECIFIED = 0;
   VOICE_EVENT = 1;
   VOICEMAIL_EVENT = 2;
+  LOCATION_UPDATE_EVENT = 3;
+  ROAMING_EVENT = 4;
 }
 
 message ManualAckConfig {
@@ -73,6 +75,8 @@ message Event {
   oneof event {
     VoiceEvent voice_event = 4;
     VoicemailEvent voicemail_event = 5;
+    LocationUpdateEvent location_update_event = 6;
+    RoamingEvent roaming_event = 7;
   }
 }
 
@@ -102,6 +106,22 @@ message VoicemailEvent {
   VoicemailEventType type = 2;
   wgtwo.common.v0.PhoneNumber from_number = 3;
   wgtwo.common.v0.PhoneNumber to_number = 4;
+}
+
+message LocationUpdateEvent {
+  string imsi = 1;
+  wgtwo.common.v0.PhoneNumber msisdn = 2;
+  wgtwo.common.v0.PhoneNumber vlr_gt = 3;
+}
+
+message RoamingEvent {
+  message Location {
+    string country_code = 1;
+  }
+  string imsi = 1;
+  wgtwo.common.v0.PhoneNumber msisdn = 2;
+  Location previous_location = 3;
+  Location current_location = 4;
 }
 
 message AckRequest {
