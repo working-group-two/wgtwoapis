@@ -18,6 +18,8 @@
 
     <modules>
         <module>clients/java/common</module>
+        <module>clients/java/grpc/utils</module>
+        <module>clients/java/http/provision</module>
         <module>wgtwo/auth/v0</module>
         <module>wgtwo/common/v0</module>
         <module>wgtwo/events/v0</module>
@@ -27,6 +29,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.wgtwo.api</groupId>
+                <artifactId>common</artifactId>
+                <version>${version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.wgtwo.api</groupId>
                 <artifactId>common-grpc</artifactId>
