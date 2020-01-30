@@ -10,7 +10,7 @@
     </parent>
 
     <name>${groupId} provision</name>
-    <artifactId>provision</artifactId>
+    <artifactId>provision-rest</artifactId>
     <groupId>com.wgtwo.api.rest</groupId>
     <packaging>jar</packaging>
 

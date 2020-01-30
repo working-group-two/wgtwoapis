@@ -33,7 +33,7 @@
             </dependency>
             <dependency>
                 <groupId>com.wgtwo.api.grpc</groupId>
-                <artifactId>common</artifactId>
+                <artifactId>common-grpc</artifactId>
                 <version>${version}</version>
             </dependency>
             <dependency>

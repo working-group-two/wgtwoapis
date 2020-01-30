@@ -9,14 +9,14 @@
     </parent>
 
     <name>${project.groupId} events</name>
-    <artifactId>event</artifactId>
+    <artifactId>event-grpc</artifactId>
     <groupId>com.wgtwo.api.grpc</groupId>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>com.wgtwo.api.grpc</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>common-grpc</artifactId>
         </dependency>
     </dependencies>
 

@@ -9,7 +9,7 @@
     </parent>
 
     <name>${project.groupId} messaging</name>
-    <artifactId>messaging</artifactId>
+    <artifactId>messaging-grpc</artifactId>
     <groupId>com.wgtwo.api.grpc</groupId>
     <packaging>jar</packaging>
 

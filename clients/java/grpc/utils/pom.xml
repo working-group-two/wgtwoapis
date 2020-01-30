@@ -10,7 +10,7 @@
     </parent>
 
     <name>${groupId} gRPC Utils</name>
-    <artifactId>utils</artifactId>
+    <artifactId>utils-grpc</artifactId>
     <groupId>com.wgtwo.api.grpc</groupId>
     <packaging>jar</packaging>
 
