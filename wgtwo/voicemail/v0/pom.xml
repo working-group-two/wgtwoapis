@@ -9,8 +9,9 @@
         <relativePath>../../../pom.xml</relativePath>
     </parent>
 
-    <name>${project.groupId} gRPC voicemail</name>
-    <artifactId>voicemail-grpc</artifactId>
+    <name>${project.groupId} voicemail</name>
+    <artifactId>voicemail</artifactId>
+    <groupId>com.wgtwo.api.grpc</groupId>
     <packaging>jar</packaging>
 
     <build>

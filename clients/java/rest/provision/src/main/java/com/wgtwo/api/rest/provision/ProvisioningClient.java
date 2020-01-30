@@ -1,8 +1,6 @@
-package com.wgtwo.api.http.provision;
+package com.wgtwo.api.rest.provision;
 
 import com.wgtwo.api.common.Environment;
-import com.wgtwo.api.http.provision.UpdateRequest.Action;
-import com.wgtwo.api.http.provision.UpdateRequest.Service;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
@@ -24,14 +22,14 @@ public class ProvisioningClient {
     }
 
     public ProvisionResponse enableRoamingData(String msisdn, String userId) {
-        return update(msisdn, userId, Service.ROAMING_DATA, Action.ADD, null);
+        return update(msisdn, userId, UpdateRequest.Service.ROAMING_DATA, UpdateRequest.Action.ADD, null);
     }
 
     public ProvisionResponse disableRoamingData(String msisdn, String userId) {
-        return update(msisdn, userId, Service.ROAMING_DATA, Action.REMOVE, null);
+        return update(msisdn, userId, UpdateRequest.Service.ROAMING_DATA, UpdateRequest.Action.REMOVE, null);
     }
 
-    private ProvisionResponse update(String msisdn, String userId, Service service, Action action, String config) {
+    private ProvisionResponse update(String msisdn, String userId, UpdateRequest.Service service, UpdateRequest.Action action, String config) {
         UpdateRequest body = new UpdateRequest(bssId, msisdn, userId, action, service, config);
         return Unirest.post(baseUri + "/provision/v1/update")
                 .basicAuth(clientId, clientSecret)

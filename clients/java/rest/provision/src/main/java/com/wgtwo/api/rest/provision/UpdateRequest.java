@@ -1,4 +1,4 @@
-package com.wgtwo.api.http.provision;
+package com.wgtwo.api.rest.provision;
 
 class UpdateRequest {
     String bssid;

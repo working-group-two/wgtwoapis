@@ -10,7 +10,8 @@
     </parent>
 
     <name>${groupId} gRPC Utils</name>
-    <artifactId>grpc-utils</artifactId>
+    <artifactId>utils</artifactId>
+    <groupId>com.wgtwo.api.grpc</groupId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -19,8 +20,8 @@
             <artifactId>common</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.wgtwo.api</groupId>
-            <artifactId>common-grpc</artifactId>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-api</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

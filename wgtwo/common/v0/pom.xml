@@ -9,8 +9,9 @@
         <relativePath>../../../pom.xml</relativePath>
     </parent>
 
-    <name>${project.groupId} gRPC common</name>
-    <artifactId>common-grpc</artifactId>
+    <name>${project.groupId} common</name>
+    <artifactId>common</artifactId>
+    <groupId>com.wgtwo.api.grpc</groupId>
     <packaging>jar</packaging>
 
     <build>

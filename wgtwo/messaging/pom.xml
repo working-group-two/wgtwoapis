@@ -8,8 +8,9 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <name>${project.groupId} gRPC messaging</name>
-    <artifactId>messaging-grpc</artifactId>
+    <name>${project.groupId} messaging</name>
+    <artifactId>messaging</artifactId>
+    <groupId>com.wgtwo.api.grpc</groupId>
     <packaging>jar</packaging>
 
     <build>

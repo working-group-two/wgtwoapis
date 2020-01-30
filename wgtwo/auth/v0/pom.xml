@@ -8,8 +8,9 @@
         <relativePath>../../../pom.xml</relativePath>
     </parent>
 
-    <name>${project.groupId} gRPC auth</name>
-    <artifactId>auth-grpc</artifactId>
+    <name>${project.groupId} auth</name>
+    <artifactId>auth</artifactId>
+    <groupId>com.wgtwo.api.grpc</groupId>
     <packaging>jar</packaging>
 
     <build>
