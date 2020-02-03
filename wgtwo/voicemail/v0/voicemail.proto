@@ -74,24 +74,24 @@ service VoicemailMediaService {
 
 message VoicemailMetadata {
   /**
-   * The UUID of the voicemail.
+   * The ID of the voicemail. (UUID format)
    */
   string voicemail_id = 1;
 
   /**
    * The MSISDN of the receiver.
    */
-  wgtwo.common.v0.PhoneNumber sentTo = 2;
+  wgtwo.common.v0.PhoneNumber to = 2;
 
   /**
    * The MSISDN of the sender.
    */
-  wgtwo.common.v0.PhoneNumber sentFrom = 3;
+  wgtwo.common.v0.PhoneNumber from = 3;
 
   /**
    * The length of the voicemail media file in seconds.
    */
-  google.protobuf.Duration length = 4;
+  google.protobuf.Duration duration = 4;
 
   /**
    * Whether or not the voicemail media file has been played.
@@ -117,14 +117,14 @@ message GetAllVoicemailMetadataRequest {
   /**
    * The MSISDN of the receiver.
    */
-  wgtwo.common.v0.PhoneNumber msisdn = 1;
+  wgtwo.common.v0.PhoneNumber to = 1;
 }
 
 /**
  * Response object for getting metadata for all voicemails.
  */
 message GetAllVoicemailMetadataResponse {
-  repeated VoicemailMetadata voicemailsMetadata = 1;
+  repeated VoicemailMetadata metadata = 1;
 }
 
 /**
@@ -132,7 +132,7 @@ message GetAllVoicemailMetadataResponse {
  */
 message GetVoicemailRequest {
   /**
-   * The UUID of the voicemail.
+   * The ID of the voicemail. (UUID format)
    */
   string voicemail_id = 1;
 }
@@ -144,8 +144,10 @@ message GetVoicemailResponse {
   /**
    * The voicemail media file in .wav format.
    */
-  bytes voicemail_file = 1;
-  VoicemailMetadata voicemail_metadata = 2;
+  VoicemailMetadata metadata = 1;
+  oneof bytes {
+    bytes wav = 2;
+  }
 }
 
 /**
@@ -153,7 +155,7 @@ message GetVoicemailResponse {
  */
 message MarkVoicemailAsReadRequest {
   /**
-   * The UUID of the voicemail.
+   * The ID of the voicemail. (UUID format)
    */
   string voicemail_id = 1;
 }
@@ -169,7 +171,7 @@ message MarkVoicemailAsReadResponse {
  */
 message DeleteVoicemailRequest {
   /**
-   * The UUID of the voicemail.
+   * The ID of the voicemail. (UUID format)
    */
   string voicemail_id = 1;
 }
