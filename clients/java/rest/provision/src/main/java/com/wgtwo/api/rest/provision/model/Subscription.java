@@ -12,7 +12,7 @@ public class Subscription {
   public String userId;
   public String bss;
   public Set<SimcardApiV2> simcards;
-  public Map<String, String> services;
+  public Map<String, Object> services;
   public Instant created;
   public Instant lastModified;
 
