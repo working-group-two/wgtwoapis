@@ -1,4 +1,4 @@
-package com.wgtwo.api.rest.provision;
+package com.wgtwo.api.rest.provision.model;
 
 import java.util.Objects;
 

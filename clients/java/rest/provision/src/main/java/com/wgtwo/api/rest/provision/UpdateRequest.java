@@ -1,5 +1,8 @@
 package com.wgtwo.api.rest.provision;
 
+import com.wgtwo.api.rest.provision.ServiceClient.Action;
+import com.wgtwo.api.rest.provision.ServiceClient.Service;
+
 class UpdateRequest {
     String bssid;
     String msisdn;
@@ -20,8 +23,4 @@ class UpdateRequest {
         Service name;
         String config;
     }
-
-    enum Action {ADD, REMOVE}
-
-    enum Service {ROAMING_DATA}
 }
