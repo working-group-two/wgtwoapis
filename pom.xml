@@ -20,7 +20,7 @@
     <modules>
         <module>clients/java/common</module>
         <module>clients/java/grpc/utils</module>
-        <module>clients/java/rest/provision</module>
+        <module>openapi</module>
         <module>wgtwo</module>
     </modules>
 

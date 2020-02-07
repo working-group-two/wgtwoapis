@@ -1,0 +1,195 @@
+openapi: 3.0.1
+info:
+  title: Working Group TWO
+  description: 'Working Group Two REST APIs'
+  termsOfService: htts://docs.wgtwo.com
+  contact:
+    email: wgtwo@wgtwo.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: See docs.wgtwo.com
+  url: https://docs.wgtwo.com
+servers:
+  - url: https://api.wgtwo.com
+  - url: https://apigateway.dub.dev.wgtwo.com
+tags:
+  - name: subscription
+    description: Subscription information
+    externalDocs:
+      description: Find out more
+      url: https://docs.wgtwo.com
+  - name: provision
+    description: Provision of subscriptions
+    externalDocs:
+      description: Find out more
+      url: https://docs.wgtwo.com
+paths:
+  /subscription/v1/msisdn/{msisdn}:
+    get:
+      tags:
+        - subscription
+      parameters:
+        - name: msisdn
+          in: path
+          description: Phone number formatted as e.164 without + prefix
+          required: true
+          schema:
+            type: string
+            example: 4799990000
+      summary: Update service
+      operationId: getSubscription
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        405:
+          description: Invalid input
+          content: {}
+      security:
+        - operatorKey: []
+
+  /provision/v1/update:
+    post:
+      tags:
+        - provision
+      summary: Update service
+      operationId: updateService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSubscriptionRequest'
+            examples:
+              "enable-roaming":
+                value:
+                  bssid: "my-bss"
+                  service:
+                    name: ROAMING_DATA
+                    action: ADD
+                  msisdn: 4799990000
+                  userid: "my-user-id"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        405:
+          description: Invalid input
+          content: {}
+      security:
+        - operatorKey: []
+components:
+  schemas:
+    UpdateSubscriptionRequest:
+      type: object
+      required:
+        - bssid
+        - service
+        - msisdn
+        - userid
+      properties:
+        bssid:
+          type: string
+        service:
+          type: object
+          required:
+            - name
+            - action
+          properties:
+            name:
+              type: string
+              enum:
+                - DATA
+                - DATA_HIGHSPEED
+                - ROAMING
+                - ROAMING_DATA
+              example: 'ROAMING_DATA'
+            action:
+              type: string
+              enum:
+               - ADD
+               - REMOVE
+              example: 'ADD'
+            configuration:
+              type: object
+        msisdn:
+          type: string
+          example: '4799990000'
+        userid:
+          type: string
+    UpdateSubscriptionResponse:
+      type: object
+      properties:
+        requestid:
+          type: string
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: integer
+        msisdn:
+          type: string
+          example: '4799990000'
+        active:
+          type: boolean
+          example: true
+        userId:
+          type: string
+        bss:
+          type: string
+        simcards:
+          type: array
+          items:
+            type: object
+            properties:
+              imsis:
+                type: array
+                items:
+                  type: string
+                  example:
+                    - "(...)001"
+                    - "(...)002"
+              iccid:
+                type: string
+              bss:
+                type: string
+              created:
+                type: string
+                format: date-time
+              lastModified:
+                type: string
+                format: date-time
+        services:
+          type: object
+          additionalProperties:
+            type: object
+          example:
+            "SERVICE_A": {}
+            "SERVICE_B":
+              some:
+                config
+        created:
+          type: string
+          format: date-time
+        lastModified:
+          type: string
+          format: date-time
+        imsi:
+          type: string
+        iccid:
+          type: string
+
+  securitySchemes:
+    operatorKey:
+      type: http
+      scheme: basic
+security:
+  - operatorKey: []
