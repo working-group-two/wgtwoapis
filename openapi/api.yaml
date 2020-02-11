@@ -34,7 +34,7 @@ paths:
           schema:
             type: string
             example: 4799990000
-      summary: Update service
+      summary: Get information about subscription
       operationId: getSubscription
       responses:
         '200':
