@@ -1,36 +1,31 @@
 openapi: 3.0.1
 info:
   title: Working Group TWO
-  description: 'Working Group Two REST APIs'
-  termsOfService: htts://docs.wgtwo.com
+  description: Working Group Two REST APIs
+  termsOfService: 'htts://docs.wgtwo.com'
   contact:
     email: wgtwo@wgtwo.com
   license:
     name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
   version: 1.0.0
 externalDocs:
   description: See docs.wgtwo.com
-  url: https://docs.wgtwo.com
+  url: 'https://docs.wgtwo.com'
 servers:
-  - url: https://api.wgtwo.com
-  - url: https://apigateway.dub.dev.wgtwo.com
+  - url: 'https://api.wgtwo.com'
+  - url: 'https://apigateway.dub.dev.wgtwo.com'
 tags:
-  - name: subscription
-    description: Subscription information
+  - name: Subscription Profile
+    description: Provision services for subscribers
     externalDocs:
       description: Find out more
-      url: https://docs.wgtwo.com
-  - name: provision
-    description: Provision of subscriptions
-    externalDocs:
-      description: Find out more
-      url: https://docs.wgtwo.com
+      url: 'https://docs.wgtwo.com'
 paths:
   /subscription/v1/msisdn/{msisdn}:
     get:
       tags:
-        - subscription
+        - Subscription Profile
       parameters:
         - name: msisdn
           in: path
@@ -48,16 +43,283 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Subscription'
-        405:
+        '405':
           description: Invalid input
           content: {}
       security:
         - operatorKey: []
 
+  /provision/v1/activate:
+    post:
+      tags:
+        - Subscription Profile
+      summary: New user signs up
+      operationId: activate.sim
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - bssid
+                - iccid
+                - msisdn
+                - userid
+              properties:
+                bssid:
+                  type: string
+                iccid:
+                  type: string
+                msisdn:
+                  type: string
+                userid:
+                  type: string
+            example:
+              bssid: "operator_name"
+              iccid: "2420198416000015720"
+              msisdn: "46737678218"
+              userid: "abcdefghijklm"
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+      security:
+        - operatorKey: []
+
+  /provision/v1/block:
+    post:
+      tags:
+        - Subscription Profile
+      summary: Block SIM
+      operationId: block.sim
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - bssid
+                - msisdn
+                - userid
+              properties:
+                bssid:
+                  type: string
+                msisdn:
+                  type: string
+                userid:
+                  type: string
+            example:
+              bssid: "operator_name"
+              msisdn: "46737678218"
+              userid: "abcdefghijklm"
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+      security:
+        - operatorKey: []
+  /provision/v1/changesim:
+    post:
+      tags:
+        - Subscription Profile
+      summary: Change SIM
+      operationId: change.sim
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - bssid
+                - newIccid
+                - oldIccid
+                - msisdn
+                - userid
+              properties:
+                bssid:
+                  type: string
+                newIccid:
+                  type: string
+                oldIccid:
+                  type: string
+                msisdn:
+                  type: string
+                userid:
+                  type: string
+            example:
+              bssid: "operator_name"
+              oldIccid: "2420198416000015720"
+              newIccid: "2420198412148748973"
+              msisdn: "46737678218"
+              userid: "abcdefghijklm"
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+      security:
+        - operatorKey: []
+  /provision/v1/disengagesim:
+    post:
+      tags:
+        - Subscription Profile
+      summary: Disengage SIM
+      operationId: disengage.sim
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - bssid
+                - iccid
+                - msisdn
+                - userid
+              properties:
+                bssid:
+                  type: string
+                iccid:
+                  type: string
+                msisdn:
+                  type: string
+                userid:
+                  type: string
+            example:
+              bssid: "operator_name"
+              iccid: "2420198416000015720"
+              msisdn: "46737678218"
+              userid: "abcdefghijklm"
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+      security:
+        - operatorKey: []
+  /provision/v1/changemsisdn:
+    post:
+      tags:
+        - Subscription Profile
+      summary: Change MSISDN
+      operationId: change.msisdn
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - bssid
+                - msisdn
+                - newMsisdn
+                - userid
+              properties:
+                bssid:
+                  type: string
+                msisdn:
+                  type: string
+                newMsisdn:
+                  type: string
+                userid:
+                  type: string
+            example:
+              bssid: "operator_name"
+              iccid: "2420198416000015720"
+              msisdn: "46737678218"
+              newMsisdn: "46737678200"
+              userid: "abcdefghijklm"
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+      security:
+        - operatorKey: []
+  /provision/v1/terminate:
+    post:
+      tags:
+        - Subscription Profile
+      summary: Terminate
+      operationId: terminate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - bssid
+                - msisdn
+                - userid
+              properties:
+                bssid:
+                  type: string
+                msisdn:
+                  type: string
+                userid:
+                  type: string
+            example:
+              bssid: "operator_name"
+              msisdn: "46737678218"
+              userid: "abcdefghijklm"
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+      security:
+        - operatorKey: []
+  /provision/v1/unblock:
+    post:
+      tags:
+        - Subscription Profile
+      summary: Unblock SIM
+      operationId: unblock.sim
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - bssid
+                - msisdn
+                - userid
+              properties:
+                bssid:
+                  type: string
+                msisdn:
+                  type: string
+                userid:
+                  type: string
+            example:
+              bssid: "operator_name"
+              msisdn: "46737678218"
+              userid: "abcdefghijklm"
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+      security:
+        - operatorKey: []
   /provision/v1/update:
     post:
       tags:
-        - provision
+        - Subscription Profile
       summary: Update service
       operationId: updateService
       requestBody:
@@ -66,24 +328,63 @@ paths:
             schema:
               $ref: '#/components/schemas/UpdateSubscriptionRequest'
             examples:
-              "enable-roaming":
+              enable roaming:
                 value:
-                  bssid: "my-bss"
+                  bssid: "operator_name"
                   service:
                     name: ROAMING_DATA
                     action: ADD
                   msisdn: 4799990000
-                  userid: "my-user-id"
+                  userid: my-user-id
+              enable user tokens:
+                value:
+                  bssid: "operator_name"
+                  service:
+                    name: API_ACCESS_TO_OWN_SUBSCRIPTION
+                    action: ADD
+                  msisdn: 4799990000
+                  userid: my-user-id
       responses:
-        200:
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
-        405:
+        '405':
           description: Invalid input
           content: {}
+      security:
+        - operatorKey: []
+  /provision/v1/refreshprofile:
+    post:
+      tags:
+        - Subscription Profile
+      summary: Refresh profile
+      operationId: refresh
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - bssid
+                - msisdn
+              properties:
+                bssid:
+                  type: string
+                msisdn:
+                  type: string
+            example:
+              bssid: "operator_name"
+              msisdn: "46737678218"
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
       security:
         - operatorKey: []
 components:
@@ -107,17 +408,46 @@ components:
             name:
               type: string
               enum:
+                - ANON_SUBSCRIPTION
+                - API_ACCESS_TO_OWN_SUBSCRIPTION
                 - DATA
                 - DATA_HIGHSPEED
+                - DATA_TETHERING
+                - EXTERNAL_POLICY_CONTROL
+                - HIDDEN_CALLER_ID
+                - MMS_IN
+                - MMS_OUT
+                - OTHER
                 - ROAMING
                 - ROAMING_DATA
-              example: 'ROAMING_DATA'
+                - ROAMING_SATELLITE
+                - SMS_IN
+                - SMS_OUT
+                - SMS_OUT_INTER
+                - SMS_PREMIUM
+                - VIMLA_PUSH
+                - VOICE_CALLFORWARD
+                - VOICE_CALL_PARALLEL
+                - VOICE_CALLWAITING
+                - VOICE_IN
+                - VOICE_MISSED_CALL_ALERT
+                - VOICE_OUT
+                - VOICE_OUT_INTER
+                - VOICE_PREMIUM
+                - VOICE_TWILIO_ALIAS
+                - VOICE_VOICEMAIL
+                - VOICE_VOICEMAIL_TO_SMS
+                - VOICE_VOICEMAIL_WEB_NOTIFICATION
+                - VOICE_VOLTE
+                - VOICE_VOWIFI
+                - WEB
+              example: ROAMING_DATA
             action:
               type: string
               enum:
-               - ADD
-               - REMOVE
-              example: 'ADD'
+                - ADD
+                - REMOVE
+              example: ADD
             configuration:
               type: object
         msisdn:
@@ -155,8 +485,8 @@ components:
                 items:
                   type: string
                   example:
-                    - "(...)001"
-                    - "(...)002"
+                    - (...)001
+                    - (...)002
               iccid:
                 type: string
               bss:
@@ -172,10 +502,9 @@ components:
           additionalProperties:
             type: object
           example:
-            "SERVICE_A": {}
-            "SERVICE_B":
-              some:
-                config
+            SERVICE_A: {}
+            SERVICE_B:
+              some: config
         created:
           type: string
           format: date-time
@@ -186,10 +515,10 @@ components:
           type: string
         iccid:
           type: string
-
   securitySchemes:
     operatorKey:
       type: http
       scheme: basic
+      description: API key provided by Working Group Two
 security:
   - operatorKey: []
