@@ -328,7 +328,7 @@ paths:
             schema:
               $ref: '#/components/schemas/UpdateSubscriptionRequest'
             examples:
-              enable roaming:
+              enable-roaming:
                 value:
                   bssid: "operator_name"
                   service:
@@ -336,7 +336,7 @@ paths:
                     action: ADD
                   msisdn: 4799990000
                   userid: my-user-id
-              enable user tokens:
+              enable-user-tokens:
                 value:
                   bssid: "operator_name"
                   service:
