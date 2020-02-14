@@ -19,6 +19,7 @@
 
     <modules>
         <module>clients/java/common</module>
+        <module>clients/java/grpc/phonenumber</module>
         <module>clients/java/grpc/utils</module>
         <module>openapi</module>
         <module>wgtwo</module>
