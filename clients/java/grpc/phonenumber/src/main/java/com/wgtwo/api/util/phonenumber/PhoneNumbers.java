@@ -6,10 +6,10 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 import com.wgtwo.api.common.v0.PhoneNumberProto;
 
-public final class PhoneNumberParser {
+public final class PhoneNumbers {
     private static final PhoneNumberUtil util = PhoneNumberUtil.getInstance();
 
-    private PhoneNumberParser() {}
+    private PhoneNumbers() {}
 
     public static PhoneNumber of(String number, String defaultRegion) {
         return parse(number, defaultRegion);
