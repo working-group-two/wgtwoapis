@@ -21,6 +21,7 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "wgtwo/common/v0/phonenumber.proto";
+import "wgtwo/auth/v0/operatortokens.proto";
 
 option java_package = "com.wgtwo.api.events.v0";
 option java_outer_classname = "EventsProto";
@@ -36,6 +37,7 @@ enum EventType {
   VOICEMAIL_EVENT = 2;
   LOCATION_UPDATE_EVENT = 3;
   ROAMING_EVENT = 4;
+  TOKEN_AUDIT_EVENT = 5;
 }
 
 message ManualAckConfig {
@@ -62,6 +64,14 @@ message SubscribeEventsResponse {
   repeated Event event = 1;
 }
 
+message AckRequest {
+  string inbox = 1;
+  uint64 sequence = 2;
+}
+
+message AckResponse {
+}
+
 message EventMetadata {
   uint64 sequence = 1;
   bool is_redelivered = 2;
@@ -77,6 +87,7 @@ message Event {
     VoicemailEvent voicemail_event = 5;
     LocationUpdateEvent location_update_event = 6;
     RoamingEvent roaming_event = 7;
+    TokenAuditEvent token_audit_event = 8;
   }
 }
 
@@ -124,10 +135,20 @@ message RoamingEvent {
   Location current_location = 4;
 }
 
-message AckRequest {
-  string inbox = 1;
-  uint64 sequence = 2;
-}
+message TokenAuditEvent {
+  enum Operation {
+    UNDEFINED = 0;
+    CREATED = 1;
+    MODIFIED = 2;
+    DELETED = 3;
+  }
+  message OperatorTokenChanged {
+    wgtwo.auth.v0.OperatorTokenMetadata new = 1;
+    wgtwo.auth.v0.OperatorTokenMetadata old = 2;
+  }
 
-message AckResponse {
+  Operation operation = 1;
+  oneof token_changed {
+    OperatorTokenChanged operator_token = 2;
+  }
 }
