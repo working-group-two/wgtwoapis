@@ -18,6 +18,7 @@
 
     <modules>
         <module>auth/v0</module>
+        <module>calling/v0</module>
         <module>common/v0</module>
         <module>events/v0</module>
         <module>messaging</module>
