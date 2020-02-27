@@ -48,7 +48,8 @@ message TurnServer {
 
 message TransferCallRequest {
   string call_id = 1;
-  string sdp = 2;
+  wgtwo.common.v0.PhoneNumber phone_number = 2;
+  string sdp = 3;
 }
 
 message TransferCallResponse {
