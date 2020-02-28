@@ -120,14 +120,21 @@ message VoicemailEvent {
 }
 
 message LocationUpdateEvent {
+  message Location {
+    string msc_vlr_global_title = 1;
+    string sgsn_global_title = 2;
+    string mme_hostname = 3;
+  }
   string imsi = 1;
-  wgtwo.common.v0.PhoneNumber msisdn = 2;
-  wgtwo.common.v0.PhoneNumber vlr_gt = 3;
+  wgtwo.common.v0.PhoneNumber number = 2;
+  Location previous = 3;
+  Location current = 4;
 }
 
 message RoamingEvent {
   message Location {
     string country_code = 1;
+    string country_name = 2;
   }
   string imsi = 1;
   wgtwo.common.v0.PhoneNumber msisdn = 2;
