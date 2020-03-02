@@ -28,7 +28,7 @@ option java_outer_classname = "CallingProto";
 service CallingService {
   rpc GetTurnServers (GetTurnServersRequest) returns (GetTurnServersResponse) {}
   rpc TransferCall (TransferCallRequest) returns (TransferCallResponse) {}
-  rpc SendIceCandidate (stream SendIceCandidateRequest) returns (SendIceCandidateResponse) {}
+  rpc SetIceCandidate (SendIceCandidateRequest) returns (SendIceCandidateResponse) {}
   rpc GetIceCandidate (GetIceCandidateRequest) returns (stream GetIceCandidateResponse) {}
 }
 
