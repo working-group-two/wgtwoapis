@@ -28,7 +28,8 @@ option java_outer_classname = "CallingProto";
 service CallingService {
   rpc GetTurnServers (GetTurnServersRequest) returns (GetTurnServersResponse) {}
   rpc TransferCall (TransferCallRequest) returns (TransferCallResponse) {}
-  rpc SendIceCandidate (stream SendIceCandidateRequest) returns (stream SendIceCandidateResponse) {}
+  rpc SendIceCandidate (stream SendIceCandidateRequest) returns (SendIceCandidateResponse) {}
+  rpc GetIceCandidate (GetIceCandidateRequest) returns (stream GetIceCandidateResponse) {}
 }
 
 message GetTurnServersRequest {
@@ -55,6 +56,7 @@ message TransferCallRequest {
 message TransferCallResponse {
   string call_id = 1;
   string sdp = 2;
+  string ufrag = 3;
 }
 
 message SendIceCandidateRequest {
@@ -63,12 +65,21 @@ message SendIceCandidateRequest {
 }
 
 message SendIceCandidateResponse {
+}
+
+message GetIceCandidateRequest {
   string call_id = 1;
-  IceCandidate ice_candidate = 2;
+  string ufrag = 2;
+}
+
+message GetIceCandidateResponse {
+  string call_id = 1;
+  string ufrag = 2;
+  IceCandidate ice_candidate = 3;
 }
 
 message IceCandidate {
   string candidate = 1;
-  string mlineIndex = 2;
+  int32 mlineIndex = 2;
   string mid = 3;
 }
