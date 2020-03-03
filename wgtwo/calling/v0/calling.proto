@@ -30,6 +30,7 @@ service CallingService {
   rpc TransferCall (TransferCallRequest) returns (TransferCallResponse) {}
   rpc SetIceCandidate (SendIceCandidateRequest) returns (SendIceCandidateResponse) {}
   rpc GetIceCandidate (GetIceCandidateRequest) returns (stream GetIceCandidateResponse) {}
+  rpc HangupCall (HangupCallRequest) returns (HangupCallResponse) {}
 }
 
 message GetTurnServersRequest {
@@ -82,4 +83,12 @@ message IceCandidate {
   string candidate = 1;
   int32 mlineIndex = 2;
   string mid = 3;
+}
+
+message HangupCallRequest {
+  string call_id = 1;
+  wgtwo.common.v0.PhoneNumber phone_number = 2;
+}
+
+message HangupCallResponse {
 }
