@@ -413,6 +413,7 @@ components:
                 - DATA
                 - DATA_HIGHSPEED
                 - DATA_TETHERING
+                - EVENT_STREAMING
                 - EXTERNAL_POLICY_CONTROL
                 - HIDDEN_CALLER_ID
                 - MMS_IN
