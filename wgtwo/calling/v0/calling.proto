@@ -26,11 +26,12 @@ option java_package = "com.wgtwo.api.calling.v0";
 option java_outer_classname = "CallingProto";
 
 service CallingService {
-  rpc GetTurnServers (GetTurnServersRequest) returns (GetTurnServersResponse) {}
+  rpc StartCall (stream StartCallRequest) returns (stream StartCallResponse) {}
   rpc TransferCall (TransferCallRequest) returns (TransferCallResponse) {}
+  rpc HangupCall (HangupCallRequest) returns (HangupCallResponse) {}
+  rpc GetTurnServers (GetTurnServersRequest) returns (GetTurnServersResponse) {}
   rpc SetIceCandidate (SendIceCandidateRequest) returns (SendIceCandidateResponse) {}
   rpc GetIceCandidate (GetIceCandidateRequest) returns (stream GetIceCandidateResponse) {}
-  rpc HangupCall (HangupCallRequest) returns (HangupCallResponse) {}
 }
 
 message GetTurnServersRequest {
@@ -46,6 +47,50 @@ message TurnServer {
   string url = 1;
   string username = 2;
   string credential = 3;
+}
+
+message StartCallRequest {
+  oneof message {
+    StartCallRequestInit init = 1;
+    StartCallRequestUpdate update = 2;
+  }
+}
+
+message StartCallRequestInit {
+  wgtwo.common.v0.PhoneNumber from_number = 1;
+  wgtwo.common.v0.PhoneNumber to_number = 2;
+  string terminal_id = 3;
+  Sdp sdp = 4;
+}
+
+message StartCallRequestUpdate {
+  string call_id = 1;
+  string terminal_id = 2;
+  wgtwo.common.v0.PhoneNumber phone_number = 3;
+  Sdp sdp = 4;
+}
+
+message StartCallResponse {
+  string call_id = 1;
+  oneof type {
+    KeepAlive keep_alive = 2;
+    Sdp sdp = 3;
+  }
+}
+
+message KeepAlive {
+  google.protobuf.Timestamp timestamp = 1;
+}
+
+message Sdp {
+  enum Type {
+    OFFER = 0;
+    ANSWER = 1;
+  }
+  string sdp = 1;
+  string ufrag = 2;
+  google.protobuf.Timestamp timestamp = 3;
+  Type type = 4;
 }
 
 message TransferCallRequest {
