@@ -66,6 +66,12 @@ service MessageCore {
   rpc ReceiveMessages (ReceiveMessagesRequest) returns (stream MessageBox) {}
 
   /**
+   * Receive TextMessages (asynchronously). Similar to ReceiveMessages.
+   * The only difference is that the messages received are TextMessages (no fragmentation).
+   */
+  rpc ReceiveTextMessages (ReceiveTextMessagesRequest) returns (stream TextMessageBox) {}
+
+  /**
    * Acknowledge a single received message. A message is acknowledged using its messageId. Depending on the
    * ackStatus and the routing rules of the subscriber the message might be sent to a
    * different client, or the message might become suspended.
@@ -84,18 +90,21 @@ service MessageCore {
 message ReceiveMessagesRequest {
 }
 
+message ReceiveTextMessagesRequest {
+}
+
 message AckMessageResponse {
+  enum AckResponseStatus {
+    ACK_ACCEPTED = 0;
+    ACK_REJECTED = 1;
+  }
+  AckResponseStatus ackResponseStatus = 1;
+  string errorMessage = 2;
 }
 
 message AckMessageRequest {
-  ReceiveStatus ackStatus = 1;
-}
-
-message TextMessage {
-  string body = 1;
-  Address fromAddress = 2;
-  Address toAddress = 3;
-  Direction direction = 4;
+    ReceiveStatus ackStatus = 1;
+    Message updatedMessage = 2;
 }
 
 /**
@@ -127,79 +136,78 @@ enum Direction {
  *  for the incoming ones. TEXT and NATIONAL_NUMBER addresses are only ever used for non-subscribers.
  */
 message Address {
-  enum Type {
-    TYPE_NOT_SET = 0;
-    /**
-     * The address type is unknown. It is up to the receiver to interpret the address, for
-     * example by trying to parse it as a e.164 number or a national number.
-     */
-    UNKNOWN = 1;
-    /**
-     * The address is an e.164 international number without plus prefix. The number does not have
-     * to be in active use or even routable. If the address is that of a subscriber, the
-     * subscriber must exist.
-     */
-    INTERNATIONAL_NUMBER = 2;
-    /**
-     * The address is part of a national numbering plan. It is up to the receiver to interpret
-     * which numbering plan.
-     */
-    NATIONAL_NUMBER = 3;
-    /**
-     * The address is a text address. Text addresses are typically used for machine to human
-     * SMS such as marketing or informational messages.
-     */
-    TEXT = 4;
-    /**
-     * The address is an email address. Not in use.
-     */
-    EMAIL = 5;
-    /**
-     * The address in an IMSI belonging to a subscriber.
-     */
-    IMSI = 6;
-    /**
-     * The address type is reserved. Note that it's reserved by the underlying network SMS
-     * delivery protocols and not by this API. As such, this field will never become anything
-     * else than reserved even if the delivery protocols change.
-     */
-    RESERVED = 7;
-  }
-  Type type = 1;
-  string number = 2;
+    enum Type {
+        TYPE_NOT_SET = 0;
+        /**
+         * The address type is unknown. It is up to the receiver to interpret the address, for
+         * example by trying to parse it as a e.164 number or a national number.
+         */
+        UNKNOWN = 1;
+        /**
+         * The address is an e.164 international number without plus prefix. The number does not have
+         * to be in active use or even routable. If the address is that of a subscriber, the
+         * subscriber must exist.
+         */
+        INTERNATIONAL_NUMBER = 2;
+        /**
+         * The address is part of a national numbering plan. It is up to the receiver to interpret
+         * which numbering plan.
+         */
+        NATIONAL_NUMBER = 3;
+        /**
+         * The address is a text address. Text addresses are typically used for machine to human
+         * SMS such as marketing or informational messages.
+         */
+        TEXT = 4;
+        /**
+         * The address is an email address. Not in use.
+         */
+        EMAIL = 5;
+        /**
+         * The address in an IMSI belonging to a subscriber.
+         */
+        IMSI = 6;
+        /**
+         * The address type is reserved. Note that it's reserved by the underlying network SMS
+         * delivery protocols and not by this API. As such, this field will never become anything
+         * else than reserved even if the delivery protocols change.
+         */
+        RESERVED = 7;
+    }
+    Type type = 1;
+    string number = 2;
 }
 
 /**
  * The charset of the message.
  */
 enum Charset {
-  CHARSET_NOT_SET = 0;
-  /**
-   * The message is of unknown charset. It is up to the receiver to interpret what this means.
-   */
-  UNKNOWN = 1;
-  /**
-   * The message is encoded with the GSM7 7-bit alphabet as defined by 3GPP TS 23.038 in section 6.2.1.
-   */
-  GSM7 = 2;
-  /**
-   * The message is encoded with the GSM8 alphabet, i.e. binary.
-   *  It is up to the receiver to determine how to interpret the contents.
-   */
-  GSM8 = 3;
-  /**
-   * The message is encoded with UCS2, 2 byte wide characters. While such message should
-   * never be fragmented in the middle of a character, such thing happens and it is
-   * advised for the receiver to concatenate the fragments before decoding.
-``
-   */
-  UCS2 = 4;
-  /**
-   * The message is encoded with ISO-8859-1. This character set is not supported in
-   * the GSM network. Using it when sending means that the message will be re-encoded if it
-   * needs to be delivered over GSM.
-   */
-  ISO_8859_1 = 5;
+    CHARSET_NOT_SET = 0;
+    /**
+     * The message is of unknown charset. It is up to the receiver to interpret what this means.
+     */
+    UNKNOWN = 1;
+    /**
+     * The message is encoded with the GSM7 7-bit alphabet as defined by 3GPP TS 23.038 in section 6.2.1.
+     */
+    GSM7 = 2;
+    /**
+     * The message is encoded with the GSM8 alphabet, i.e. binary.
+     *  It is up to the receiver to determine how to interpret the contents.
+     */
+    GSM8 = 3;
+    /**
+     * The message is encoded with UCS2, 2 byte wide characters. While such message should
+     * never be fragmented in the middle of a character, such thing happens and it is
+     * advised for the receiver to concatenate the fragments before decoding.
+     */
+    UCS2 = 4;
+    /**
+     * The message is encoded with ISO-8859-1. This character set is not supported in
+     * the GSM network. Using it when sending means that the message will be re-encoded if it
+     * needs to be delivered over GSM.
+     */
+    ISO_8859_1 = 5;
 }
 
 /**
@@ -227,7 +235,7 @@ message MessageBox {
      */
     OUTGOING = 2;
     /**
-     * Messages in the box are both incoming and outgoing messagess
+     * Messages in the box are both incoming and outgoing messages.
      */
     BOTH = 3;
   }
@@ -237,6 +245,20 @@ message MessageBox {
    * direction as direction. Messages are usually ordered by the send timestamp, but that is not guaranteed.
    */
   repeated Message messages = 3;
+}
+
+message TextMessageBox {
+  /**
+   * The owner of the messages in this box of messages. Depending on the direction of each individual
+   * message the owner is either the sender or the receiver of the message.
+   */
+  Address forAddress = 1;
+
+  /**
+   * List of TextMessages in the box. All messages are owned by forAddress.
+   * Messages are usually ordered by the send timestamp, but that is not guaranteed.
+   */
+  repeated TextMessage textMessages = 3;
 }
 
 message Message {
@@ -277,11 +299,11 @@ message Message {
 
   // Deprecated
   message RoutingState {
-    oneof alt {
-      ReceiveAttemptStatus receiveAttempt = 1;
-      sint32 takenChoice = 2;
-      sint32 takenFork = 3;
-    }
+     oneof alt {
+       ReceiveAttemptStatus receiveAttempt = 1;
+       sint32 takenChoice = 2;
+       sint32 takenFork = 3;
+     }
   }
 
   // Deprecated
@@ -397,7 +419,7 @@ message SmsFragmentedContent {
   bool reportStatus = 5;
 
   /**
-   * The time the fragment was sent, in milliseconds since epoch.
+   * The time the fragment was sent, in seconds since epoch.
    */
   uint64 sendDate = 6;
 
@@ -454,6 +476,20 @@ message SmsFragment {
   Charset encoding = 3;
 }
 
+message TextMessage {
+  /**
+   * Identifier referring to a unique instance of this message during its routing. If the same message is waiting
+   * for two different routes, this ID will be different between them.
+   * This field is read-only, setting it when sending has no effect.
+   */
+  int64 messageId = 1;
+  string body = 2;
+  Address fromAddress = 3;
+  Address toAddress = 4;
+  Direction direction = 5;
+}
+
+
 enum SendAttemptStatus {
   SEND_ATTEMPT_STATUS_NOT_SET = 0;
   SEND_OK = 1;
@@ -482,32 +518,49 @@ message ReceiveStatus {
 
 enum ReceiveAttemptStatus {
   RECEIVE_ATTEMPT_STATUS_NOT_SET = 0;
+
   /**
    * Message was successfully received.
    */
   RECEIVE_OK = 1;
+
   /**
    * Message is rejected by the receiver. Rejection implies that the receiver does not want to handle the message.
    */
   RECEIVE_REJECT = 2;
+
   /**
    * The receiver has experienced an error when receiving the message. Error implies the receiver is willing to try again.
    */
   RECEIVE_ERROR = 3;
+
   /**
     * The receiver suspends the message. Suspension implies that the receiver cannot handle the message right now,
-``
     * but wants to be notified about it later. Unlike ERROR, suspension is an expected scenario not implying fault.
     */
   RECEIVE_SUSPEND = 4;
+
   /**
    * The receiver did not attempt to receive the message before the timeout was reached.
    */
   RECEIVE_TIMEOUT = 5;
+
   /**
    * The receiver did not acknowledge the message within the acknowledge timeout after receiving it.
    */
   RECEIVE_ACK_TIMEOUT = 6;
+
+  /**
+   * The receiver intercepted the message. The message will be dropped by the server.
+   */
+  RECEIVE_INTERCEPT = 7;
+
+  /**
+   * The receiver wants to update the message. An ack request with this status must contain a Message.
+   * This Message will replace the one sent by the server. The server will use the updated Message and
+   * process the route of the updated message.
+   */
+  RECEIVE_UPDATE = 8;
 }
 
 enum UnsuspendStatus {
