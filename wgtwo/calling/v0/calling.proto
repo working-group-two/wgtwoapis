@@ -75,6 +75,8 @@ message StartCallResponse {
   oneof type {
     KeepAlive keep_alive = 2;
     Sdp sdp = 3;
+    Error error = 4;
+    Info info = 5;
   }
 }
 
@@ -93,6 +95,22 @@ message Sdp {
   Type type = 4;
 }
 
+message Error {
+  int32 error_code = 1;
+  string error_message = 2;
+}
+
+message Info {
+  enum Message {
+    INITIATED = 0;
+    RINGING = 1;
+    CONNECTED = 2;
+    FAILED = 3;
+    HANGUP = 4;
+    TRANSFER = 5;
+  }
+  Message message = 1;
+}
 message TransferCallRequest {
   string call_id = 1;
   wgtwo.common.v0.PhoneNumber phone_number = 2;
