@@ -50,24 +50,23 @@ message TurnServer {
 }
 
 message StartCallRequest {
+  string call_id = 1;
+  string terminal_id = 2;
   oneof message {
-    StartCallRequestInit init = 1;
-    StartCallRequestUpdate update = 2;
+    StartCallRequestInit init = 3;
+    StartCallRequestUpdate update = 4;
   }
 }
 
 message StartCallRequestInit {
   wgtwo.common.v0.PhoneNumber from_number = 1;
   wgtwo.common.v0.PhoneNumber to_number = 2;
-  string terminal_id = 3;
-  Sdp sdp = 4;
+  Sdp sdp = 3;
 }
 
 message StartCallRequestUpdate {
-  string call_id = 1;
-  string terminal_id = 2;
-  wgtwo.common.v0.PhoneNumber phone_number = 3;
-  Sdp sdp = 4;
+  wgtwo.common.v0.PhoneNumber phone_number = 1;
+  Sdp sdp = 2;
 }
 
 message StartCallResponse {
