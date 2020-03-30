@@ -101,14 +101,15 @@ message Error {
 
 message Info {
   enum Message {
-    INITIATED = 0;
-    RINGING = 1;
-    CONNECTED = 2;
-    FAILED = 3;
-    HANGUP = 4;
-    TRANSFER = 5;
+    UNSPECIFIED = 0;
+    INITIATED = 1;
+    RINGING = 2;
+    ONGOING = 3;
+    HANGUP_BUSY = 4;
+    HANGUP = 5;
   }
   Message message = 1;
+  string description = 2;
 }
 message TransferCallRequest {
   string call_id = 1;
