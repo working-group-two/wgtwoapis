@@ -28,6 +28,7 @@ option java_outer_classname = "CallingProto";
 service CallingService {
   rpc StartCall (stream StartCallRequest) returns (stream StartCallResponse) {}
   rpc TransferCall (TransferCallRequest) returns (TransferCallResponse) {}
+  rpc SendDtmf (SendDtmfRequest) returns (SendDtmfResponse) {}
   rpc HangupCall (HangupCallRequest) returns (HangupCallResponse) {}
   rpc GetTurnServers (GetTurnServersRequest) returns (GetTurnServersResponse) {}
   rpc SetIceCandidate (SendIceCandidateRequest) returns (SendIceCandidateResponse) {}
@@ -154,4 +155,26 @@ message HangupCallRequest {
 }
 
 message HangupCallResponse {
+}
+
+message SendDtmfRequest {
+  enum Dtmf {
+    ZERO = 0;
+    ONE = 1;
+    TWO = 2;
+    THREE = 3;
+    FOUR = 4;
+    FIVE = 5;
+    SIX = 6;
+    SEVEN = 7;
+    EIGHT = 8;
+    NINE = 9;
+    STAR = 10;
+    HASH = 11;
+  }
+  string call_id = 1;
+  Dtmf dtmf = 2;
+}
+
+message SendDtmfResponse {
 }
