@@ -26,6 +26,7 @@ option java_package = "com.wgtwo.api.calling.v0";
 option java_outer_classname = "CallingProto";
 
 service CallingService {
+  rpc SubscribeToCalls(stream SubscribeToCallsRequest) returns (stream SubscribeToCallsResponse) {}
   rpc StartCall (stream StartCallRequest) returns (stream StartCallResponse) {}
   rpc TransferCall (TransferCallRequest) returns (TransferCallResponse) {}
   rpc SendDtmf (SendDtmfRequest) returns (SendDtmfResponse) {}
@@ -33,6 +34,31 @@ service CallingService {
   rpc GetTurnServers (GetTurnServersRequest) returns (GetTurnServersResponse) {}
   rpc SetIceCandidate (SendIceCandidateRequest) returns (SendIceCandidateResponse) {}
   rpc GetIceCandidate (GetIceCandidateRequest) returns (stream GetIceCandidateResponse) {}
+}
+
+message SubscribeToCallsRequest {
+  bool start = 1;
+}
+
+message SubscribeToCallsResponse {
+  oneof type {
+    Call call = 1;
+    KeepAlive keep_alive = 2;
+  }
+}
+
+message Call {
+  enum State {
+    RINGING = 0;
+    ONGOING = 1;
+    ENDED = 2;
+  }
+  string call_id = 1;
+  wgtwo.common.v0.PhoneNumber from_number = 2;
+  wgtwo.common.v0.PhoneNumber to_number = 3;
+  Sdp sdp = 4;
+  State state = 5;
+  google.protobuf.Timestamp timestamp = 6;
 }
 
 message GetTurnServersRequest {
@@ -91,8 +117,7 @@ message Sdp {
   }
   string sdp = 1;
   string ufrag = 2;
-  google.protobuf.Timestamp timestamp = 3;
-  Type type = 4;
+  Type type = 3;
 }
 
 message Error {
