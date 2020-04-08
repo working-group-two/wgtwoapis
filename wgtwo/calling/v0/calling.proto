@@ -91,6 +91,10 @@ message StartCallRequestInit {
   Sdp sdp = 3;
 }
 
+message StartCallRequestAnswer {
+  Sdp sdp = 1;
+}
+
 message StartCallRequestUpdate {
   wgtwo.common.v0.PhoneNumber phone_number = 1;
   Sdp sdp = 2;
@@ -118,6 +122,7 @@ message Sdp {
   string sdp = 1;
   string ufrag = 2;
   Type type = 3;
+  string ref = 4;
 }
 
 message Error {
