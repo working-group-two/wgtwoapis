@@ -34,3 +34,13 @@ message PhoneNumber {
      */
     string e164 = 1;
 }
+
+message TextAddress {
+    string textAddress = 1;
+}
+
+// Any phone number that is tied to a specific country.
+// Does not contain the prefix '+' nor a country code.
+message NationalPhoneNumber {
+    string nationalPhoneNumber = 1;
+}
