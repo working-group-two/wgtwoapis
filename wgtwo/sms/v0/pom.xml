@@ -38,7 +38,7 @@
                 <configuration>
                     <includes>
                         <include>wgtwo/common/v0/*.proto</include>
-                        <include>wgtwo/sms/*.proto</include>
+                        <include>wgtwo/sms/v0/*.proto</include>
                     </includes>
                 </configuration>
             </plugin>
