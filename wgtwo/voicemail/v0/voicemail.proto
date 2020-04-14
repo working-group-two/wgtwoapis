@@ -25,7 +25,7 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/duration.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
-option java_package = "com.wgtwo.api.messaging.v0";
+option java_package = "com.wgtwo.api.voicemail.v0";
 option java_outer_classname = "VoicemailProto";
 
 service VoicemailMediaService {
