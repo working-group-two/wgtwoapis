@@ -28,7 +28,6 @@ option java_outer_classname = "CallingProto";
 service CallingService {
   rpc SubscribeToCalls(stream SubscribeToCallsRequest) returns (stream SubscribeToCallsResponse) {}
   rpc StartCall (stream StartCallRequest) returns (stream StartCallResponse) {}
-  rpc TransferCall (TransferCallRequest) returns (TransferCallResponse) {}
   rpc SendDtmf (SendDtmfRequest) returns (SendDtmfResponse) {}
   rpc HangupCall (HangupCallRequest) returns (HangupCallResponse) {}
   rpc GetTurnServers (GetTurnServersRequest) returns (GetTurnServersResponse) {}
@@ -79,25 +78,30 @@ message TurnServer {
 message StartCallRequest {
   string call_id = 1;
   string terminal_id = 2;
+  wgtwo.common.v0.PhoneNumber phone_number = 3;
   oneof message {
-    StartCallRequestInit init = 3;
-    StartCallRequestUpdate update = 4;
+    StartCallRequestInit init = 4;
+    StartCallRequestAnswer answer = 5;
+    StartCallRequestTransfer transfer = 6;
+    StartCallRequestUpdate update = 7;
   }
 }
 
 message StartCallRequestInit {
-  wgtwo.common.v0.PhoneNumber from_number = 1;
-  wgtwo.common.v0.PhoneNumber to_number = 2;
-  Sdp sdp = 3;
+  wgtwo.common.v0.PhoneNumber to_number = 1;
+  Sdp sdp = 2;
 }
 
 message StartCallRequestAnswer {
   Sdp sdp = 1;
 }
 
+message StartCallRequestTransfer {
+  Sdp sdp = 1;
+}
+
 message StartCallRequestUpdate {
-  wgtwo.common.v0.PhoneNumber phone_number = 1;
-  Sdp sdp = 2;
+  Sdp sdp = 1;
 }
 
 message StartCallResponse {
@@ -142,18 +146,6 @@ message Info {
   Message message = 1;
   string description = 2;
 }
-message TransferCallRequest {
-  string call_id = 1;
-  wgtwo.common.v0.PhoneNumber phone_number = 2;
-  string sdp = 3;
-}
-
-message TransferCallResponse {
-  string call_id = 1;
-  string sdp = 2;
-  string ufrag = 3;
-}
-
 message SendIceCandidateRequest {
   string call_id = 1;
   IceCandidate ice_candidate = 2;
