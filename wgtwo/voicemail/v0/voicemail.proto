@@ -37,7 +37,7 @@ service VoicemailMediaService {
    * Client-side errors:
    * - INVALID ARGUMENT: Invalid MSISDN
    */
-  rpc getAllVoicemailMetadata (GetAllVoicemailMetadataRequest) returns (GetAllVoicemailMetadataResponse) {}
+  rpc GetAllVoicemailMetadata (GetAllVoicemailMetadataRequest) returns (GetAllVoicemailMetadataResponse) {}
 
   /**
    * Receive voicemail media file corresponding to the given voicemail ID.
@@ -49,7 +49,7 @@ service VoicemailMediaService {
    * Server-side errors:
    * - INTERNAL: Voicemail file is too big to be returned
    */
-  rpc getVoicemail (GetVoicemailRequest) returns (GetVoicemailResponse) {}
+  rpc GetVoicemail (GetVoicemailRequest) returns (GetVoicemailResponse) {}
 
   /**
    * Mark as read the voicemail corresponding to the given voicemail ID.
@@ -59,7 +59,7 @@ service VoicemailMediaService {
    * - INVALID ARGUMENT: Invalid voicemail ID
    * - NOT FOUND: Voicemail not found
    */
-  rpc markVoicemailAsRead (MarkVoicemailAsReadRequest) returns (MarkVoicemailAsReadResponse) {}
+  rpc MarkVoicemailAsRead (MarkVoicemailAsReadRequest) returns (MarkVoicemailAsReadResponse) {}
 
   /**
    * Delete the voicemail corresponding to the given voicemail ID.
@@ -69,7 +69,7 @@ service VoicemailMediaService {
    * - INVALID ARGUMENT: Invalid voicemail ID
    * - NOT FOUND: Voicemail not found
    */
-  rpc deleteVoicemail (DeleteVoicemailRequest) returns (DeleteVoicemailResponse) {}
+  rpc DeleteVoicemail (DeleteVoicemailRequest) returns (DeleteVoicemailResponse) {}
 }
 
 message VoicemailMetadata {
