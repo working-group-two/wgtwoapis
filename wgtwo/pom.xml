@@ -22,6 +22,7 @@
         <module>common/v0</module>
         <module>events/v0</module>
         <module>messaging</module>
+        <module>mms/v0</module>
         <module>sms/v0</module>
         <module>voicemail/v0</module>
     </modules>
