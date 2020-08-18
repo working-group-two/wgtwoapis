@@ -52,6 +52,7 @@ message SubscribeEventsRequest {
     google.protobuf.Timestamp start_at_timestamp = 3;
     google.protobuf.Duration start_at_time_delta = 4;
     google.protobuf.Empty start_with_last_received = 5;
+    google.protobuf.Empty start_at_oldest_possible = 11;
   }
   string client_id = 6;
   string queue_name = 7;

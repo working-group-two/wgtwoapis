@@ -23,8 +23,16 @@ option java_package = "com.wgtwo.api.mms.v0";
 option java_outer_classname = "MmsProto";
 
 service MmsService {
-  rpc SendAudioToSubscriber (SendAudioToSubscriberRequest) returns (SendResponse) {}
-  rpc SendAudioFromSubscriber (SendAudioFromSubscriberRequest) returns (SendResponse) {}
+  rpc SendMessageToSubscriber (SendMessageToSubscriberRequest) returns (SendResponse) {}
+  rpc SendMessageFromSubscriber (SendMessageFromSubscriberRequest) returns (SendResponse) {}
+}
+
+message MessageContent {
+  oneof content {
+    AudioContent audio = 1;
+    TextContent text = 2;
+    ImageContent image = 3;
+  }
 }
 
 message AudioContent {
@@ -36,8 +44,19 @@ message AudioContent {
   }
 }
 
-message SendAudioToSubscriberRequest {
-  AudioContent audio_content = 1;
+message TextContent {
+  bytes text = 1;
+}
+
+message ImageContent {
+  oneof content {
+    bytes png = 1;
+    bytes jpg = 2;
+  }
+}
+
+message SendMessageToSubscriberRequest {
+  repeated MessageContent message_content = 1;
 
   oneof from_address {
     wgtwo.common.v0.PhoneNumber from_e164 = 2;
@@ -47,8 +66,8 @@ message SendAudioToSubscriberRequest {
   wgtwo.common.v0.PhoneNumber to_subscriber = 5;
 }
 
-message SendAudioFromSubscriberRequest {
-  AudioContent audio_content = 1;
+message SendMessageFromSubscriberRequest {
+  repeated MessageContent message_content = 1;
 
   wgtwo.common.v0.PhoneNumber from_subscriber = 2;
 
