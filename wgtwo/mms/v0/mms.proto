@@ -45,7 +45,7 @@ message AudioContent {
 }
 
 message TextContent {
-  bytes text = 1;
+  string text = 1;
 }
 
 message ImageContent {
