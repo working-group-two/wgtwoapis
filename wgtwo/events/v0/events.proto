@@ -62,7 +62,7 @@ message SubscribeEventsRequest {
 }
 
 message SubscribeEventsResponse {
-  repeated Event event = 1;
+  Event event = 1;
 }
 
 message AckRequest {
@@ -106,6 +106,8 @@ message VoiceEvent {
   VoiceEventType type = 2;
   wgtwo.common.v0.PhoneNumber from_number = 3;
   wgtwo.common.v0.PhoneNumber to_number = 4;
+  wgtwo.common.v0.PhoneNumber owner = 5;
+  bool caller_id_hidden = 6;
 }
 
 message VoicemailEvent {
