@@ -38,6 +38,8 @@ enum EventType {
   LOCATION_UPDATE_EVENT = 3;
   ROAMING_EVENT = 4;
   TOKEN_AUDIT_EVENT = 5;
+  SMS_EVENT = 6;
+  SMS_DELIVERY_REPORT_EVENT = 7;
 }
 
 message ManualAckConfig {
@@ -89,6 +91,8 @@ message Event {
     LocationUpdateEvent location_update_event = 6;
     RoamingEvent roaming_event = 7;
     TokenAuditEvent token_audit_event = 8;
+    SmsEvent sms_event = 9;
+    SmsDeliveryReportEvent sms_delivery_report_event = 10;
   }
 }
 
@@ -161,4 +165,56 @@ message TokenAuditEvent {
   oneof token_changed {
     OperatorTokenChanged operator_token = 2;
   }
+}
+
+message SmsEvent {
+  enum Direction {
+    UNKNOWN = 0;
+    FROM_SUBSCRIBER = 1;
+    TO_SUBSCRIBER = 2;
+  }
+
+  string id = 1;
+  oneof from_address {
+    wgtwo.common.v0.PhoneNumber from_e164 = 2;
+    wgtwo.common.v0.NationalPhoneNumber from_national_phone_number = 3;
+    wgtwo.common.v0.TextAddress from_text_address = 4;
+  }
+  oneof to_address {
+    wgtwo.common.v0.PhoneNumber to_e164 = 5;
+    wgtwo.common.v0.NationalPhoneNumber to_national_phone_number = 6;
+    wgtwo.common.v0.TextAddress to_text_address = 7;
+  }
+  Direction direction = 8;
+  oneof content {
+    string text = 9;
+  }
+}
+
+  message SmsDeliveryReportEvent {
+    enum Direction {
+      DIRECTION_UNKNOWN = 0;
+      FROM_SUBSCRIBER = 1;
+      TO_SUBSCRIBER = 2;
+    }
+    enum Status {
+      STATUS_UNKNOWN = 0;
+      DELIVERED = 1;
+      FAILED = 2;
+    }
+
+    string id = 1;
+    oneof from_address {
+      wgtwo.common.v0.PhoneNumber from_e164 = 2;
+      wgtwo.common.v0.NationalPhoneNumber from_national_phone_number = 3;
+      wgtwo.common.v0.TextAddress from_text_address = 4;
+    }
+    oneof to_address {
+      wgtwo.common.v0.PhoneNumber to_e164 = 5;
+      wgtwo.common.v0.NationalPhoneNumber to_national_phone_number = 6;
+      wgtwo.common.v0.TextAddress to_text_address = 7;
+    }
+    Direction direction = 8;
+    string sms_id = 9;
+    Status status = 10;
 }
