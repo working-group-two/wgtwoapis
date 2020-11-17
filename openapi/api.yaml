@@ -408,17 +408,18 @@ components:
             name:
               type: string
               enum:
-                - ANON_SUBSCRIPTION
                 - API_ACCESS_TO_OWN_SUBSCRIPTION
                 - DATA
                 - DATA_HIGHSPEED
                 - DATA_TETHERING
+                - DATA_PARENTAL_CONTROL
                 - EVENT_STREAMING
                 - EXTERNAL_POLICY_CONTROL
                 - HIDDEN_CALLER_ID
                 - MMS_IN
                 - MMS_OUT
-                - OTHER
+                - MMS_OUT_INTER
+                - MMS_PREMIUM
                 - ROAMING
                 - ROAMING_DATA
                 - ROAMING_SATELLITE
@@ -426,7 +427,6 @@ components:
                 - SMS_OUT
                 - SMS_OUT_INTER
                 - SMS_PREMIUM
-                - VIMLA_PUSH
                 - VOICE_CALLFORWARD
                 - VOICE_CALL_PARALLEL
                 - VOICE_CALLWAITING
@@ -437,10 +437,9 @@ components:
                 - VOICE_PREMIUM
                 - VOICE_TWILIO_ALIAS
                 - VOICE_VOICEMAIL
-                - VOICE_VOICEMAIL_TO_SMS
-                - VOICE_VOICEMAIL_WEB_NOTIFICATION
                 - VOICE_VOLTE
                 - VOICE_VOWIFI
+                - VOICEMAIL_DISABLE_NOTIFICATION
                 - WEB
               example: ROAMING_DATA
             action:
