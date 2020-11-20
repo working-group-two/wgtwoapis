@@ -412,23 +412,19 @@ components:
                 - DATA
                 - DATA_HIGHSPEED
                 - DATA_TETHERING
-                - DATA_PARENTAL_CONTROL
                 - EVENT_STREAMING
                 - EXTERNAL_POLICY_CONTROL
-                - HIDDEN_CALLER_ID
                 - MMS_IN
                 - MMS_OUT
                 - MMS_OUT_INTER
                 - MMS_PREMIUM
                 - ROAMING
                 - ROAMING_DATA
-                - ROAMING_SATELLITE
                 - SMS_IN
                 - SMS_OUT
                 - SMS_OUT_INTER
                 - SMS_PREMIUM
                 - VOICE_CALLFORWARD
-                - VOICE_CALL_PARALLEL
                 - VOICE_CALLWAITING
                 - VOICE_IN
                 - VOICE_MISSED_CALL_ALERT
@@ -440,7 +436,6 @@ components:
                 - VOICE_VOLTE
                 - VOICE_VOWIFI
                 - VOICEMAIL_DISABLE_NOTIFICATION
-                - WEB
               example: ROAMING_DATA
             action:
               type: string
