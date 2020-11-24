@@ -416,8 +416,6 @@ components:
                 - EXTERNAL_POLICY_CONTROL
                 - MMS_IN
                 - MMS_OUT
-                - MMS_OUT_INTER
-                - MMS_PREMIUM
                 - ROAMING
                 - ROAMING_DATA
                 - SMS_IN
