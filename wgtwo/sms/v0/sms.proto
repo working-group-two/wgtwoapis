@@ -27,10 +27,6 @@ service SmsService {
   rpc SendTextFromSubscriber (SendTextFromSubscriberRequest) returns (SendResponse) {}
 
   rpc SendBinaryToSubscriber (SendBinaryToSubscriberRequest) returns (SendResponse) {}
-
-  rpc ReceiveText (ReceiveTextRequest) returns (stream Text) {}
-
-  rpc Ack (AckRequest) returns (AckResponse) {}
 }
 
 message SendTextToSubscriberRequest {
@@ -89,70 +85,4 @@ message SendResponse {
   SendStatus status = 2;
 
   string description = 3;
-}
-
-message ReceiveTextRequest {
-}
-
-message Text {
-  string id = 1;
-
-  string content = 2;
-
-  oneof from_address {
-    wgtwo.common.v0.PhoneNumber from_e164 = 3;
-    wgtwo.common.v0.NationalPhoneNumber from_national_phone_number = 4;
-    wgtwo.common.v0.TextAddress from_text_address = 5;
-  }
-
-  oneof to_address {
-    wgtwo.common.v0.PhoneNumber to_e164 = 6;
-    wgtwo.common.v0.NationalPhoneNumber to_national_phone_number = 7;
-  }
-
-  enum Direction {
-    UNKNOWN = 0;
-    FROM_SUBSCRIBER = 1;
-    TO_SUBSCRIBER = 2;
-  }
-
-  Direction direction = 8;
-}
-
-message AckRequest {
-  string id = 1;
-
-  enum ReceiveStatus {
-    UNKNOWN = 0;
-
-    /**
-     * Successfully received.
-     */
-    RECEIVE_OK = 1;
-
-    /**
-     * The receiver does not want to handle the message.
-     */
-    RECEIVE_REJECT = 2;
-
-    /**
-     * The receiver has experienced an error when receiving the message.
-     * Error implies the receiver is willing to try again.
-     */
-    RECEIVE_ERROR = 3;
-  }
-  ReceiveStatus status = 2;
-
-  string description = 3;
-}
-
-message AckResponse {
-  enum AckResponseStatus {
-    UNKNOWN = 0;
-    ACK_ACCEPTED = 1;
-    ACK_REJECTED = 2;
-  }
-  AckResponseStatus ack_response_status = 1;
-
-  string error_message = 2;
 }
