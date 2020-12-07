@@ -2,7 +2,6 @@ openapi: 3.0.1
 info:
   title: Working Group TWO
   description: Working Group Two REST APIs
-  termsOfService: 'htts://docs.wgtwo.com'
   contact:
     email: wgtwo@wgtwo.com
   license:
