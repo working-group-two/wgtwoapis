@@ -69,4 +69,3 @@ message CallForwardingResponse {
 
   string error_message = 2;
 }
-
