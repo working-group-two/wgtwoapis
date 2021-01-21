@@ -28,7 +28,7 @@ message UserTokenMetadata {
     string human_readable_name = 1;
     string correlation_id = 2;
     string service_id = 3;
-    repeated wgtwo.common.v0.PhoneNumber phoneNumbers = 4;
+    repeated wgtwo.common.v0.PhoneNumber phone_numbers = 4;
     repeated string rights = 5;
     map<string, string> tags = 6;
     google.protobuf.Timestamp created_time = 7;
@@ -38,7 +38,7 @@ message UserTokenMetadata {
 message CreateUserTokenRequest {
     string human_name = 1;
     string correlation_id = 2;
-    repeated wgtwo.common.v0.PhoneNumber phoneNumbers = 3;
+    repeated wgtwo.common.v0.PhoneNumber phone_numbers = 3;
     repeated string rights = 4;
     map<string, string> tags = 5;
 }
@@ -49,7 +49,7 @@ message CreateUserTokenResponse {
 }
 
 message ListUserTokenRequest {
-    wgtwo.common.v0.PhoneNumber phoneNumber = 1;
+    wgtwo.common.v0.PhoneNumber phone_number = 1;
 }
 
 message ListUserTokenResponse {

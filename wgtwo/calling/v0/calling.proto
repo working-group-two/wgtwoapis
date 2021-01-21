@@ -145,7 +145,7 @@ message GetIceCandidateResponse {
 
 message IceCandidate {
   string candidate = 1;
-  int32 mlineIndex = 2;
+  int32 mline_index = 2;
   string mid = 3;
 }
 
