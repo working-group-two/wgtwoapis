@@ -36,11 +36,11 @@ message PhoneNumber {
 }
 
 message TextAddress {
-    string textAddress = 1;
+    string text_address = 1;
 }
 
 // Any phone number that is tied to a specific country.
 // Does not contain the prefix '+' nor a country code.
 message NationalPhoneNumber {
-    string nationalPhoneNumber = 1;
+    string national_phone_number = 1;
 }

@@ -25,7 +25,6 @@ option java_outer_classname = "SmsProto";
 service SmsService {
   rpc SendTextToSubscriber (SendTextToSubscriberRequest) returns (SendResponse) {}
   rpc SendTextFromSubscriber (SendTextFromSubscriberRequest) returns (SendResponse) {}
-
   rpc SendBinaryToSubscriber (SendBinaryToSubscriberRequest) returns (SendResponse) {}
 }
 
@@ -52,7 +51,7 @@ message SendTextFromSubscriberRequest {
 message SendBinaryToSubscriberRequest {
   bytes content = 1;
 
-  oneof fromAddress {
+  oneof from_address {
     wgtwo.common.v0.PhoneNumber from_e164 = 2;
     wgtwo.common.v0.TextAddress from_text_address = 3;
   }
