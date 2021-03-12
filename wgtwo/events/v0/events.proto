@@ -40,6 +40,7 @@ enum EventType {
   TOKEN_AUDIT_EVENT = 5;
   SMS_EVENT = 6;
   SMS_DELIVERY_REPORT_EVENT = 7;
+  CONSENT_REVOKE_EVENT = 8;
 }
 
 message ManualAckConfig {
@@ -81,6 +82,10 @@ message EventMetadata {
   string ack_inbox = 3;
 }
 
+message Owner {
+  wgtwo.common.v0.PhoneNumber phone_number = 1;
+}
+
 message Event {
   EventMetadata metadata = 1;
   google.protobuf.Timestamp timestamp = 2;
@@ -93,10 +98,18 @@ message Event {
     TokenAuditEvent token_audit_event = 8;
     SmsEvent sms_event = 9;
     SmsDeliveryReportEvent sms_delivery_report_event = 10;
+    ConsentRevokeEvent consent_revoke_event = 11;
   }
+  Owner owner = 12;
+}
+
+message ConsentRevokeEvent {
+  wgtwo.common.v0.PhoneNumber msisdn = 1;
 }
 
 message VoiceEvent {
+  reserved 5;
+  reserved "owner";
   enum VoiceEventType {
     UNSPECIFIED = 0;
     CALL_INITIATED = 1;
@@ -110,7 +123,6 @@ message VoiceEvent {
   VoiceEventType type = 2;
   wgtwo.common.v0.PhoneNumber from_number = 3;
   wgtwo.common.v0.PhoneNumber to_number = 4;
-  wgtwo.common.v0.PhoneNumber owner = 5;
   bool caller_id_hidden = 6;
 }
 
