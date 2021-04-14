@@ -36,6 +36,7 @@ service VoicemailMediaService {
    *
    * Client-side errors:
    * - INVALID ARGUMENT: Invalid MSISDN
+   * - INTERNAL: DB error
    */
   rpc GetAllVoicemailMetadata (GetAllVoicemailMetadataRequest) returns (GetAllVoicemailMetadataResponse) {}
 
@@ -48,6 +49,7 @@ service VoicemailMediaService {
    *
    * Server-side errors:
    * - INTERNAL: Voicemail file is too big to be returned
+   * - INTERNAL: DB error
    */
   rpc GetVoicemail (GetVoicemailRequest) returns (GetVoicemailResponse) {}
 
@@ -58,6 +60,9 @@ service VoicemailMediaService {
    * Client-side errors:
    * - INVALID ARGUMENT: Invalid voicemail ID
    * - NOT FOUND: Voicemail not found
+   *
+   * Server-side errors:
+   * - INTERNAL: DB error
    */
   rpc MarkVoicemailAsRead (MarkVoicemailAsReadRequest) returns (MarkVoicemailAsReadResponse) {}
 
@@ -68,8 +73,23 @@ service VoicemailMediaService {
    * Client-side errors:
    * - INVALID ARGUMENT: Invalid voicemail ID
    * - NOT FOUND: Voicemail not found
+   *
+   * Server-side errors:
+   * - INTERNAL: DB error
    */
   rpc DeleteVoicemail (DeleteVoicemailRequest) returns (DeleteVoicemailResponse) {}
+
+  /**
+ * Resets the voicemail greeting of the given subscriber (MSISDN).
+ * The voicemail greeting (media file) will be deleted.
+ *
+ * Client-side errors:
+ * - INVALID ARGUMENT: Invalid MSISDN
+ *
+ * Server-side errors:
+ * - INTERNAL: DB error
+ */
+  rpc ResetVoicemailGreeting (ResetVoicemailGreetingRequest) returns (ResetVoicemailGreetingResponse) {}
 }
 
 message VoicemailMetadata {
@@ -180,4 +200,20 @@ message DeleteVoicemailRequest {
  * Response object for a successful deletion of a voicemail.
  */
 message DeleteVoicemailResponse {
+}
+
+/**
+ * Request object to reset the voicemail greeting of a user.
+ */
+message ResetVoicemailGreetingRequest {
+  /**
+   * The MSISDN of the subscriber.
+   */
+  wgtwo.common.v0.PhoneNumber subscriber = 1;
+}
+
+/**
+ * Response object for a successful voicemail greeting reset.
+ */
+message ResetVoicemailGreetingResponse {
 }
