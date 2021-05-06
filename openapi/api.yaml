@@ -411,6 +411,7 @@ components:
                 - DATA
                 - DATA_HIGHSPEED
                 - DATA_TETHERING
+                - DATA_CUSTOM_DNS
                 - EVENT_STREAMING
                 - EXTERNAL_POLICY_CONTROL
                 - MMS_IN
