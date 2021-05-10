@@ -26,6 +26,7 @@ option java_outer_classname = "CallForwardingProto";
 service CallForwardingService {
   rpc Disable (DisableCallForwardingRequest) returns (CallForwardingResponse) {}
   rpc SetToNumber (NumberCallForwardingRequest) returns (CallForwardingResponse) {}
+  rpc SetToTrunk (TrunkCallForwardingRequest) returns (CallForwardingResponse) {}
   rpc SetToVoicemail (VoicemailCallForwardingRequest) returns (CallForwardingResponse) {}
 }
 
@@ -49,6 +50,28 @@ message Conditional {
   wgtwo.common.v0.PhoneNumber busy = 1;
   wgtwo.common.v0.PhoneNumber no_reply = 2;
   wgtwo.common.v0.PhoneNumber unavailable = 3;
+}
+
+message TrunkCallForwardingRequest {
+  wgtwo.common.v0.PhoneNumber subscriber = 1;
+  oneof type {
+    UnconditionalTrunkForwarding unconditional_trunk_forwarding = 2;
+    ConditionalTrunkForwarding conditional_trunk_forwarding = 3;
+  }
+}
+
+message Trunk {
+  string id = 1;
+}
+
+message UnconditionalTrunkForwarding {
+  Trunk forward_to_trunk = 1;
+}
+
+message ConditionalTrunkForwarding {
+  Trunk busy = 1;
+  Trunk no_reply = 2;
+  Trunk unavailable = 3;
 }
 
 message VoicemailCallForwardingRequest {

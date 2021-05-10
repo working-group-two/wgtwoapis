@@ -41,6 +41,7 @@ enum EventType {
   SMS_EVENT = 6;
   SMS_DELIVERY_REPORT_EVENT = 7;
   CONSENT_REVOKE_EVENT = 8;
+  HANDSET_UPDATE_EVENT = 9;
 }
 
 message ManualAckConfig {
@@ -84,6 +85,7 @@ message EventMetadata {
 
 message Owner {
   wgtwo.common.v0.PhoneNumber phone_number = 1;
+  string sub = 2;
 }
 
 message Event {
@@ -99,6 +101,7 @@ message Event {
     SmsEvent sms_event = 9;
     SmsDeliveryReportEvent sms_delivery_report_event = 10;
     ConsentRevokeEvent consent_revoke_event = 11;
+    HandsetUpdateEvent handset_update_event = 13;
   }
   Owner owner = 12;
 }
@@ -139,6 +142,8 @@ message VoicemailEvent {
 }
 
 message LocationUpdateEvent {
+  reserved 1;
+
   // (see section 5 in Numbering, Addressing and Identification)
   // A GT is a phone number formatted according to E.164 that is used to identify MSCs,
   // VLRs, HLRs, SGSNs and other nodes for routing purposes.
@@ -159,18 +164,17 @@ message LocationUpdateEvent {
     Fqdn mme = 4;
   }
 
-  string imsi = 1;
   wgtwo.common.v0.PhoneNumber number = 2;
   Locations previous = 3;
   Locations current = 4;
 }
 
 message RoamingEvent {
+  reserved 1;
   message Country {
     string code = 1;
     string name = 2;
   }
-  string imsi = 1;
   wgtwo.common.v0.PhoneNumber msisdn = 2;
   Country previous = 3;
   Country current = 4;
@@ -238,7 +242,9 @@ message SmsEvent {
     enum Status {
       STATUS_UNKNOWN = 0;
       DELIVERED = 1;
-      FAILED = 2;
+      TEMPORARY_FAILURE = 2;
+      FINAL_FAILURE = 3;
+      EXPIRED = 4;
     }
 
     string id = 1;
@@ -255,4 +261,18 @@ message SmsEvent {
     Direction direction = 8;
     string sms_id = 9;
     Status status = 10;
+}
+
+message ImeiSv {
+  string imei = 1;
+  string software_version = 2;
+}
+
+message Handset {
+  ImeiSv imei_sv = 1;
+}
+
+message HandsetUpdateEvent {
+  Handset previous = 1;
+  Handset current = 2;
 }
