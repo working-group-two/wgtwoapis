@@ -7,13 +7,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.concurrent.Executor;
 
-public class UserToken extends CallCredentials {
+public class AccessToken extends CallCredentials {
   private static final Metadata.Key<String> AUTH_HEADER =
       Metadata.Key.of("authorization", Metadata.ASCII_STRING_MARSHALLER);
 
   private String token;
 
-  public UserToken(String token) {
+  public AccessToken(String token) {
     this.token = token;
   }
 
