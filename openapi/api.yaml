@@ -13,7 +13,6 @@ externalDocs:
   url: 'https://docs.wgtwo.com'
 servers:
   - url: 'https://api.wgtwo.com'
-  - url: 'https://apigateway.dub.dev.wgtwo.com'
 tags:
   - name: Subscription Profile
     description: Provision services for subscribers
@@ -45,8 +44,6 @@ paths:
         '405':
           description: Invalid input
           content: {}
-      security:
-        - operatorKey: []
 
   /provision/v1/activate:
     post:
@@ -85,8 +82,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
-      security:
-        - operatorKey: []
 
   /provision/v1/block:
     post:
@@ -121,8 +116,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
-      security:
-        - operatorKey: []
+
   /provision/v1/changesim:
     post:
       tags:
@@ -164,8 +158,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
-      security:
-        - operatorKey: []
+
   /provision/v1/disengagesim:
     post:
       tags:
@@ -203,8 +196,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
-      security:
-        - operatorKey: []
+
   /provision/v1/changemsisdn:
     post:
       tags:
@@ -243,8 +235,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
-      security:
-        - operatorKey: []
+
   /provision/v1/terminate:
     post:
       tags:
@@ -278,8 +269,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
-      security:
-        - operatorKey: []
+
   /provision/v1/unblock:
     post:
       tags:
@@ -313,8 +303,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
-      security:
-        - operatorKey: []
+
   /provision/v1/update:
     post:
       tags:
@@ -353,8 +342,6 @@ paths:
         '405':
           description: Invalid input
           content: {}
-      security:
-        - operatorKey: []
   /provision/v1/refreshprofile:
     post:
       tags:
@@ -384,8 +371,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
-      security:
-        - operatorKey: []
 components:
   schemas:
     UpdateSubscriptionRequest:
@@ -509,9 +494,20 @@ components:
         iccid:
           type: string
   securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://id.wgtwo.com/oauth2/token
+          scopes:
+            subscription.read: Read subscription information
+            subscription.write: Update subscription
     operatorKey:
       type: http
       scheme: basic
       description: API key provided by Working Group Two
 security:
   - operatorKey: []
+  - OAuth2:
+      - subscription.read
+      - subscription.write
