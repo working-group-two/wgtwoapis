@@ -15,7 +15,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <okhttp.version>4.3.1</okhttp.version>
+        <okhttp.version>4.9.1</okhttp.version>
     </properties>
 
     <dependencies>
@@ -30,6 +30,11 @@
             <version>${okhttp.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.oltu.oauth2</groupId>
+            <artifactId>org.apache.oltu.oauth2.client</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
@@ -42,7 +47,7 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>openapi-generator</artifactId>
-            <version>4.2.3</version>
+            <version>5.1.1</version>
         </dependency>
         <dependency>
             <groupId>io.gsonfire</groupId>
@@ -66,7 +71,7 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>4.2.3</version>
+                <version>5.1.1</version>
                 <executions>
                     <execution>
                         <goals>
