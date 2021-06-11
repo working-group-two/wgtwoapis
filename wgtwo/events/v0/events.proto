@@ -23,6 +23,8 @@ import "google/protobuf/timestamp.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 import "wgtwo/auth/v0/operatortokens.proto";
 
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/events/v0";
+
 option java_package = "com.wgtwo.api.events.v0";
 option java_outer_classname = "EventsProto";
 

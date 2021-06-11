@@ -19,6 +19,8 @@ package wgtwo.data.v0;
 
 import "wgtwo/common/v0/phonenumber.proto";
 
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/callforward/v0";
+
 option java_package = "com.wgtwo.api.data.v0";
 option java_outer_classname = "DataProto";
 

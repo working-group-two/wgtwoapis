@@ -20,6 +20,8 @@ package wgtwo.auth.v0;
 import "google/protobuf/timestamp.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/auth/v0";
+
 option java_package = "com.wgtwo.api.auth.v0";
 option java_outer_classname = "UserTokensProto";
 

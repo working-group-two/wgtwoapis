@@ -20,6 +20,8 @@ package wgtwo.callforward.v0;
 import "wgtwo/common/v0/phonenumber.proto";
 import "google/protobuf/empty.proto";
 
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/callforward/v0";
+
 option java_package = "com.wgtwo.api.callforward.v0";
 option java_outer_classname = "CallForwardingProto";
 
