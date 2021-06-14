@@ -17,6 +17,8 @@ syntax = "proto3";
 
 package wgtwo.auth.v0;
 
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/auth/v0";
+
 option java_package = "com.wgtwo.api.auth.v0";
 option java_outer_classname = "RightsProto";
 

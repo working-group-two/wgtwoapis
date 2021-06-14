@@ -22,6 +22,8 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/calling/v0";
+
 option java_package = "com.wgtwo.api.calling.v0";
 option java_outer_classname = "CallingProto";
 
