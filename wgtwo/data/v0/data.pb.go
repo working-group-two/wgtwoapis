@@ -22,6 +22,7 @@
 package v0
 
 import (
+	v0 "github.com/working-group-two/wgtwoapis/wgtwo/common/v0"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -89,9 +90,9 @@ type SetCustomDnsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Subscriber *PhoneNumber `protobuf:"bytes,1,opt,name=subscriber,proto3" json:"subscriber,omitempty"`
-	DnsV4      *IpV4Pair    `protobuf:"bytes,2,opt,name=dnsV4,proto3" json:"dnsV4,omitempty"`
-	DnsV6      *IpV6Pair    `protobuf:"bytes,3,opt,name=dnsV6,proto3" json:"dnsV6,omitempty"`
+	Subscriber *v0.PhoneNumber `protobuf:"bytes,1,opt,name=subscriber,proto3" json:"subscriber,omitempty"`
+	DnsV4      *IpV4Pair       `protobuf:"bytes,2,opt,name=dnsV4,proto3" json:"dnsV4,omitempty"`
+	DnsV6      *IpV6Pair       `protobuf:"bytes,3,opt,name=dnsV6,proto3" json:"dnsV6,omitempty"`
 }
 
 func (x *SetCustomDnsRequest) Reset() {
@@ -126,7 +127,7 @@ func (*SetCustomDnsRequest) Descriptor() ([]byte, []int) {
 	return file_wgtwo_data_v0_data_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *SetCustomDnsRequest) GetSubscriber() *PhoneNumber {
+func (x *SetCustomDnsRequest) GetSubscriber() *v0.PhoneNumber {
 	if x != nil {
 		return x.Subscriber
 	}
@@ -152,7 +153,7 @@ type GetCustomDnsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Subscriber *PhoneNumber `protobuf:"bytes,1,opt,name=subscriber,proto3" json:"subscriber,omitempty"`
+	Subscriber *v0.PhoneNumber `protobuf:"bytes,1,opt,name=subscriber,proto3" json:"subscriber,omitempty"`
 }
 
 func (x *GetCustomDnsRequest) Reset() {
@@ -187,7 +188,7 @@ func (*GetCustomDnsRequest) Descriptor() ([]byte, []int) {
 	return file_wgtwo_data_v0_data_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GetCustomDnsRequest) GetSubscriber() *PhoneNumber {
+func (x *GetCustomDnsRequest) GetSubscriber() *v0.PhoneNumber {
 	if x != nil {
 		return x.Subscriber
 	}
@@ -199,7 +200,7 @@ type ClearCustomDnsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Subscriber *PhoneNumber `protobuf:"bytes,1,opt,name=subscriber,proto3" json:"subscriber,omitempty"`
+	Subscriber *v0.PhoneNumber `protobuf:"bytes,1,opt,name=subscriber,proto3" json:"subscriber,omitempty"`
 }
 
 func (x *ClearCustomDnsRequest) Reset() {
@@ -234,7 +235,7 @@ func (*ClearCustomDnsRequest) Descriptor() ([]byte, []int) {
 	return file_wgtwo_data_v0_data_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *ClearCustomDnsRequest) GetSubscriber() *PhoneNumber {
+func (x *ClearCustomDnsRequest) GetSubscriber() *v0.PhoneNumber {
 	if x != nil {
 		return x.Subscriber
 	}
@@ -640,14 +641,13 @@ var file_wgtwo_data_v0_data_proto_rawDesc = []byte{
 	0x2e, 0x76, 0x30, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x44, 0x6e, 0x73,
 	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e,
 	0x64, 0x61, 0x74, 0x61, 0x2e, 0x76, 0x30, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x75, 0x73, 0x74, 0x6f,
-	0x6d, 0x44, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x5f,
+	0x6d, 0x44, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x58,
 	0x0a, 0x15, 0x63, 0x6f, 0x6d, 0x2e, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e, 0x61, 0x70, 0x69, 0x2e,
 	0x64, 0x61, 0x74, 0x61, 0x2e, 0x76, 0x30, 0x42, 0x09, 0x44, 0x61, 0x74, 0x61, 0x50, 0x72, 0x6f,
-	0x74, 0x6f, 0x5a, 0x3b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x77,
+	0x74, 0x6f, 0x5a, 0x34, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x77,
 	0x6f, 0x72, 0x6b, 0x69, 0x6e, 0x67, 0x2d, 0x67, 0x72, 0x6f, 0x75, 0x70, 0x2d, 0x74, 0x77, 0x6f,
 	0x2f, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x61, 0x70, 0x69, 0x73, 0x2f, 0x77, 0x67, 0x74, 0x77, 0x6f,
-	0x2f, 0x63, 0x61, 0x6c, 0x6c, 0x66, 0x6f, 0x72, 0x77, 0x61, 0x72, 0x64, 0x2f, 0x76, 0x30, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x2f, 0x64, 0x61, 0x74, 0x61, 0x2f, 0x76, 0x30, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -675,7 +675,7 @@ var file_wgtwo_data_v0_data_proto_goTypes = []interface{}{
 	(*IpAddressV6)(nil),           // 7: wgtwo.data.v0.IpAddressV6
 	(*CustomDnsResponse)(nil),     // 8: wgtwo.data.v0.CustomDnsResponse
 	(*GetCustomDnsResponse)(nil),  // 9: wgtwo.data.v0.GetCustomDnsResponse
-	(*PhoneNumber)(nil),           // 10: wgtwo.common.v0.PhoneNumber
+	(*v0.PhoneNumber)(nil),        // 10: wgtwo.common.v0.PhoneNumber
 }
 var file_wgtwo_data_v0_data_proto_depIdxs = []int32{
 	10, // 0: wgtwo.data.v0.SetCustomDnsRequest.subscriber:type_name -> wgtwo.common.v0.PhoneNumber
@@ -708,7 +708,6 @@ func file_wgtwo_data_v0_data_proto_init() {
 	if File_wgtwo_data_v0_data_proto != nil {
 		return
 	}
-	file_wgtwo_common_v0_phonenumber_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_wgtwo_data_v0_data_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*SetCustomDnsRequest); i {

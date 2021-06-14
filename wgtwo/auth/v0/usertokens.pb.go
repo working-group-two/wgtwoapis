@@ -23,7 +23,7 @@ package v0
 
 import (
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	v0 "github.com/working-group-two/wgtwoapis/wgtwo/callforward/v0"
+	v0 "github.com/working-group-two/wgtwoapis/wgtwo/common/v0"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"

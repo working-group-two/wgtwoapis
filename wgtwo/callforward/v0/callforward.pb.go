@@ -23,6 +23,7 @@ package v0
 
 import (
 	empty "github.com/golang/protobuf/ptypes/empty"
+	v0 "github.com/working-group-two/wgtwoapis/wgtwo/common/v0"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -90,7 +91,7 @@ type DisableCallForwardingRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Subscriber *PhoneNumber `protobuf:"bytes,1,opt,name=subscriber,proto3" json:"subscriber,omitempty"`
+	Subscriber *v0.PhoneNumber `protobuf:"bytes,1,opt,name=subscriber,proto3" json:"subscriber,omitempty"`
 }
 
 func (x *DisableCallForwardingRequest) Reset() {
@@ -125,7 +126,7 @@ func (*DisableCallForwardingRequest) Descriptor() ([]byte, []int) {
 	return file_wgtwo_callforward_v0_callforward_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *DisableCallForwardingRequest) GetSubscriber() *PhoneNumber {
+func (x *DisableCallForwardingRequest) GetSubscriber() *v0.PhoneNumber {
 	if x != nil {
 		return x.Subscriber
 	}
@@ -137,7 +138,7 @@ type NumberCallForwardingRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Subscriber *PhoneNumber `protobuf:"bytes,1,opt,name=subscriber,proto3" json:"subscriber,omitempty"`
+	Subscriber *v0.PhoneNumber `protobuf:"bytes,1,opt,name=subscriber,proto3" json:"subscriber,omitempty"`
 	// Types that are assignable to Type:
 	//	*NumberCallForwardingRequest_Unconditional
 	//	*NumberCallForwardingRequest_Conditional
@@ -176,7 +177,7 @@ func (*NumberCallForwardingRequest) Descriptor() ([]byte, []int) {
 	return file_wgtwo_callforward_v0_callforward_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *NumberCallForwardingRequest) GetSubscriber() *PhoneNumber {
+func (x *NumberCallForwardingRequest) GetSubscriber() *v0.PhoneNumber {
 	if x != nil {
 		return x.Subscriber
 	}
@@ -225,7 +226,7 @@ type Unconditional struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ForwardToNumber *PhoneNumber `protobuf:"bytes,1,opt,name=forward_to_number,json=forwardToNumber,proto3" json:"forward_to_number,omitempty"`
+	ForwardToNumber *v0.PhoneNumber `protobuf:"bytes,1,opt,name=forward_to_number,json=forwardToNumber,proto3" json:"forward_to_number,omitempty"`
 }
 
 func (x *Unconditional) Reset() {
@@ -260,7 +261,7 @@ func (*Unconditional) Descriptor() ([]byte, []int) {
 	return file_wgtwo_callforward_v0_callforward_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *Unconditional) GetForwardToNumber() *PhoneNumber {
+func (x *Unconditional) GetForwardToNumber() *v0.PhoneNumber {
 	if x != nil {
 		return x.ForwardToNumber
 	}
@@ -272,9 +273,9 @@ type Conditional struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Busy        *PhoneNumber `protobuf:"bytes,1,opt,name=busy,proto3" json:"busy,omitempty"`
-	NoReply     *PhoneNumber `protobuf:"bytes,2,opt,name=no_reply,json=noReply,proto3" json:"no_reply,omitempty"`
-	Unavailable *PhoneNumber `protobuf:"bytes,3,opt,name=unavailable,proto3" json:"unavailable,omitempty"`
+	Busy        *v0.PhoneNumber `protobuf:"bytes,1,opt,name=busy,proto3" json:"busy,omitempty"`
+	NoReply     *v0.PhoneNumber `protobuf:"bytes,2,opt,name=no_reply,json=noReply,proto3" json:"no_reply,omitempty"`
+	Unavailable *v0.PhoneNumber `protobuf:"bytes,3,opt,name=unavailable,proto3" json:"unavailable,omitempty"`
 }
 
 func (x *Conditional) Reset() {
@@ -309,21 +310,21 @@ func (*Conditional) Descriptor() ([]byte, []int) {
 	return file_wgtwo_callforward_v0_callforward_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *Conditional) GetBusy() *PhoneNumber {
+func (x *Conditional) GetBusy() *v0.PhoneNumber {
 	if x != nil {
 		return x.Busy
 	}
 	return nil
 }
 
-func (x *Conditional) GetNoReply() *PhoneNumber {
+func (x *Conditional) GetNoReply() *v0.PhoneNumber {
 	if x != nil {
 		return x.NoReply
 	}
 	return nil
 }
 
-func (x *Conditional) GetUnavailable() *PhoneNumber {
+func (x *Conditional) GetUnavailable() *v0.PhoneNumber {
 	if x != nil {
 		return x.Unavailable
 	}
@@ -335,7 +336,7 @@ type TrunkCallForwardingRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Subscriber *PhoneNumber `protobuf:"bytes,1,opt,name=subscriber,proto3" json:"subscriber,omitempty"`
+	Subscriber *v0.PhoneNumber `protobuf:"bytes,1,opt,name=subscriber,proto3" json:"subscriber,omitempty"`
 	// Types that are assignable to Type:
 	//	*TrunkCallForwardingRequest_UnconditionalTrunkForwarding
 	//	*TrunkCallForwardingRequest_ConditionalTrunkForwarding
@@ -374,7 +375,7 @@ func (*TrunkCallForwardingRequest) Descriptor() ([]byte, []int) {
 	return file_wgtwo_callforward_v0_callforward_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *TrunkCallForwardingRequest) GetSubscriber() *PhoneNumber {
+func (x *TrunkCallForwardingRequest) GetSubscriber() *v0.PhoneNumber {
 	if x != nil {
 		return x.Subscriber
 	}
@@ -580,7 +581,7 @@ type VoicemailCallForwardingRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Subscriber *PhoneNumber `protobuf:"bytes,1,opt,name=subscriber,proto3" json:"subscriber,omitempty"`
+	Subscriber *v0.PhoneNumber `protobuf:"bytes,1,opt,name=subscriber,proto3" json:"subscriber,omitempty"`
 	// Types that are assignable to Target:
 	//	*VoicemailCallForwardingRequest_Default
 	//	*VoicemailCallForwardingRequest_PhoneNumber
@@ -619,7 +620,7 @@ func (*VoicemailCallForwardingRequest) Descriptor() ([]byte, []int) {
 	return file_wgtwo_callforward_v0_callforward_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *VoicemailCallForwardingRequest) GetSubscriber() *PhoneNumber {
+func (x *VoicemailCallForwardingRequest) GetSubscriber() *v0.PhoneNumber {
 	if x != nil {
 		return x.Subscriber
 	}
@@ -640,7 +641,7 @@ func (x *VoicemailCallForwardingRequest) GetDefault() *empty.Empty {
 	return nil
 }
 
-func (x *VoicemailCallForwardingRequest) GetPhoneNumber() *PhoneNumber {
+func (x *VoicemailCallForwardingRequest) GetPhoneNumber() *v0.PhoneNumber {
 	if x, ok := x.GetTarget().(*VoicemailCallForwardingRequest_PhoneNumber); ok {
 		return x.PhoneNumber
 	}
@@ -656,7 +657,7 @@ type VoicemailCallForwardingRequest_Default struct {
 }
 
 type VoicemailCallForwardingRequest_PhoneNumber struct {
-	PhoneNumber *PhoneNumber `protobuf:"bytes,3,opt,name=phone_number,json=phoneNumber,proto3,oneof"`
+	PhoneNumber *v0.PhoneNumber `protobuf:"bytes,3,opt,name=phone_number,json=phoneNumber,proto3,oneof"`
 }
 
 func (*VoicemailCallForwardingRequest_Default) isVoicemailCallForwardingRequest_Target() {}
@@ -902,7 +903,7 @@ var file_wgtwo_callforward_v0_callforward_proto_goTypes = []interface{}{
 	(*ConditionalTrunkForwarding)(nil),     // 8: wgtwo.callforward.v0.ConditionalTrunkForwarding
 	(*VoicemailCallForwardingRequest)(nil), // 9: wgtwo.callforward.v0.VoicemailCallForwardingRequest
 	(*CallForwardingResponse)(nil),         // 10: wgtwo.callforward.v0.CallForwardingResponse
-	(*PhoneNumber)(nil),                    // 11: wgtwo.common.v0.PhoneNumber
+	(*v0.PhoneNumber)(nil),                 // 11: wgtwo.common.v0.PhoneNumber
 	(*empty.Empty)(nil),                    // 12: google.protobuf.Empty
 }
 var file_wgtwo_callforward_v0_callforward_proto_depIdxs = []int32{
@@ -945,7 +946,6 @@ func file_wgtwo_callforward_v0_callforward_proto_init() {
 	if File_wgtwo_callforward_v0_callforward_proto != nil {
 		return
 	}
-	file_wgtwo_common_v0_phonenumber_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_wgtwo_callforward_v0_callforward_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DisableCallForwardingRequest); i {

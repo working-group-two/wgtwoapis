@@ -26,7 +26,7 @@ import (
 	empty "github.com/golang/protobuf/ptypes/empty"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	v01 "github.com/working-group-two/wgtwoapis/wgtwo/auth/v0"
-	v0 "github.com/working-group-two/wgtwoapis/wgtwo/callforward/v0"
+	v0 "github.com/working-group-two/wgtwoapis/wgtwo/common/v0"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -2006,6 +2006,7 @@ type HandsetUpdateEvent struct {
 
 	Previous *Handset `protobuf:"bytes,1,opt,name=previous,proto3" json:"previous,omitempty"`
 	Current  *Handset `protobuf:"bytes,2,opt,name=current,proto3" json:"current,omitempty"`
+	Imsi     *Imsi    `protobuf:"bytes,3,opt,name=imsi,proto3" json:"imsi,omitempty"`
 }
 
 func (x *HandsetUpdateEvent) Reset() {
@@ -2054,6 +2055,60 @@ func (x *HandsetUpdateEvent) GetCurrent() *Handset {
 	return nil
 }
 
+func (x *HandsetUpdateEvent) GetImsi() *Imsi {
+	if x != nil {
+		return x.Imsi
+	}
+	return nil
+}
+
+type Imsi struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Value string `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+}
+
+func (x *Imsi) Reset() {
+	*x = Imsi{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_wgtwo_events_v0_events_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Imsi) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Imsi) ProtoMessage() {}
+
+func (x *Imsi) ProtoReflect() protoreflect.Message {
+	mi := &file_wgtwo_events_v0_events_proto_msgTypes[19]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Imsi.ProtoReflect.Descriptor instead.
+func (*Imsi) Descriptor() ([]byte, []int) {
+	return file_wgtwo_events_v0_events_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *Imsi) GetValue() string {
+	if x != nil {
+		return x.Value
+	}
+	return ""
+}
+
 // (see section 5 in Numbering, Addressing and Identification)
 // A GT is a phone number formatted according to E.164 that is used to identify MSCs,
 // VLRs, HLRs, SGSNs and other nodes for routing purposes.
@@ -2068,7 +2123,7 @@ type LocationUpdateEvent_GlobalTitle struct {
 func (x *LocationUpdateEvent_GlobalTitle) Reset() {
 	*x = LocationUpdateEvent_GlobalTitle{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_wgtwo_events_v0_events_proto_msgTypes[19]
+		mi := &file_wgtwo_events_v0_events_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2081,7 +2136,7 @@ func (x *LocationUpdateEvent_GlobalTitle) String() string {
 func (*LocationUpdateEvent_GlobalTitle) ProtoMessage() {}
 
 func (x *LocationUpdateEvent_GlobalTitle) ProtoReflect() protoreflect.Message {
-	mi := &file_wgtwo_events_v0_events_proto_msgTypes[19]
+	mi := &file_wgtwo_events_v0_events_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2117,7 +2172,7 @@ type LocationUpdateEvent_Fqdn struct {
 func (x *LocationUpdateEvent_Fqdn) Reset() {
 	*x = LocationUpdateEvent_Fqdn{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_wgtwo_events_v0_events_proto_msgTypes[20]
+		mi := &file_wgtwo_events_v0_events_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2130,7 +2185,7 @@ func (x *LocationUpdateEvent_Fqdn) String() string {
 func (*LocationUpdateEvent_Fqdn) ProtoMessage() {}
 
 func (x *LocationUpdateEvent_Fqdn) ProtoReflect() protoreflect.Message {
-	mi := &file_wgtwo_events_v0_events_proto_msgTypes[20]
+	mi := &file_wgtwo_events_v0_events_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2167,7 +2222,7 @@ type LocationUpdateEvent_Locations struct {
 func (x *LocationUpdateEvent_Locations) Reset() {
 	*x = LocationUpdateEvent_Locations{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_wgtwo_events_v0_events_proto_msgTypes[21]
+		mi := &file_wgtwo_events_v0_events_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2180,7 +2235,7 @@ func (x *LocationUpdateEvent_Locations) String() string {
 func (*LocationUpdateEvent_Locations) ProtoMessage() {}
 
 func (x *LocationUpdateEvent_Locations) ProtoReflect() protoreflect.Message {
-	mi := &file_wgtwo_events_v0_events_proto_msgTypes[21]
+	mi := &file_wgtwo_events_v0_events_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2236,7 +2291,7 @@ type RoamingEvent_Country struct {
 func (x *RoamingEvent_Country) Reset() {
 	*x = RoamingEvent_Country{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_wgtwo_events_v0_events_proto_msgTypes[22]
+		mi := &file_wgtwo_events_v0_events_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2249,7 +2304,7 @@ func (x *RoamingEvent_Country) String() string {
 func (*RoamingEvent_Country) ProtoMessage() {}
 
 func (x *RoamingEvent_Country) ProtoReflect() protoreflect.Message {
-	mi := &file_wgtwo_events_v0_events_proto_msgTypes[22]
+	mi := &file_wgtwo_events_v0_events_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2291,7 +2346,7 @@ type TokenAuditEvent_OperatorTokenChanged struct {
 func (x *TokenAuditEvent_OperatorTokenChanged) Reset() {
 	*x = TokenAuditEvent_OperatorTokenChanged{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_wgtwo_events_v0_events_proto_msgTypes[23]
+		mi := &file_wgtwo_events_v0_events_proto_msgTypes[24]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2304,7 +2359,7 @@ func (x *TokenAuditEvent_OperatorTokenChanged) String() string {
 func (*TokenAuditEvent_OperatorTokenChanged) ProtoMessage() {}
 
 func (x *TokenAuditEvent_OperatorTokenChanged) ProtoReflect() protoreflect.Message {
-	mi := &file_wgtwo_events_v0_events_proto_msgTypes[23]
+	mi := &file_wgtwo_events_v0_events_proto_msgTypes[24]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2714,47 +2769,52 @@ var file_wgtwo_events_v0_events_proto_rawDesc = []byte{
 	0x12, 0x30, 0x0a, 0x07, 0x69, 0x6d, 0x65, 0x69, 0x5f, 0x73, 0x76, 0x18, 0x01, 0x20, 0x01, 0x28,
 	0x0b, 0x32, 0x17, 0x2e, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73,
 	0x2e, 0x76, 0x30, 0x2e, 0x49, 0x6d, 0x65, 0x69, 0x53, 0x76, 0x52, 0x06, 0x69, 0x6d, 0x65, 0x69,
-	0x53, 0x76, 0x22, 0x7e, 0x0a, 0x12, 0x48, 0x61, 0x6e, 0x64, 0x73, 0x65, 0x74, 0x55, 0x70, 0x64,
-	0x61, 0x74, 0x65, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x12, 0x34, 0x0a, 0x08, 0x70, 0x72, 0x65, 0x76,
-	0x69, 0x6f, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x77, 0x67, 0x74,
-	0x77, 0x6f, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x30, 0x2e, 0x48, 0x61, 0x6e,
-	0x64, 0x73, 0x65, 0x74, 0x52, 0x08, 0x70, 0x72, 0x65, 0x76, 0x69, 0x6f, 0x75, 0x73, 0x12, 0x32,
-	0x0a, 0x07, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x18, 0x2e, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76,
-	0x30, 0x2e, 0x48, 0x61, 0x6e, 0x64, 0x73, 0x65, 0x74, 0x52, 0x07, 0x63, 0x75, 0x72, 0x72, 0x65,
-	0x6e, 0x74, 0x2a, 0xe9, 0x01, 0x0a, 0x09, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65,
-	0x12, 0x0f, 0x0a, 0x0b, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10,
-	0x00, 0x12, 0x0f, 0x0a, 0x0b, 0x56, 0x4f, 0x49, 0x43, 0x45, 0x5f, 0x45, 0x56, 0x45, 0x4e, 0x54,
-	0x10, 0x01, 0x12, 0x13, 0x0a, 0x0f, 0x56, 0x4f, 0x49, 0x43, 0x45, 0x4d, 0x41, 0x49, 0x4c, 0x5f,
-	0x45, 0x56, 0x45, 0x4e, 0x54, 0x10, 0x02, 0x12, 0x19, 0x0a, 0x15, 0x4c, 0x4f, 0x43, 0x41, 0x54,
-	0x49, 0x4f, 0x4e, 0x5f, 0x55, 0x50, 0x44, 0x41, 0x54, 0x45, 0x5f, 0x45, 0x56, 0x45, 0x4e, 0x54,
-	0x10, 0x03, 0x12, 0x11, 0x0a, 0x0d, 0x52, 0x4f, 0x41, 0x4d, 0x49, 0x4e, 0x47, 0x5f, 0x45, 0x56,
-	0x45, 0x4e, 0x54, 0x10, 0x04, 0x12, 0x15, 0x0a, 0x11, 0x54, 0x4f, 0x4b, 0x45, 0x4e, 0x5f, 0x41,
-	0x55, 0x44, 0x49, 0x54, 0x5f, 0x45, 0x56, 0x45, 0x4e, 0x54, 0x10, 0x05, 0x12, 0x0d, 0x0a, 0x09,
-	0x53, 0x4d, 0x53, 0x5f, 0x45, 0x56, 0x45, 0x4e, 0x54, 0x10, 0x06, 0x12, 0x1d, 0x0a, 0x19, 0x53,
-	0x4d, 0x53, 0x5f, 0x44, 0x45, 0x4c, 0x49, 0x56, 0x45, 0x52, 0x59, 0x5f, 0x52, 0x45, 0x50, 0x4f,
-	0x52, 0x54, 0x5f, 0x45, 0x56, 0x45, 0x4e, 0x54, 0x10, 0x07, 0x12, 0x18, 0x0a, 0x14, 0x43, 0x4f,
-	0x4e, 0x53, 0x45, 0x4e, 0x54, 0x5f, 0x52, 0x45, 0x56, 0x4f, 0x4b, 0x45, 0x5f, 0x45, 0x56, 0x45,
-	0x4e, 0x54, 0x10, 0x08, 0x12, 0x18, 0x0a, 0x14, 0x48, 0x41, 0x4e, 0x44, 0x53, 0x45, 0x54, 0x5f,
-	0x55, 0x50, 0x44, 0x41, 0x54, 0x45, 0x5f, 0x45, 0x56, 0x45, 0x4e, 0x54, 0x10, 0x09, 0x32, 0xb7,
-	0x01, 0x0a, 0x0d, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
-	0x12, 0x62, 0x0a, 0x09, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x12, 0x27, 0x2e,
-	0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x30, 0x2e,
-	0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x28, 0x2e, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e, 0x65,
-	0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x30, 0x2e, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69,
-	0x62, 0x65, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x00, 0x30, 0x01, 0x12, 0x42, 0x0a, 0x03, 0x41, 0x63, 0x6b, 0x12, 0x1b, 0x2e, 0x77, 0x67,
-	0x74, 0x77, 0x6f, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x30, 0x2e, 0x41, 0x63,
-	0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x77, 0x67, 0x74, 0x77, 0x6f,
-	0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x30, 0x2e, 0x41, 0x63, 0x6b, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x5e, 0x0a, 0x17, 0x63, 0x6f, 0x6d, 0x2e,
-	0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73,
-	0x2e, 0x76, 0x30, 0x42, 0x0b, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x50, 0x72, 0x6f, 0x74, 0x6f,
-	0x5a, 0x36, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x77, 0x6f, 0x72,
-	0x6b, 0x69, 0x6e, 0x67, 0x2d, 0x67, 0x72, 0x6f, 0x75, 0x70, 0x2d, 0x74, 0x77, 0x6f, 0x2f, 0x77,
-	0x67, 0x74, 0x77, 0x6f, 0x61, 0x70, 0x69, 0x73, 0x2f, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2f, 0x65,
-	0x76, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x76, 0x30, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x53, 0x76, 0x22, 0xa9, 0x01, 0x0a, 0x12, 0x48, 0x61, 0x6e, 0x64, 0x73, 0x65, 0x74, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x12, 0x34, 0x0a, 0x08, 0x70, 0x72, 0x65,
+	0x76, 0x69, 0x6f, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x77, 0x67,
+	0x74, 0x77, 0x6f, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x30, 0x2e, 0x48, 0x61,
+	0x6e, 0x64, 0x73, 0x65, 0x74, 0x52, 0x08, 0x70, 0x72, 0x65, 0x76, 0x69, 0x6f, 0x75, 0x73, 0x12,
+	0x32, 0x0a, 0x07, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x18, 0x2e, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e,
+	0x76, 0x30, 0x2e, 0x48, 0x61, 0x6e, 0x64, 0x73, 0x65, 0x74, 0x52, 0x07, 0x63, 0x75, 0x72, 0x72,
+	0x65, 0x6e, 0x74, 0x12, 0x29, 0x0a, 0x04, 0x69, 0x6d, 0x73, 0x69, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x15, 0x2e, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73,
+	0x2e, 0x76, 0x30, 0x2e, 0x49, 0x6d, 0x73, 0x69, 0x52, 0x04, 0x69, 0x6d, 0x73, 0x69, 0x22, 0x1c,
+	0x0a, 0x04, 0x49, 0x6d, 0x73, 0x69, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x2a, 0xe9, 0x01, 0x0a,
+	0x09, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x12, 0x0f, 0x0a, 0x0b, 0x55, 0x4e,
+	0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x0f, 0x0a, 0x0b, 0x56,
+	0x4f, 0x49, 0x43, 0x45, 0x5f, 0x45, 0x56, 0x45, 0x4e, 0x54, 0x10, 0x01, 0x12, 0x13, 0x0a, 0x0f,
+	0x56, 0x4f, 0x49, 0x43, 0x45, 0x4d, 0x41, 0x49, 0x4c, 0x5f, 0x45, 0x56, 0x45, 0x4e, 0x54, 0x10,
+	0x02, 0x12, 0x19, 0x0a, 0x15, 0x4c, 0x4f, 0x43, 0x41, 0x54, 0x49, 0x4f, 0x4e, 0x5f, 0x55, 0x50,
+	0x44, 0x41, 0x54, 0x45, 0x5f, 0x45, 0x56, 0x45, 0x4e, 0x54, 0x10, 0x03, 0x12, 0x11, 0x0a, 0x0d,
+	0x52, 0x4f, 0x41, 0x4d, 0x49, 0x4e, 0x47, 0x5f, 0x45, 0x56, 0x45, 0x4e, 0x54, 0x10, 0x04, 0x12,
+	0x15, 0x0a, 0x11, 0x54, 0x4f, 0x4b, 0x45, 0x4e, 0x5f, 0x41, 0x55, 0x44, 0x49, 0x54, 0x5f, 0x45,
+	0x56, 0x45, 0x4e, 0x54, 0x10, 0x05, 0x12, 0x0d, 0x0a, 0x09, 0x53, 0x4d, 0x53, 0x5f, 0x45, 0x56,
+	0x45, 0x4e, 0x54, 0x10, 0x06, 0x12, 0x1d, 0x0a, 0x19, 0x53, 0x4d, 0x53, 0x5f, 0x44, 0x45, 0x4c,
+	0x49, 0x56, 0x45, 0x52, 0x59, 0x5f, 0x52, 0x45, 0x50, 0x4f, 0x52, 0x54, 0x5f, 0x45, 0x56, 0x45,
+	0x4e, 0x54, 0x10, 0x07, 0x12, 0x18, 0x0a, 0x14, 0x43, 0x4f, 0x4e, 0x53, 0x45, 0x4e, 0x54, 0x5f,
+	0x52, 0x45, 0x56, 0x4f, 0x4b, 0x45, 0x5f, 0x45, 0x56, 0x45, 0x4e, 0x54, 0x10, 0x08, 0x12, 0x18,
+	0x0a, 0x14, 0x48, 0x41, 0x4e, 0x44, 0x53, 0x45, 0x54, 0x5f, 0x55, 0x50, 0x44, 0x41, 0x54, 0x45,
+	0x5f, 0x45, 0x56, 0x45, 0x4e, 0x54, 0x10, 0x09, 0x32, 0xb7, 0x01, 0x0a, 0x0d, 0x45, 0x76, 0x65,
+	0x6e, 0x74, 0x73, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x62, 0x0a, 0x09, 0x53, 0x75,
+	0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x12, 0x27, 0x2e, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e,
+	0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x30, 0x2e, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72,
+	0x69, 0x62, 0x65, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x28, 0x2e, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e,
+	0x76, 0x30, 0x2e, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x45, 0x76, 0x65, 0x6e,
+	0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x30, 0x01, 0x12, 0x42,
+	0x0a, 0x03, 0x41, 0x63, 0x6b, 0x12, 0x1b, 0x2e, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e, 0x65, 0x76,
+	0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x30, 0x2e, 0x41, 0x63, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74,
+	0x73, 0x2e, 0x76, 0x30, 0x2e, 0x41, 0x63, 0x6b, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x00, 0x42, 0x5e, 0x0a, 0x17, 0x63, 0x6f, 0x6d, 0x2e, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e,
+	0x61, 0x70, 0x69, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x30, 0x42, 0x0b, 0x45,
+	0x76, 0x65, 0x6e, 0x74, 0x73, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x5a, 0x36, 0x67, 0x69, 0x74, 0x68,
+	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x69, 0x6e, 0x67, 0x2d, 0x67,
+	0x72, 0x6f, 0x75, 0x70, 0x2d, 0x74, 0x77, 0x6f, 0x2f, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x61, 0x70,
+	0x69, 0x73, 0x2f, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2f, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2f,
+	0x76, 0x30, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2770,7 +2830,7 @@ func file_wgtwo_events_v0_events_proto_rawDescGZIP() []byte {
 }
 
 var file_wgtwo_events_v0_events_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
-var file_wgtwo_events_v0_events_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
+var file_wgtwo_events_v0_events_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
 var file_wgtwo_events_v0_events_proto_goTypes = []interface{}{
 	(EventType)(0),                               // 0: wgtwo.events.v0.EventType
 	(VoiceEvent_VoiceEventType)(0),               // 1: wgtwo.events.v0.VoiceEvent.VoiceEventType
@@ -2798,31 +2858,32 @@ var file_wgtwo_events_v0_events_proto_goTypes = []interface{}{
 	(*ImeiSv)(nil),                               // 23: wgtwo.events.v0.ImeiSv
 	(*Handset)(nil),                              // 24: wgtwo.events.v0.Handset
 	(*HandsetUpdateEvent)(nil),                   // 25: wgtwo.events.v0.HandsetUpdateEvent
-	(*LocationUpdateEvent_GlobalTitle)(nil),      // 26: wgtwo.events.v0.LocationUpdateEvent.GlobalTitle
-	(*LocationUpdateEvent_Fqdn)(nil),             // 27: wgtwo.events.v0.LocationUpdateEvent.Fqdn
-	(*LocationUpdateEvent_Locations)(nil),        // 28: wgtwo.events.v0.LocationUpdateEvent.Locations
-	(*RoamingEvent_Country)(nil),                 // 29: wgtwo.events.v0.RoamingEvent.Country
-	(*TokenAuditEvent_OperatorTokenChanged)(nil), // 30: wgtwo.events.v0.TokenAuditEvent.OperatorTokenChanged
-	(*duration.Duration)(nil),                    // 31: google.protobuf.Duration
-	(*timestamp.Timestamp)(nil),                  // 32: google.protobuf.Timestamp
-	(*empty.Empty)(nil),                          // 33: google.protobuf.Empty
-	(*v0.PhoneNumber)(nil),                       // 34: wgtwo.common.v0.PhoneNumber
-	(*v0.NationalPhoneNumber)(nil),               // 35: wgtwo.common.v0.NationalPhoneNumber
-	(*v0.TextAddress)(nil),                       // 36: wgtwo.common.v0.TextAddress
-	(*v01.OperatorTokenMetadata)(nil),            // 37: wgtwo.auth.v0.OperatorTokenMetadata
+	(*Imsi)(nil),                                 // 26: wgtwo.events.v0.Imsi
+	(*LocationUpdateEvent_GlobalTitle)(nil),      // 27: wgtwo.events.v0.LocationUpdateEvent.GlobalTitle
+	(*LocationUpdateEvent_Fqdn)(nil),             // 28: wgtwo.events.v0.LocationUpdateEvent.Fqdn
+	(*LocationUpdateEvent_Locations)(nil),        // 29: wgtwo.events.v0.LocationUpdateEvent.Locations
+	(*RoamingEvent_Country)(nil),                 // 30: wgtwo.events.v0.RoamingEvent.Country
+	(*TokenAuditEvent_OperatorTokenChanged)(nil), // 31: wgtwo.events.v0.TokenAuditEvent.OperatorTokenChanged
+	(*duration.Duration)(nil),                    // 32: google.protobuf.Duration
+	(*timestamp.Timestamp)(nil),                  // 33: google.protobuf.Timestamp
+	(*empty.Empty)(nil),                          // 34: google.protobuf.Empty
+	(*v0.PhoneNumber)(nil),                       // 35: wgtwo.common.v0.PhoneNumber
+	(*v0.NationalPhoneNumber)(nil),               // 36: wgtwo.common.v0.NationalPhoneNumber
+	(*v0.TextAddress)(nil),                       // 37: wgtwo.common.v0.TextAddress
+	(*v01.OperatorTokenMetadata)(nil),            // 38: wgtwo.auth.v0.OperatorTokenMetadata
 }
 var file_wgtwo_events_v0_events_proto_depIdxs = []int32{
-	31, // 0: wgtwo.events.v0.ManualAckConfig.timeout:type_name -> google.protobuf.Duration
+	32, // 0: wgtwo.events.v0.ManualAckConfig.timeout:type_name -> google.protobuf.Duration
 	0,  // 1: wgtwo.events.v0.SubscribeEventsRequest.type:type_name -> wgtwo.events.v0.EventType
-	32, // 2: wgtwo.events.v0.SubscribeEventsRequest.start_at_timestamp:type_name -> google.protobuf.Timestamp
-	31, // 3: wgtwo.events.v0.SubscribeEventsRequest.start_at_time_delta:type_name -> google.protobuf.Duration
-	33, // 4: wgtwo.events.v0.SubscribeEventsRequest.start_with_last_received:type_name -> google.protobuf.Empty
-	33, // 5: wgtwo.events.v0.SubscribeEventsRequest.start_at_oldest_possible:type_name -> google.protobuf.Empty
+	33, // 2: wgtwo.events.v0.SubscribeEventsRequest.start_at_timestamp:type_name -> google.protobuf.Timestamp
+	32, // 3: wgtwo.events.v0.SubscribeEventsRequest.start_at_time_delta:type_name -> google.protobuf.Duration
+	34, // 4: wgtwo.events.v0.SubscribeEventsRequest.start_with_last_received:type_name -> google.protobuf.Empty
+	34, // 5: wgtwo.events.v0.SubscribeEventsRequest.start_at_oldest_possible:type_name -> google.protobuf.Empty
 	7,  // 6: wgtwo.events.v0.SubscribeEventsRequest.manual_ack:type_name -> wgtwo.events.v0.ManualAckConfig
 	14, // 7: wgtwo.events.v0.SubscribeEventsResponse.event:type_name -> wgtwo.events.v0.Event
-	34, // 8: wgtwo.events.v0.Owner.phone_number:type_name -> wgtwo.common.v0.PhoneNumber
+	35, // 8: wgtwo.events.v0.Owner.phone_number:type_name -> wgtwo.common.v0.PhoneNumber
 	12, // 9: wgtwo.events.v0.Event.metadata:type_name -> wgtwo.events.v0.EventMetadata
-	32, // 10: wgtwo.events.v0.Event.timestamp:type_name -> google.protobuf.Timestamp
+	33, // 10: wgtwo.events.v0.Event.timestamp:type_name -> google.protobuf.Timestamp
 	16, // 11: wgtwo.events.v0.Event.voice_event:type_name -> wgtwo.events.v0.VoiceEvent
 	17, // 12: wgtwo.events.v0.Event.voicemail_event:type_name -> wgtwo.events.v0.VoicemailEvent
 	18, // 13: wgtwo.events.v0.Event.location_update_event:type_name -> wgtwo.events.v0.LocationUpdateEvent
@@ -2833,54 +2894,55 @@ var file_wgtwo_events_v0_events_proto_depIdxs = []int32{
 	15, // 18: wgtwo.events.v0.Event.consent_revoke_event:type_name -> wgtwo.events.v0.ConsentRevokeEvent
 	25, // 19: wgtwo.events.v0.Event.handset_update_event:type_name -> wgtwo.events.v0.HandsetUpdateEvent
 	13, // 20: wgtwo.events.v0.Event.owner:type_name -> wgtwo.events.v0.Owner
-	34, // 21: wgtwo.events.v0.ConsentRevokeEvent.msisdn:type_name -> wgtwo.common.v0.PhoneNumber
+	35, // 21: wgtwo.events.v0.ConsentRevokeEvent.msisdn:type_name -> wgtwo.common.v0.PhoneNumber
 	1,  // 22: wgtwo.events.v0.VoiceEvent.type:type_name -> wgtwo.events.v0.VoiceEvent.VoiceEventType
-	34, // 23: wgtwo.events.v0.VoiceEvent.from_number:type_name -> wgtwo.common.v0.PhoneNumber
-	34, // 24: wgtwo.events.v0.VoiceEvent.to_number:type_name -> wgtwo.common.v0.PhoneNumber
+	35, // 23: wgtwo.events.v0.VoiceEvent.from_number:type_name -> wgtwo.common.v0.PhoneNumber
+	35, // 24: wgtwo.events.v0.VoiceEvent.to_number:type_name -> wgtwo.common.v0.PhoneNumber
 	2,  // 25: wgtwo.events.v0.VoicemailEvent.type:type_name -> wgtwo.events.v0.VoicemailEvent.VoicemailEventType
-	34, // 26: wgtwo.events.v0.VoicemailEvent.from_number:type_name -> wgtwo.common.v0.PhoneNumber
-	34, // 27: wgtwo.events.v0.VoicemailEvent.to_number:type_name -> wgtwo.common.v0.PhoneNumber
-	34, // 28: wgtwo.events.v0.LocationUpdateEvent.number:type_name -> wgtwo.common.v0.PhoneNumber
-	28, // 29: wgtwo.events.v0.LocationUpdateEvent.previous:type_name -> wgtwo.events.v0.LocationUpdateEvent.Locations
-	28, // 30: wgtwo.events.v0.LocationUpdateEvent.current:type_name -> wgtwo.events.v0.LocationUpdateEvent.Locations
-	34, // 31: wgtwo.events.v0.RoamingEvent.msisdn:type_name -> wgtwo.common.v0.PhoneNumber
-	29, // 32: wgtwo.events.v0.RoamingEvent.previous:type_name -> wgtwo.events.v0.RoamingEvent.Country
-	29, // 33: wgtwo.events.v0.RoamingEvent.current:type_name -> wgtwo.events.v0.RoamingEvent.Country
+	35, // 26: wgtwo.events.v0.VoicemailEvent.from_number:type_name -> wgtwo.common.v0.PhoneNumber
+	35, // 27: wgtwo.events.v0.VoicemailEvent.to_number:type_name -> wgtwo.common.v0.PhoneNumber
+	35, // 28: wgtwo.events.v0.LocationUpdateEvent.number:type_name -> wgtwo.common.v0.PhoneNumber
+	29, // 29: wgtwo.events.v0.LocationUpdateEvent.previous:type_name -> wgtwo.events.v0.LocationUpdateEvent.Locations
+	29, // 30: wgtwo.events.v0.LocationUpdateEvent.current:type_name -> wgtwo.events.v0.LocationUpdateEvent.Locations
+	35, // 31: wgtwo.events.v0.RoamingEvent.msisdn:type_name -> wgtwo.common.v0.PhoneNumber
+	30, // 32: wgtwo.events.v0.RoamingEvent.previous:type_name -> wgtwo.events.v0.RoamingEvent.Country
+	30, // 33: wgtwo.events.v0.RoamingEvent.current:type_name -> wgtwo.events.v0.RoamingEvent.Country
 	3,  // 34: wgtwo.events.v0.TokenAuditEvent.operation:type_name -> wgtwo.events.v0.TokenAuditEvent.Operation
-	30, // 35: wgtwo.events.v0.TokenAuditEvent.operator_token:type_name -> wgtwo.events.v0.TokenAuditEvent.OperatorTokenChanged
-	34, // 36: wgtwo.events.v0.SmsEvent.from_e164:type_name -> wgtwo.common.v0.PhoneNumber
-	35, // 37: wgtwo.events.v0.SmsEvent.from_national_phone_number:type_name -> wgtwo.common.v0.NationalPhoneNumber
-	36, // 38: wgtwo.events.v0.SmsEvent.from_text_address:type_name -> wgtwo.common.v0.TextAddress
-	34, // 39: wgtwo.events.v0.SmsEvent.to_e164:type_name -> wgtwo.common.v0.PhoneNumber
-	35, // 40: wgtwo.events.v0.SmsEvent.to_national_phone_number:type_name -> wgtwo.common.v0.NationalPhoneNumber
-	36, // 41: wgtwo.events.v0.SmsEvent.to_text_address:type_name -> wgtwo.common.v0.TextAddress
+	31, // 35: wgtwo.events.v0.TokenAuditEvent.operator_token:type_name -> wgtwo.events.v0.TokenAuditEvent.OperatorTokenChanged
+	35, // 36: wgtwo.events.v0.SmsEvent.from_e164:type_name -> wgtwo.common.v0.PhoneNumber
+	36, // 37: wgtwo.events.v0.SmsEvent.from_national_phone_number:type_name -> wgtwo.common.v0.NationalPhoneNumber
+	37, // 38: wgtwo.events.v0.SmsEvent.from_text_address:type_name -> wgtwo.common.v0.TextAddress
+	35, // 39: wgtwo.events.v0.SmsEvent.to_e164:type_name -> wgtwo.common.v0.PhoneNumber
+	36, // 40: wgtwo.events.v0.SmsEvent.to_national_phone_number:type_name -> wgtwo.common.v0.NationalPhoneNumber
+	37, // 41: wgtwo.events.v0.SmsEvent.to_text_address:type_name -> wgtwo.common.v0.TextAddress
 	4,  // 42: wgtwo.events.v0.SmsEvent.direction:type_name -> wgtwo.events.v0.SmsEvent.Direction
-	34, // 43: wgtwo.events.v0.SmsDeliveryReportEvent.from_e164:type_name -> wgtwo.common.v0.PhoneNumber
-	35, // 44: wgtwo.events.v0.SmsDeliveryReportEvent.from_national_phone_number:type_name -> wgtwo.common.v0.NationalPhoneNumber
-	36, // 45: wgtwo.events.v0.SmsDeliveryReportEvent.from_text_address:type_name -> wgtwo.common.v0.TextAddress
-	34, // 46: wgtwo.events.v0.SmsDeliveryReportEvent.to_e164:type_name -> wgtwo.common.v0.PhoneNumber
-	35, // 47: wgtwo.events.v0.SmsDeliveryReportEvent.to_national_phone_number:type_name -> wgtwo.common.v0.NationalPhoneNumber
-	36, // 48: wgtwo.events.v0.SmsDeliveryReportEvent.to_text_address:type_name -> wgtwo.common.v0.TextAddress
+	35, // 43: wgtwo.events.v0.SmsDeliveryReportEvent.from_e164:type_name -> wgtwo.common.v0.PhoneNumber
+	36, // 44: wgtwo.events.v0.SmsDeliveryReportEvent.from_national_phone_number:type_name -> wgtwo.common.v0.NationalPhoneNumber
+	37, // 45: wgtwo.events.v0.SmsDeliveryReportEvent.from_text_address:type_name -> wgtwo.common.v0.TextAddress
+	35, // 46: wgtwo.events.v0.SmsDeliveryReportEvent.to_e164:type_name -> wgtwo.common.v0.PhoneNumber
+	36, // 47: wgtwo.events.v0.SmsDeliveryReportEvent.to_national_phone_number:type_name -> wgtwo.common.v0.NationalPhoneNumber
+	37, // 48: wgtwo.events.v0.SmsDeliveryReportEvent.to_text_address:type_name -> wgtwo.common.v0.TextAddress
 	5,  // 49: wgtwo.events.v0.SmsDeliveryReportEvent.direction:type_name -> wgtwo.events.v0.SmsDeliveryReportEvent.Direction
 	6,  // 50: wgtwo.events.v0.SmsDeliveryReportEvent.status:type_name -> wgtwo.events.v0.SmsDeliveryReportEvent.Status
 	23, // 51: wgtwo.events.v0.Handset.imei_sv:type_name -> wgtwo.events.v0.ImeiSv
 	24, // 52: wgtwo.events.v0.HandsetUpdateEvent.previous:type_name -> wgtwo.events.v0.Handset
 	24, // 53: wgtwo.events.v0.HandsetUpdateEvent.current:type_name -> wgtwo.events.v0.Handset
-	26, // 54: wgtwo.events.v0.LocationUpdateEvent.Locations.msc:type_name -> wgtwo.events.v0.LocationUpdateEvent.GlobalTitle
-	26, // 55: wgtwo.events.v0.LocationUpdateEvent.Locations.vlr:type_name -> wgtwo.events.v0.LocationUpdateEvent.GlobalTitle
-	26, // 56: wgtwo.events.v0.LocationUpdateEvent.Locations.sgsn:type_name -> wgtwo.events.v0.LocationUpdateEvent.GlobalTitle
-	27, // 57: wgtwo.events.v0.LocationUpdateEvent.Locations.mme:type_name -> wgtwo.events.v0.LocationUpdateEvent.Fqdn
-	37, // 58: wgtwo.events.v0.TokenAuditEvent.OperatorTokenChanged.new:type_name -> wgtwo.auth.v0.OperatorTokenMetadata
-	37, // 59: wgtwo.events.v0.TokenAuditEvent.OperatorTokenChanged.old:type_name -> wgtwo.auth.v0.OperatorTokenMetadata
-	8,  // 60: wgtwo.events.v0.EventsService.Subscribe:input_type -> wgtwo.events.v0.SubscribeEventsRequest
-	10, // 61: wgtwo.events.v0.EventsService.Ack:input_type -> wgtwo.events.v0.AckRequest
-	9,  // 62: wgtwo.events.v0.EventsService.Subscribe:output_type -> wgtwo.events.v0.SubscribeEventsResponse
-	11, // 63: wgtwo.events.v0.EventsService.Ack:output_type -> wgtwo.events.v0.AckResponse
-	62, // [62:64] is the sub-list for method output_type
-	60, // [60:62] is the sub-list for method input_type
-	60, // [60:60] is the sub-list for extension type_name
-	60, // [60:60] is the sub-list for extension extendee
-	0,  // [0:60] is the sub-list for field type_name
+	26, // 54: wgtwo.events.v0.HandsetUpdateEvent.imsi:type_name -> wgtwo.events.v0.Imsi
+	27, // 55: wgtwo.events.v0.LocationUpdateEvent.Locations.msc:type_name -> wgtwo.events.v0.LocationUpdateEvent.GlobalTitle
+	27, // 56: wgtwo.events.v0.LocationUpdateEvent.Locations.vlr:type_name -> wgtwo.events.v0.LocationUpdateEvent.GlobalTitle
+	27, // 57: wgtwo.events.v0.LocationUpdateEvent.Locations.sgsn:type_name -> wgtwo.events.v0.LocationUpdateEvent.GlobalTitle
+	28, // 58: wgtwo.events.v0.LocationUpdateEvent.Locations.mme:type_name -> wgtwo.events.v0.LocationUpdateEvent.Fqdn
+	38, // 59: wgtwo.events.v0.TokenAuditEvent.OperatorTokenChanged.new:type_name -> wgtwo.auth.v0.OperatorTokenMetadata
+	38, // 60: wgtwo.events.v0.TokenAuditEvent.OperatorTokenChanged.old:type_name -> wgtwo.auth.v0.OperatorTokenMetadata
+	8,  // 61: wgtwo.events.v0.EventsService.Subscribe:input_type -> wgtwo.events.v0.SubscribeEventsRequest
+	10, // 62: wgtwo.events.v0.EventsService.Ack:input_type -> wgtwo.events.v0.AckRequest
+	9,  // 63: wgtwo.events.v0.EventsService.Subscribe:output_type -> wgtwo.events.v0.SubscribeEventsResponse
+	11, // 64: wgtwo.events.v0.EventsService.Ack:output_type -> wgtwo.events.v0.AckResponse
+	63, // [63:65] is the sub-list for method output_type
+	61, // [61:63] is the sub-list for method input_type
+	61, // [61:61] is the sub-list for extension type_name
+	61, // [61:61] is the sub-list for extension extendee
+	0,  // [0:61] is the sub-list for field type_name
 }
 
 func init() { file_wgtwo_events_v0_events_proto_init() }
@@ -3118,7 +3180,7 @@ func file_wgtwo_events_v0_events_proto_init() {
 			}
 		}
 		file_wgtwo_events_v0_events_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*LocationUpdateEvent_GlobalTitle); i {
+			switch v := v.(*Imsi); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3130,7 +3192,7 @@ func file_wgtwo_events_v0_events_proto_init() {
 			}
 		}
 		file_wgtwo_events_v0_events_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*LocationUpdateEvent_Fqdn); i {
+			switch v := v.(*LocationUpdateEvent_GlobalTitle); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3142,7 +3204,7 @@ func file_wgtwo_events_v0_events_proto_init() {
 			}
 		}
 		file_wgtwo_events_v0_events_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*LocationUpdateEvent_Locations); i {
+			switch v := v.(*LocationUpdateEvent_Fqdn); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3154,7 +3216,7 @@ func file_wgtwo_events_v0_events_proto_init() {
 			}
 		}
 		file_wgtwo_events_v0_events_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RoamingEvent_Country); i {
+			switch v := v.(*LocationUpdateEvent_Locations); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3166,6 +3228,18 @@ func file_wgtwo_events_v0_events_proto_init() {
 			}
 		}
 		file_wgtwo_events_v0_events_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RoamingEvent_Country); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_wgtwo_events_v0_events_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*TokenAuditEvent_OperatorTokenChanged); i {
 			case 0:
 				return &v.state
@@ -3222,7 +3296,7 @@ func file_wgtwo_events_v0_events_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_wgtwo_events_v0_events_proto_rawDesc,
 			NumEnums:      7,
-			NumMessages:   24,
+			NumMessages:   25,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -17,8 +17,6 @@ syntax = "proto3";
 
 package wgtwo.calling.v0;
 
-import "google/protobuf/empty.proto";
-import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 

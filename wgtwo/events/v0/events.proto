@@ -277,4 +277,9 @@ message Handset {
 message HandsetUpdateEvent {
   Handset previous = 1;
   Handset current = 2;
+  Imsi imsi = 3;
+}
+
+message Imsi {
+  string value = 1;
 }
