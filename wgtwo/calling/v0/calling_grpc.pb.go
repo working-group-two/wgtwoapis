@@ -11,6 +11,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
+// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // CallingServiceClient is the client API for CallingService service.
@@ -35,7 +36,7 @@ func NewCallingServiceClient(cc grpc.ClientConnInterface) CallingServiceClient {
 }
 
 func (c *callingServiceClient) StartCall(ctx context.Context, opts ...grpc.CallOption) (CallingService_StartCallClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_CallingService_serviceDesc.Streams[0], "/wgtwo.calling.v0.CallingService/StartCall", opts...)
+	stream, err := c.cc.NewStream(ctx, &CallingService_ServiceDesc.Streams[0], "/wgtwo.calling.v0.CallingService/StartCall", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -111,7 +112,7 @@ func (c *callingServiceClient) SetIceCandidate(ctx context.Context, in *SendIceC
 }
 
 func (c *callingServiceClient) GetIceCandidate(ctx context.Context, in *GetIceCandidateRequest, opts ...grpc.CallOption) (CallingService_GetIceCandidateClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_CallingService_serviceDesc.Streams[1], "/wgtwo.calling.v0.CallingService/GetIceCandidate", opts...)
+	stream, err := c.cc.NewStream(ctx, &CallingService_ServiceDesc.Streams[1], "/wgtwo.calling.v0.CallingService/GetIceCandidate", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -189,7 +190,7 @@ type UnsafeCallingServiceServer interface {
 }
 
 func RegisterCallingServiceServer(s grpc.ServiceRegistrar, srv CallingServiceServer) {
-	s.RegisterService(&_CallingService_serviceDesc, srv)
+	s.RegisterService(&CallingService_ServiceDesc, srv)
 }
 
 func _CallingService_StartCall_Handler(srv interface{}, stream grpc.ServerStream) error {
@@ -329,7 +330,10 @@ func (x *callingServiceGetIceCandidateServer) Send(m *GetIceCandidateResponse) e
 	return x.ServerStream.SendMsg(m)
 }
 
-var _CallingService_serviceDesc = grpc.ServiceDesc{
+// CallingService_ServiceDesc is the grpc.ServiceDesc for CallingService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var CallingService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "wgtwo.calling.v0.CallingService",
 	HandlerType: (*CallingServiceServer)(nil),
 	Methods: []grpc.MethodDesc{

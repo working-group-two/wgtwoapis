@@ -11,6 +11,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
+// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // CallForwardingServiceClient is the client API for CallForwardingService service.
@@ -102,7 +103,7 @@ type UnsafeCallForwardingServiceServer interface {
 }
 
 func RegisterCallForwardingServiceServer(s grpc.ServiceRegistrar, srv CallForwardingServiceServer) {
-	s.RegisterService(&_CallForwardingService_serviceDesc, srv)
+	s.RegisterService(&CallForwardingService_ServiceDesc, srv)
 }
 
 func _CallForwardingService_Disable_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -177,7 +178,10 @@ func _CallForwardingService_SetToVoicemail_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
-var _CallForwardingService_serviceDesc = grpc.ServiceDesc{
+// CallForwardingService_ServiceDesc is the grpc.ServiceDesc for CallForwardingService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var CallForwardingService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "wgtwo.callforward.v0.CallForwardingService",
 	HandlerType: (*CallForwardingServiceServer)(nil),
 	Methods: []grpc.MethodDesc{

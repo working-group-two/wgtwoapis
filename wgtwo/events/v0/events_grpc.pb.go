@@ -11,6 +11,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
+// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // EventsServiceClient is the client API for EventsService service.
@@ -30,7 +31,7 @@ func NewEventsServiceClient(cc grpc.ClientConnInterface) EventsServiceClient {
 }
 
 func (c *eventsServiceClient) Subscribe(ctx context.Context, in *SubscribeEventsRequest, opts ...grpc.CallOption) (EventsService_SubscribeClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_EventsService_serviceDesc.Streams[0], "/wgtwo.events.v0.EventsService/Subscribe", opts...)
+	stream, err := c.cc.NewStream(ctx, &EventsService_ServiceDesc.Streams[0], "/wgtwo.events.v0.EventsService/Subscribe", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -97,7 +98,7 @@ type UnsafeEventsServiceServer interface {
 }
 
 func RegisterEventsServiceServer(s grpc.ServiceRegistrar, srv EventsServiceServer) {
-	s.RegisterService(&_EventsService_serviceDesc, srv)
+	s.RegisterService(&EventsService_ServiceDesc, srv)
 }
 
 func _EventsService_Subscribe_Handler(srv interface{}, stream grpc.ServerStream) error {
@@ -139,7 +140,10 @@ func _EventsService_Ack_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
-var _EventsService_serviceDesc = grpc.ServiceDesc{
+// EventsService_ServiceDesc is the grpc.ServiceDesc for EventsService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var EventsService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "wgtwo.events.v0.EventsService",
 	HandlerType: (*EventsServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
