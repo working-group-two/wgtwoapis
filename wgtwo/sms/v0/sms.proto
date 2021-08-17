@@ -25,20 +25,36 @@ option java_package = "com.wgtwo.api.sms.v0";
 option java_outer_classname = "SmsProto";
 
 service SmsService {
-  rpc SendTextToSubscriber (SendTextToSubscriberRequest) returns (SendResponse) {}
   rpc SendTextFromSubscriber (SendTextFromSubscriberRequest) returns (SendResponse) {}
   rpc SendBinaryToSubscriber (SendBinaryToSubscriberRequest) returns (SendResponse) {}
+  rpc SendTextToSubscriber (SendTextToSubscriberRequest) returns (SendResponse) {
+    option deprecated = true; // use one of the two below
+  }
+  rpc SendTextToSubscriberAsOperator (SendTextAsOperatorRequest) returns (SendResponse) {}
+  rpc SendTextToSubscriberAsProduct (SendTextAsProductRequest) returns (SendResponse) {}
+}
+
+message SendTextAsOperatorRequest {
+  string content = 1;
+  wgtwo.common.v0.TextAddress from_operator_address = 2;
+  wgtwo.common.v0.PhoneNumber to_subscriber = 3;
+}
+
+message SendTextAsProductRequest {
+  string content = 1;
+  wgtwo.common.v0.TextAddress from_product_address = 2;
+  wgtwo.common.v0.PhoneNumber to_subscriber = 3;
 }
 
 message SendTextToSubscriberRequest {
-  string content = 1;
+  string content = 1 [deprecated=true];
 
   oneof from_address {
-    wgtwo.common.v0.PhoneNumber from_e164 = 2;
-    wgtwo.common.v0.TextAddress from_text_address = 3;
+    wgtwo.common.v0.PhoneNumber from_e164 = 2 [deprecated=true];
+    wgtwo.common.v0.TextAddress from_text_address = 3 [deprecated=true];
   }
 
-  wgtwo.common.v0.PhoneNumber to_subscriber = 4;
+  wgtwo.common.v0.PhoneNumber to_subscriber = 4 [deprecated=true];
 }
 
 message SendTextFromSubscriberRequest {
