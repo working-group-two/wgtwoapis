@@ -18,9 +18,12 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SmsServiceClient interface {
-	SendTextToSubscriber(ctx context.Context, in *SendTextToSubscriberRequest, opts ...grpc.CallOption) (*SendResponse, error)
 	SendTextFromSubscriber(ctx context.Context, in *SendTextFromSubscriberRequest, opts ...grpc.CallOption) (*SendResponse, error)
 	SendBinaryToSubscriber(ctx context.Context, in *SendBinaryToSubscriberRequest, opts ...grpc.CallOption) (*SendResponse, error)
+	// Deprecated: Do not use.
+	SendTextToSubscriber(ctx context.Context, in *SendTextToSubscriberRequest, opts ...grpc.CallOption) (*SendResponse, error)
+	SendTextToSubscriberAsOperator(ctx context.Context, in *SendTextAsOperatorRequest, opts ...grpc.CallOption) (*SendResponse, error)
+	SendTextToSubscriberAsProduct(ctx context.Context, in *SendTextAsProductRequest, opts ...grpc.CallOption) (*SendResponse, error)
 }
 
 type smsServiceClient struct {
@@ -29,15 +32,6 @@ type smsServiceClient struct {
 
 func NewSmsServiceClient(cc grpc.ClientConnInterface) SmsServiceClient {
 	return &smsServiceClient{cc}
-}
-
-func (c *smsServiceClient) SendTextToSubscriber(ctx context.Context, in *SendTextToSubscriberRequest, opts ...grpc.CallOption) (*SendResponse, error) {
-	out := new(SendResponse)
-	err := c.cc.Invoke(ctx, "/wgtwo.sms.v0.SmsService/SendTextToSubscriber", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *smsServiceClient) SendTextFromSubscriber(ctx context.Context, in *SendTextFromSubscriberRequest, opts ...grpc.CallOption) (*SendResponse, error) {
@@ -58,27 +52,64 @@ func (c *smsServiceClient) SendBinaryToSubscriber(ctx context.Context, in *SendB
 	return out, nil
 }
 
+// Deprecated: Do not use.
+func (c *smsServiceClient) SendTextToSubscriber(ctx context.Context, in *SendTextToSubscriberRequest, opts ...grpc.CallOption) (*SendResponse, error) {
+	out := new(SendResponse)
+	err := c.cc.Invoke(ctx, "/wgtwo.sms.v0.SmsService/SendTextToSubscriber", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *smsServiceClient) SendTextToSubscriberAsOperator(ctx context.Context, in *SendTextAsOperatorRequest, opts ...grpc.CallOption) (*SendResponse, error) {
+	out := new(SendResponse)
+	err := c.cc.Invoke(ctx, "/wgtwo.sms.v0.SmsService/SendTextToSubscriberAsOperator", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *smsServiceClient) SendTextToSubscriberAsProduct(ctx context.Context, in *SendTextAsProductRequest, opts ...grpc.CallOption) (*SendResponse, error) {
+	out := new(SendResponse)
+	err := c.cc.Invoke(ctx, "/wgtwo.sms.v0.SmsService/SendTextToSubscriberAsProduct", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SmsServiceServer is the server API for SmsService service.
 // All implementations should embed UnimplementedSmsServiceServer
 // for forward compatibility
 type SmsServiceServer interface {
-	SendTextToSubscriber(context.Context, *SendTextToSubscriberRequest) (*SendResponse, error)
 	SendTextFromSubscriber(context.Context, *SendTextFromSubscriberRequest) (*SendResponse, error)
 	SendBinaryToSubscriber(context.Context, *SendBinaryToSubscriberRequest) (*SendResponse, error)
+	// Deprecated: Do not use.
+	SendTextToSubscriber(context.Context, *SendTextToSubscriberRequest) (*SendResponse, error)
+	SendTextToSubscriberAsOperator(context.Context, *SendTextAsOperatorRequest) (*SendResponse, error)
+	SendTextToSubscriberAsProduct(context.Context, *SendTextAsProductRequest) (*SendResponse, error)
 }
 
 // UnimplementedSmsServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedSmsServiceServer struct {
 }
 
-func (UnimplementedSmsServiceServer) SendTextToSubscriber(context.Context, *SendTextToSubscriberRequest) (*SendResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SendTextToSubscriber not implemented")
-}
 func (UnimplementedSmsServiceServer) SendTextFromSubscriber(context.Context, *SendTextFromSubscriberRequest) (*SendResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendTextFromSubscriber not implemented")
 }
 func (UnimplementedSmsServiceServer) SendBinaryToSubscriber(context.Context, *SendBinaryToSubscriberRequest) (*SendResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendBinaryToSubscriber not implemented")
+}
+func (UnimplementedSmsServiceServer) SendTextToSubscriber(context.Context, *SendTextToSubscriberRequest) (*SendResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendTextToSubscriber not implemented")
+}
+func (UnimplementedSmsServiceServer) SendTextToSubscriberAsOperator(context.Context, *SendTextAsOperatorRequest) (*SendResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendTextToSubscriberAsOperator not implemented")
+}
+func (UnimplementedSmsServiceServer) SendTextToSubscriberAsProduct(context.Context, *SendTextAsProductRequest) (*SendResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendTextToSubscriberAsProduct not implemented")
 }
 
 // UnsafeSmsServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -90,24 +121,6 @@ type UnsafeSmsServiceServer interface {
 
 func RegisterSmsServiceServer(s grpc.ServiceRegistrar, srv SmsServiceServer) {
 	s.RegisterService(&SmsService_ServiceDesc, srv)
-}
-
-func _SmsService_SendTextToSubscriber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SendTextToSubscriberRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SmsServiceServer).SendTextToSubscriber(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/wgtwo.sms.v0.SmsService/SendTextToSubscriber",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SmsServiceServer).SendTextToSubscriber(ctx, req.(*SendTextToSubscriberRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _SmsService_SendTextFromSubscriber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -146,6 +159,60 @@ func _SmsService_SendBinaryToSubscriber_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SmsService_SendTextToSubscriber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendTextToSubscriberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SmsServiceServer).SendTextToSubscriber(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/wgtwo.sms.v0.SmsService/SendTextToSubscriber",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SmsServiceServer).SendTextToSubscriber(ctx, req.(*SendTextToSubscriberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SmsService_SendTextToSubscriberAsOperator_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendTextAsOperatorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SmsServiceServer).SendTextToSubscriberAsOperator(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/wgtwo.sms.v0.SmsService/SendTextToSubscriberAsOperator",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SmsServiceServer).SendTextToSubscriberAsOperator(ctx, req.(*SendTextAsOperatorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SmsService_SendTextToSubscriberAsProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendTextAsProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SmsServiceServer).SendTextToSubscriberAsProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/wgtwo.sms.v0.SmsService/SendTextToSubscriberAsProduct",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SmsServiceServer).SendTextToSubscriberAsProduct(ctx, req.(*SendTextAsProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SmsService_ServiceDesc is the grpc.ServiceDesc for SmsService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -154,16 +221,24 @@ var SmsService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*SmsServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SendTextToSubscriber",
-			Handler:    _SmsService_SendTextToSubscriber_Handler,
-		},
-		{
 			MethodName: "SendTextFromSubscriber",
 			Handler:    _SmsService_SendTextFromSubscriber_Handler,
 		},
 		{
 			MethodName: "SendBinaryToSubscriber",
 			Handler:    _SmsService_SendBinaryToSubscriber_Handler,
+		},
+		{
+			MethodName: "SendTextToSubscriber",
+			Handler:    _SmsService_SendTextToSubscriber_Handler,
+		},
+		{
+			MethodName: "SendTextToSubscriberAsOperator",
+			Handler:    _SmsService_SendTextToSubscriberAsOperator_Handler,
+		},
+		{
+			MethodName: "SendTextToSubscriberAsProduct",
+			Handler:    _SmsService_SendTextToSubscriberAsProduct_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
