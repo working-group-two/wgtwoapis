@@ -21,6 +21,7 @@
         <module>calling/v0</module>
         <module>callforward/v0</module>
         <module>common/v0</module>
+        <module>data/v0</module>
         <module>events/v0</module>
         <module>mms/v0</module>
         <module>sms/v0</module>

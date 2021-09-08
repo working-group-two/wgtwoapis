@@ -8,8 +8,8 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <name>${project.groupId} calling</name>
-    <artifactId>calling-grpc</artifactId>
+    <name>${project.groupId} data</name>
+    <artifactId>data-grpc</artifactId>
     <groupId>com.wgtwo.api.grpc</groupId>
     <version>${wgtwo.v0.latest}</version>
     <packaging>jar</packaging>
@@ -38,7 +38,7 @@
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <configuration>
                     <includes>
-                        <include>wgtwo/calling/v0/*.proto</include>
+                        <include>wgtwo/data/v0/*.proto</include>
                         <include>wgtwo/common/v0/*.proto</include>
                     </includes>
                 </configuration>
