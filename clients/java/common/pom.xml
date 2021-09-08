@@ -12,7 +12,11 @@
     <name>${groupId} Common</name>
     <artifactId>common</artifactId>
     <packaging>jar</packaging>
+    <version>${wgtwo.v0.latest}</version>
 
+    <properties>
+        <maven.deploy.skip>false</maven.deploy.skip>
+    </properties>
 
     <build>
         <plugins>
