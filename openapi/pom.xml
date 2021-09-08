@@ -12,6 +12,7 @@
     <name>${groupId} REST</name>
     <artifactId>rest</artifactId>
     <groupId>com.wgtwo.api.rest</groupId>
+    <version>${wgtwo.v0.latest}</version>
     <packaging>jar</packaging>
 
     <properties>
