@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.wgtwo.api</groupId>
-        <artifactId>pom</artifactId>
+        <artifactId>wgtwo-apis</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../../../../pom.xml</relativePath>
     </parent>
@@ -13,6 +13,17 @@
     <artifactId>utils-grpc</artifactId>
     <groupId>com.wgtwo.api.grpc</groupId>
     <packaging>jar</packaging>
+
+    <distributionManagement>
+      <repository>
+        <id>ossrh</id>
+        <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      </repository>
+      <snapshotRepository>
+        <id>ossrh</id>
+        <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+      </snapshotRepository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
