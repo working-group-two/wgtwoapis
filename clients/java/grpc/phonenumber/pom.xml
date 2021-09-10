@@ -10,8 +10,8 @@
     </parent>
 
     <name>${groupId} Phone number utils</name>
-    <artifactId>phonenumber-utils</artifactId>
-    <groupId>com.wgtwo.api.grpc</groupId>
+    <artifactId>phonenumbers</artifactId>
+    <groupId>com.wgtwo.api.grpc.utils</groupId>
     <version>${wgtwo.v0.latest}</version>
     <packaging>jar</packaging>
 
@@ -22,7 +22,7 @@
     <dependencies>
         <dependency>
             <groupId>com.wgtwo.api.grpc</groupId>
-            <artifactId>common-grpc</artifactId>
+            <artifactId>common</artifactId>
             <version>${wgtwo.v0.latest}</version>
         </dependency>
         <dependency>

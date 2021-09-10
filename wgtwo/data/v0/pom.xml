@@ -9,7 +9,7 @@
     </parent>
 
     <name>${project.groupId} data</name>
-    <artifactId>data-grpc</artifactId>
+    <artifactId>data</artifactId>
     <groupId>com.wgtwo.api.grpc</groupId>
     <version>${wgtwo.v0.latest}</version>
     <packaging>jar</packaging>
@@ -21,7 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>com.wgtwo.api.grpc</groupId>
-            <artifactId>common-grpc</artifactId>
+            <artifactId>common</artifactId>
             <version>${wgtwo.v0.latest}</version>
         </dependency>
     </dependencies>

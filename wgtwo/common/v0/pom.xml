@@ -10,7 +10,7 @@
     </parent>
 
     <name>${project.groupId} common</name>
-    <artifactId>common-grpc</artifactId>
+    <artifactId>common</artifactId>
     <groupId>com.wgtwo.api.grpc</groupId>
     <version>${wgtwo.v0.latest}</version>
     <packaging>jar</packaging>

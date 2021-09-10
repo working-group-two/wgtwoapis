@@ -10,7 +10,7 @@
     </parent>
 
     <name>${project.groupId} callforward</name>
-    <artifactId>callforward-grpc</artifactId>
+    <artifactId>callforward</artifactId>
     <groupId>com.wgtwo.api.grpc</groupId>
     <version>${wgtwo.v0.latest}</version>
     <packaging>jar</packaging>
