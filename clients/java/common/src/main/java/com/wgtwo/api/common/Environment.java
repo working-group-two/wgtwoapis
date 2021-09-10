@@ -1,9 +1,8 @@
 package com.wgtwo.api.common;
 
 public enum Environment {
-    DEV("apigateway.dub.dev.wgtwo.com"),
-    SANDBOX("apisandbox.dub.prod.wgtwo.com"),
-    PROD("api.wgtwo.com");
+    SANDBOX("sandbox.api.wgtwo.com"),
+    PRODUCTION("api.wgtwo.com");
 
     public final String host;
 
