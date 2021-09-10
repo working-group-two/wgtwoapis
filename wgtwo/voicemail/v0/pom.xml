@@ -10,7 +10,7 @@
     </parent>
 
     <name>${project.groupId} voicemail</name>
-    <artifactId>voicemail-grpc</artifactId>
+    <artifactId>voicemail</artifactId>
     <groupId>com.wgtwo.api.grpc</groupId>
     <version>${wgtwo.v0.latest}</version>
     <packaging>jar</packaging>

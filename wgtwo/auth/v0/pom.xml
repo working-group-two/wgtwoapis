@@ -9,7 +9,7 @@
     </parent>
 
     <name>${project.groupId} auth</name>
-    <artifactId>auth-grpc</artifactId>
+    <artifactId>auth</artifactId>
     <groupId>com.wgtwo.api.grpc</groupId>
     <version>${wgtwo.v0.latest}</version>
     <packaging>jar</packaging>

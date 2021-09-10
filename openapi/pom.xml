@@ -9,9 +9,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <name>${groupId} REST</name>
+    <name>${groupId}.${artifactId}</name>
     <artifactId>rest</artifactId>
-    <groupId>com.wgtwo.api.rest</groupId>
+    <groupId>com.wgtwo.api</groupId>
     <version>${wgtwo.v0.latest}</version>
     <packaging>jar</packaging>
 
