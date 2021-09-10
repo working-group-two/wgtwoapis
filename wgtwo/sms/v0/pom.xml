@@ -14,6 +14,10 @@
     <version>${wgtwo.v0.latest}</version>
     <packaging>jar</packaging>
 
+    <properties>
+        <maven.deploy.skip>false</maven.deploy.skip>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.wgtwo.api.grpc</groupId>
