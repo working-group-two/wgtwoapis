@@ -12,6 +12,7 @@
     <name>${groupId} Phone number utils</name>
     <artifactId>phonenumber-utils</artifactId>
     <groupId>com.wgtwo.api.grpc</groupId>
+    <version>${wgtwo.v0.latest}</version>
     <packaging>jar</packaging>
 
     <dependencies>
