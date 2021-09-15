@@ -23,14 +23,19 @@ package wgtwo.voicemail.v0;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/descriptor.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/voicemail/v0";
-
 option java_package = "com.wgtwo.api.voicemail.v0";
 option java_outer_classname = "VoicemailProto";
 
+extend google.protobuf.MethodOptions {
+  string scope = 1000;
+}
+
 service VoicemailMediaService {
+
   /**
    * Receive metadata for each voicemail available for a given MSISDN.
    * The metadata contains information about the corresponding voicemail including its ID,
@@ -40,7 +45,9 @@ service VoicemailMediaService {
    * - INVALID ARGUMENT: Invalid MSISDN
    * - INTERNAL: DB error
    */
-  rpc GetAllVoicemailMetadata (GetAllVoicemailMetadataRequest) returns (GetAllVoicemailMetadataResponse) {}
+  rpc GetAllVoicemailMetadata (GetAllVoicemailMetadataRequest) returns (GetAllVoicemailMetadataResponse) {
+    option (scope) = "voicemail.get";
+  }
 
   /**
    * Receive voicemail media file corresponding to the given voicemail ID.
@@ -53,7 +60,9 @@ service VoicemailMediaService {
    * - INTERNAL: Voicemail file is too big to be returned
    * - INTERNAL: DB error
    */
-  rpc GetVoicemail (GetVoicemailRequest) returns (GetVoicemailResponse) {}
+  rpc GetVoicemail (GetVoicemailRequest) returns (GetVoicemailResponse) {
+    option (scope) = "voicemail.get";
+  }
 
   /**
    * Mark as read the voicemail corresponding to the given voicemail ID.
@@ -66,7 +75,9 @@ service VoicemailMediaService {
    * Server-side errors:
    * - INTERNAL: DB error
    */
-  rpc MarkVoicemailAsRead (MarkVoicemailAsReadRequest) returns (MarkVoicemailAsReadResponse) {}
+  rpc MarkVoicemailAsRead (MarkVoicemailAsReadRequest) returns (MarkVoicemailAsReadResponse) {
+    option (scope) = "voicemail.update";
+  }
 
   /**
    * Delete the voicemail corresponding to the given voicemail ID.
@@ -79,7 +90,9 @@ service VoicemailMediaService {
    * Server-side errors:
    * - INTERNAL: DB error
    */
-  rpc DeleteVoicemail (DeleteVoicemailRequest) returns (DeleteVoicemailResponse) {}
+  rpc DeleteVoicemail (DeleteVoicemailRequest) returns (DeleteVoicemailResponse) {
+    option (scope) = "voicemail.delete";
+  }
 
   /**
  * Resets the voicemail greeting of the given subscriber (MSISDN).
@@ -91,7 +104,9 @@ service VoicemailMediaService {
  * Server-side errors:
  * - INTERNAL: DB error
  */
-  rpc ResetVoicemailGreeting (ResetVoicemailGreetingRequest) returns (ResetVoicemailGreetingResponse) {}
+  rpc ResetVoicemailGreeting (ResetVoicemailGreetingRequest) returns (ResetVoicemailGreetingResponse) {
+    option (scope) = "voicemail.update";
+  }
 }
 
 message VoicemailMetadata {

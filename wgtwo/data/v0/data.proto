@@ -17,17 +17,27 @@ syntax = "proto3";
 
 package wgtwo.data.v0;
 
+import "google/protobuf/descriptor.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/data/v0";
-
 option java_package = "com.wgtwo.api.data.v0";
 option java_outer_classname = "DataProto";
 
+extend google.protobuf.MethodOptions {
+  string scope = 1000;
+}
+
 service DataService {
-  rpc SetCustomDns (SetCustomDnsRequest) returns (CustomDnsResponse) {}
-  rpc ClearCustomDns (ClearCustomDnsRequest) returns (CustomDnsResponse) {}
-  rpc GetCustomDns (GetCustomDnsRequest) returns (GetCustomDnsResponse) {}
+  rpc SetCustomDns (SetCustomDnsRequest) returns (CustomDnsResponse) {
+    option (scope) = "data.set.dns";
+  }
+  rpc ClearCustomDns (ClearCustomDnsRequest) returns (CustomDnsResponse) {
+    option (scope) = "data.set.dns";
+  }
+  rpc GetCustomDns (GetCustomDnsRequest) returns (GetCustomDnsResponse) {
+    option (scope) = "data.set.dns";
+  }
 }
 
 message SetCustomDnsRequest {

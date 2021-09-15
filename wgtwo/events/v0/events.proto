@@ -18,19 +18,26 @@ syntax = "proto3";
 package wgtwo.events.v0;
 
 import "google/protobuf/empty.proto";
+import "google/protobuf/descriptor.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "wgtwo/common/v0/phonenumber.proto";
-import "wgtwo/auth/v0/operatortokens.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/events/v0";
-
 option java_package = "com.wgtwo.api.events.v0";
 option java_outer_classname = "EventsProto";
 
+extend google.protobuf.MethodOptions {
+  string scope = 1000;
+}
+
 service EventsService {
-  rpc Subscribe (SubscribeEventsRequest) returns (stream SubscribeEventsResponse) {}
-  rpc Ack (AckRequest) returns (AckResponse) {}
+  rpc Subscribe (SubscribeEventsRequest) returns (stream SubscribeEventsResponse) {
+    option (scope) = "";
+  }
+  rpc Ack (AckRequest) returns (AckResponse) {
+    option (scope) = "";
+  }
 }
 
 enum EventType {
@@ -183,6 +190,12 @@ message RoamingEvent {
 }
 
 message TokenAuditEvent {
+  message OperatorTokenMetadata {
+    string client_id = 1;
+    string name = 2;
+    repeated string rights = 3;
+  }
+
   enum Operation {
     UNDEFINED = 0;
     CREATED = 1;
@@ -190,8 +203,8 @@ message TokenAuditEvent {
     DELETED = 3;
   }
   message OperatorTokenChanged {
-    wgtwo.auth.v0.OperatorTokenMetadata new = 1;
-    wgtwo.auth.v0.OperatorTokenMetadata old = 2;
+    OperatorTokenMetadata new = 1;
+    OperatorTokenMetadata old = 2;
   }
 
   Operation operation = 1;

@@ -17,7 +17,6 @@
     <name>${project.groupId} gRPC parent</name>
 
     <modules>
-        <module>auth/v0</module>
         <module>calling/v0</module>
         <module>callforward/v0</module>
         <module>common/v0</module>

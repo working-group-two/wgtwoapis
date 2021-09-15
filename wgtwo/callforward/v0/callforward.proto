@@ -17,19 +17,31 @@ syntax = "proto3";
 
 package wgtwo.callforward.v0;
 
-import "wgtwo/common/v0/phonenumber.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/descriptor.proto";
+import "wgtwo/common/v0/phonenumber.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/callforward/v0";
-
 option java_package = "com.wgtwo.api.callforward.v0";
 option java_outer_classname = "CallForwardingProto";
 
+extend google.protobuf.MethodOptions {
+  string scope = 1000;
+}
+
 service CallForwardingService {
-  rpc Disable (DisableCallForwardingRequest) returns (CallForwardingResponse) {}
-  rpc SetToNumber (NumberCallForwardingRequest) returns (CallForwardingResponse) {}
-  rpc SetToTrunk (TrunkCallForwardingRequest) returns (CallForwardingResponse) {}
-  rpc SetToVoicemail (VoicemailCallForwardingRequest) returns (CallForwardingResponse) {}
+  rpc Disable (DisableCallForwardingRequest) returns (CallForwardingResponse) {
+    option (scope) = "callforwarding.disable";
+  }
+  rpc SetToNumber (NumberCallForwardingRequest) returns (CallForwardingResponse) {
+  option (scope) = "callforwarding.to_number";
+  }
+  rpc SetToTrunk (TrunkCallForwardingRequest) returns (CallForwardingResponse) {
+  option (scope) = "callforwarding.to_number";
+  }
+  rpc SetToVoicemail (VoicemailCallForwardingRequest) returns (CallForwardingResponse) {
+    option (scope) = "callforwarding.to_voicemail";
+  }
 }
 
 message DisableCallForwardingRequest {

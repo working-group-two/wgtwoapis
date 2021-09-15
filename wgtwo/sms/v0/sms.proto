@@ -17,6 +17,7 @@ syntax = "proto3";
 
 package wgtwo.sms.v0;
 
+import "google/protobuf/descriptor.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sms/v0";
@@ -24,14 +25,27 @@ option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sms/v0";
 option java_package = "com.wgtwo.api.sms.v0";
 option java_outer_classname = "SmsProto";
 
+extend google.protobuf.MethodOptions {
+  string scope = 1000;
+}
+
 service SmsService {
-  rpc SendTextFromSubscriber (SendTextFromSubscriberRequest) returns (SendResponse) {}
-  rpc SendBinaryToSubscriber (SendBinaryToSubscriberRequest) returns (SendResponse) {}
+  rpc SendTextFromSubscriber (SendTextFromSubscriberRequest) returns (SendResponse) {
+    option (scope) = "sms.send.from_subscriber";
+  }
+  rpc SendBinaryToSubscriber (SendBinaryToSubscriberRequest) returns (SendResponse) {
+    option (scope) = "sms.send.to_subscriber";
+  }
   rpc SendTextToSubscriber (SendTextToSubscriberRequest) returns (SendResponse) {
     option deprecated = true; // use one of the two below
+    option (scope) = "sms.send.to_subscriber";
   }
-  rpc SendTextToSubscriberAsOperator (SendTextAsOperatorRequest) returns (SendResponse) {}
-  rpc SendTextToSubscriberAsProduct (SendTextAsProductRequest) returns (SendResponse) {}
+  rpc SendTextToSubscriberAsOperator (SendTextAsOperatorRequest) returns (SendResponse) {
+    option (scope) = "sms.send.to_subscriber_as_operator";
+  }
+  rpc SendTextToSubscriberAsProduct (SendTextAsProductRequest) returns (SendResponse) {
+    option (scope) = "sms.send.to_subscriber_as_product";
+  }
 }
 
 message SendTextAsOperatorRequest {
