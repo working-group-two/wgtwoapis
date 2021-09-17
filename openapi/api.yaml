@@ -392,7 +392,6 @@ components:
             name:
               type: string
               enum:
-                - API_ACCESS_TO_OWN_SUBSCRIPTION
                 - DATA
                 - DATA_HIGHSPEED
                 - DATA_TETHERING
