@@ -396,9 +396,6 @@ components:
                 - DATA
                 - DATA_HIGHSPEED
                 - DATA_TETHERING
-                - DATA_CUSTOM_DNS
-                - EVENT_STREAMING
-                - EXTERNAL_POLICY_CONTROL
                 - MMS_IN
                 - MMS_OUT
                 - ROAMING
@@ -414,7 +411,6 @@ components:
                 - VOICE_OUT
                 - VOICE_OUT_INTER
                 - VOICE_PREMIUM
-                - VOICE_TWILIO_ALIAS
                 - VOICE_VOICEMAIL
                 - VOICE_VOLTE
                 - VOICE_VOWIFI
