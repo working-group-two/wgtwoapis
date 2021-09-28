@@ -8,23 +8,15 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <name>${project.groupId} mms</name>
-    <artifactId>mms</artifactId>
+    <name>${project.groupId} subscription</name>
+    <artifactId>subscription</artifactId>
     <groupId>com.wgtwo.api.grpc</groupId>
-    <version>${wgtwo.v0.latest}</version>
+    <version>${wgtwo.v1.latest}</version>
     <packaging>jar</packaging>
 
     <properties>
         <maven.deploy.skip>false</maven.deploy.skip>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.wgtwo.api.grpc</groupId>
-            <artifactId>common</artifactId>
-            <version>${wgtwo.v0.latest}</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <extensions>
@@ -44,8 +36,9 @@
                 <configuration>
                     <includes>
                         <include>wgtwo/annotations.proto</include>
-                        <include>wgtwo/common/v0/*.proto</include>
-                        <include>wgtwo/mms/v0/*.proto</include>
+                        <include>wgtwo/common/v1/*.proto</include>
+                        <include>wgtwo/events/v1/*.proto</include>
+                        <include>wgtwo/subscription/v1/*.proto</include>
                     </includes>
                 </configuration>
             </plugin>

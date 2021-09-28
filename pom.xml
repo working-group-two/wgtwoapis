@@ -18,6 +18,7 @@
         <maven.deploy.skip>true</maven.deploy.skip>
 
         <wgtwo.v0.latest>0.0.1</wgtwo.v0.latest>
+        <wgtwo.v1.latest>1.0.0</wgtwo.v1.latest>
     </properties>
 
     <modules>

@@ -4,7 +4,7 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
-import com.wgtwo.api.common.v0.PhoneNumberProto;
+import com.wgtwo.api.common.PhoneNumberProto;
 
 public final class PhoneNumbers {
     private static final PhoneNumberUtil util = PhoneNumberUtil.getInstance();

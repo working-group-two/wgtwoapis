@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.wgtwo.api</groupId>
@@ -8,8 +9,8 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <name>${project.groupId} mms</name>
-    <artifactId>mms</artifactId>
+    <name>${project.groupId} wtp</name>
+    <artifactId>wtp</artifactId>
     <groupId>com.wgtwo.api.grpc</groupId>
     <version>${wgtwo.v0.latest}</version>
     <packaging>jar</packaging>
@@ -17,14 +18,6 @@
     <properties>
         <maven.deploy.skip>false</maven.deploy.skip>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.wgtwo.api.grpc</groupId>
-            <artifactId>common</artifactId>
-            <version>${wgtwo.v0.latest}</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <extensions>
@@ -45,7 +38,7 @@
                     <includes>
                         <include>wgtwo/annotations.proto</include>
                         <include>wgtwo/common/v0/*.proto</include>
-                        <include>wgtwo/mms/v0/*.proto</include>
+                        <include>wgtwo/wtp/v0/*.proto</include>
                     </includes>
                 </configuration>
             </plugin>
