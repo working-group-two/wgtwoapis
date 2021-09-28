@@ -19,7 +19,7 @@ package wgtwo.common.v0;
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/common/v0";
 
-option java_package = "com.wgtwo.api.common.v0";
+option java_package = "com.wgtwo.api.common";
 option java_outer_classname = "PhoneNumberProto";
 
 message PhoneNumber {

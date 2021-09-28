@@ -17,17 +17,13 @@ syntax = "proto3";
 
 package wgtwo.sms.v0;
 
-import "google/protobuf/descriptor.proto";
+import "wgtwo/annotations.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sms/v0";
 
-option java_package = "com.wgtwo.api.sms.v0";
+option java_package = "com.wgtwo.api.sms";
 option java_outer_classname = "SmsProto";
-
-extend google.protobuf.MethodOptions {
-  string scope = 1000;
-}
 
 service SmsService {
   rpc SendTextFromSubscriber (SendTextFromSubscriberRequest) returns (SendResponse) {

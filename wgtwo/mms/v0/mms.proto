@@ -17,16 +17,12 @@ syntax = "proto3";
 
 package wgtwo.mms.v0;
 
-import "google/protobuf/descriptor.proto";
+import "wgtwo/annotations.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/mms/v0";
-option java_package = "com.wgtwo.api.mms.v0";
+option java_package = "com.wgtwo.api.mms";
 option java_outer_classname = "MmsProto";
-
-extend google.protobuf.MethodOptions {
-  string scope = 1000;
-}
 
 service MmsService {
   rpc SendMessageToSubscriber (SendMessageToSubscriberRequest) returns (SendResponse) {

@@ -2,17 +2,13 @@ syntax = "proto3";
 
 package wgtwo.wtp.v0;
 
-import "google/protobuf/descriptor.proto";
+import "wgtwo/annotations.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
 option java_outer_classname = "WTPOuter";
 option java_multiple_files = true;
-option java_package = "com.wgtwo.api.wtp.v0";
+option java_package = "com.wgtwo.api.wtp";
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/wtp/v0";
-
-extend google.protobuf.MethodOptions {
-  string scope = 1000;
-}
 
 service WtpGw {
   rpc pipe(stream Wtp) returns (stream Wtp) {
