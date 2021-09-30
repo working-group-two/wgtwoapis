@@ -33,27 +33,36 @@ message Wtp {
 message Offer {
   string sdp = 1;
   wgtwo.common.v0.PhoneNumber msisdn = 2;
+  string call_id = 3;
 }
 
 message Answer {
   string sdp = 1;
+  string call_id = 2;
 }
 
-message Ringing {}
+message Ringing {
+  string call_id = 1;
+}
 
-message Bye {}
+message Bye {
+  string call_id = 1;
+}
 
 message Ice {
   repeated string candidates = 1;
   int32 mLineIndex = 2;
   string mid = 3;
+  string call_id = 4;
 }
 
-message Idle {}
+message Idle {
+  string call_id = 1;
+}
 
 message InCall {
   wgtwo.common.v0.PhoneNumber msisdn = 1;
-
+  string call_id = 2;
 }
 
 message Error {
@@ -63,6 +72,7 @@ message Error {
     NOT_INCALL = 1;
     TRY_AGAIN = 2;
   }
+  string call_id = 2;
 }
 
 message ToPhone {
@@ -72,4 +82,5 @@ message Action {
   oneof message {
       ToPhone toPhone = 1;
   }
+  string call_id = 2;
 }
