@@ -41,8 +41,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Subscription'
-        '405':
-          description: Invalid input
+        '404':
+          description: Subscription not found
           content: {}
 
   /provision/v1/activate:
@@ -82,6 +82,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription or sim not found
+          content: {}
 
   /provision/v1/block:
     post:
@@ -116,6 +122,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription not found
+          content: {}
 
   /provision/v1/changesim:
     post:
@@ -158,6 +170,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription not found
+          content: {}
 
   /provision/v1/disengagesim:
     post:
@@ -196,6 +214,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription not found
+          content: {}
 
   /provision/v1/changemsisdn:
     post:
@@ -235,6 +259,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription not found
+          content: {}
 
   /provision/v1/terminate:
     post:
@@ -269,6 +299,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription not found
+          content: {}
 
   /provision/v1/unblock:
     post:
@@ -303,6 +339,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription not found
+          content: {}
 
   /provision/v1/update:
     post:
@@ -333,15 +375,19 @@ paths:
                   msisdn: 4799990000
                   userid: my-user-id
       responses:
-        '200':
+        '201':
           description: successful operation
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
-        '405':
+        '400':
           description: Invalid input
           content: {}
+        '404':
+          description: Subscription not found
+          content: {}
+
   /provision/v1/refreshprofile:
     post:
       tags:
@@ -371,6 +417,426 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription not found
+          content: {}
+
+  /subscription/v2/msisdn/{msisdn}:
+    get:
+      tags:
+        - Subscription Profile v2 (Under development)
+      parameters:
+        - name: msisdn
+          in: path
+          description: Phone number formatted as e.164 without + prefix
+          required: true
+          schema:
+            type: string
+            example: 4799990000
+      summary: Get information about subscription
+      operationId: getSubscription.v2
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscriptionv2'
+        '404':
+          description: Subscription not found
+          content: {}
+
+  /provision/v2/activate:
+    post:
+      tags:
+        - Subscription Profile v2 (Under development)
+      summary: New user signs up
+      operationId: activate.sim.v2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - iccid
+                - msisdn
+                - roamingprofile
+                - apnprofile
+              properties:
+                userid:
+                  type: string
+                  description: This is an optional field from v2
+                iccid:
+                  type: string
+                msisdn:
+                  type: string
+                roamingprofile:
+                  type: string
+                apnprofile:
+                  type: string
+                services:
+                  type: object
+                  properties:
+                    add:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/ServiceObject'
+            example:
+              iccid: "2420198416000015720"
+              msisdn: "46737678218"
+              roamingprofile: "roamingprofile1"
+              apnprofile: "apnprofile1"
+              services:
+                add:
+                  - servicename: "SMS_OUT_INT_HOME"
+                  - servicename: "VOICE_PREMIUM_INFO"
+                  - servicename: "VOICE_CALLWAITING"
+                    config:
+                      active: false
+                  - servicename: "VOICE_CALLER_ID_PRESENTATION"
+                    config:
+                      active: true
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription or sim not found
+          content: {}
+
+  /provision/v2/update:
+    put:
+      tags:
+        - Subscription Profile v2 (Under development)
+      summary: Update subscription
+      operationId: updateSubscription.v2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSubscriptionRequestV2'
+            example:
+              msisdn: "46737678218"
+              roamingprofile: "roamingprofile1"
+              apnprofile: "apnprofile1"
+              services:
+                add:
+                  - servicename: "SMS_IN_HOME"
+                  - servicename: "SMS_IN_ROAM"
+                  - servicename: "SMS_OUT_HOME"
+                  - servicename: "SMS_OUT_ROAM"
+                  - servicename: "SMS_OUT_INT_HOME"
+                  - servicename: "SMS_OUT_INT_ROAM"
+                  - servicename: "VOICE_PREMIUM_INFO"
+                remove:
+                  - servicename: "VOICE_VOLTE"
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription not found
+          content: {}
+
+  /provision/v2/block:
+    post:
+      tags:
+        - Subscription Profile v2 (Under development)
+      summary: Block Subscription
+      operationId: block.sim.v2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userid:
+                  type: string
+                  description: This is an optional field from v2
+                iccid:
+                  type: string
+                  description: One of msisdn, iccid, imsi is required
+                msisdn:
+                  type: string
+                  description: One of msisdn, iccid, imsi is required
+                imsi:
+                  type: string
+                  description: One of msisdn, iccid, imsi is required
+            example:
+              msisdn: "46737678218"
+              userid: "abcdefghijklm"
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription not found
+          content: {}
+
+  /provision/v2/changesim:
+    post:
+      tags:
+        - Subscription Profile v2 (Under development)
+      summary: Change SIM
+      operationId: change.sim.v2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - msisdn
+              properties:
+                userid:
+                  type: string
+                  description: This is an optional field from v2
+                newIccid:
+                  type: string
+                oldIccid:
+                  type: string
+                msisdn:
+                  type: string
+            example:
+              oldIccid: "2420198416000015720"
+              newIccid: "2420198412148748973"
+              msisdn: "46737678218"
+              userid: "abcdefghijklm"
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription not found
+          content: {}
+
+  /provision/v2/disengagesim:
+    post:
+      tags:
+        - Subscription Profile v2 (Under development)
+      summary: Disengage SIM
+      operationId: disengage.sim.v2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - msisdn
+              properties:
+                userid:
+                  type: string
+                  description: This is an optional field from v2
+                iccid:
+                  type: string
+                msisdn:
+                  type: string
+            example:
+              iccid: "2420198416000015720"
+              msisdn: "46737678218"
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription not found
+          content: {}
+
+  /provision/v2/changemsisdn:
+    post:
+      tags:
+        - Subscription Profile v2 (Under development)
+      summary: Change MSISDN
+      operationId: change.msisdn.v2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - msisdn
+                - newMsisdn
+              properties:
+                userid:
+                  type: string
+                  description: This is an optional field from v2
+                msisdn:
+                  type: string
+                newMsisdn:
+                  type: string
+                iccid:
+                  type: string
+            example:
+              iccid: "2420198416000015720"
+              msisdn: "46737678218"
+              newMsisdn: "46737678200"
+
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription not found
+          content: {}
+
+  /provision/v2/terminate:
+    post:
+      tags:
+        - Subscription Profile v2 (Under development)
+      summary: Terminate
+      operationId: terminate.v2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userid:
+                  type: string
+                  description: This is an optional field from v2
+                msisdn:
+                  type: string
+                  description: One of msisdn, iccid, imsi is required
+                iccid:
+                  type: string
+                  description: One of msisdn, iccid, imsi is required
+                imsi:
+                  type: string
+                  description: One of msisdn, iccid, imsi is required
+            example:
+              msisdn: "46737678218"
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription not found
+          content: {}
+
+  /provision/v2/unblock:
+    post:
+      tags:
+        - Subscription Profile v2 (Under development)
+      summary: Unblock SIM
+      operationId: unblock.sim.v2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userid:
+                  type: string
+                  description: This is an optional field from v2
+                msisdn:
+                  type: string
+                  description: One of msisdn, iccid, imsi is required
+                iccid:
+                  type: string
+                  description: One of msisdn, iccid, imsi is required
+                imsi:
+                  type: string
+                  description: One of msisdn, iccid, imsi is required
+            example:
+              msisdn: "46737678218"
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription not found
+          content: {}
+
+
+  /provision/v2/cancelocation:
+    post:
+      tags:
+        - Subscription Profile v2 (Under development)
+      summary: Cancel location
+      operationId: cancel.location
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bssid:
+                  type: string
+                msisdn:
+                  type: string
+                  description: One of msisdn, iccid, imsi is required
+                iccid:
+                  type: string
+                  description: One of msisdn, iccid, imsi is required
+                imsi:
+                  type: string
+                  description: One of msisdn, iccid, imsi is required
+            example:
+              imsi: "24206123456789"
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSubscriptionResponse'
+        '400':
+          description: Invalid input
+          content: {}
+        '404':
+          description: Subscription not found
+          content: {}
+
 components:
   schemas:
     UpdateSubscriptionRequest:
@@ -488,6 +954,144 @@ components:
           type: string
         iccid:
           type: string
+    Subscriptionv2:
+      type: object
+      properties:
+        id:
+          type: integer
+        msisdn:
+          type: string
+          example: '4799990000'
+        active:
+          type: boolean
+          example: true
+        userId:
+          type: string
+        bss:
+          type: string
+        simcards:
+          type: array
+          items:
+            type: object
+            properties:
+              imsis:
+                type: array
+                items:
+                  type: string
+                  example:
+                    - (...)001
+                    - (...)002
+              iccid:
+                type: string
+              bss:
+                type: string
+              created:
+                type: string
+                format: date-time
+              lastModified:
+                type: string
+                format: date-time
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceObject'
+        roamingprofile:
+          type: string
+        apnprofile:
+          type: string
+        created:
+          type: string
+          format: date-time
+        lastModified:
+          type: string
+          format: date-time
+    ServiceObject:
+      type: object
+      required:
+        - servicename
+      properties:
+        servicename:
+          $ref: '#/components/schemas/ServiceNamesV2'
+        config:
+          type: object
+          required:
+            - active
+          properties:
+            active:
+              type: boolean
+              description: Use this field to set the provisioned state of a supplementary service.
+    UpdateSubscriptionRequestV2:
+      type: object
+      required:
+        - msisdn
+      properties:
+        msisdn:
+          type: string
+          example: '4799990000'
+        userid:
+          type: string
+        roamingprofile:
+          type: string
+        apnprofile:
+          type: string
+        services:
+          type: object
+          properties:
+            add:
+              type: array
+              items:
+                $ref: '#/components/schemas/ServiceObject'
+            delete:
+              type: array
+              items:
+                type: object
+                properties:
+                  servicename:
+                    $ref: '#/components/schemas/ServiceNamesV2'
+    ServiceNamesV2:
+      type: string
+      enum:
+        - DATA_3G_HOME
+        - DATA_3G_ROAM
+        - DATA_4G_HOME
+        - DATA_4G_ROAM
+        - DATA_5G_HOME
+        - DATA_5G_ROAM
+        - DATA_HIGHSPEED
+        - DATA_TETHERING
+        - MMS_IN_HOME
+        - MMS_IN_ROAM
+        - MMS_OUT_HOME
+        - MMS_OUT_ROAM
+        - MMS_OUT_INTER_HOME
+        - MMS_OUT_INTER_ROAM
+        - SMS_IN_HOME
+        - SMS_IN_ROAM
+        - SMS_OUT_HOME
+        - SMS_OUT_ROAM
+        - SMS_OUT_INTER_HOME
+        - SMS_OUT_INTER_ROAM
+        - SMS_PREMIUM
+        - USER_CS_BLOCK_OUT
+        - USER_CS_BLOCK_IN
+        - USER_CS_BLOCK_OUT_INTER
+        - USER_CS_BLOCK_OUT_INTER_EXC_HOME
+        - VOICE_CALLFORWARD
+        - VOICE_CALLWAITING
+        - VOICE_CALLER_ID_PRESENTATION
+        - VOICE_CALLER_ID_RESTRICTION
+        - VOICE_CONFERENCE
+        - VOICE_IN_HOME
+        - VOICE_IN_ROAM
+        - VOICE_OUT_HOME
+        - VOICE_OUT_ROAM
+        - VOICE_OUT_INTER_HOME
+        - VOICE_OUT_INTER_ROAM
+        - VOICE_PREMIUM_INFO
+        - VOICE_PREMIUM_ENTERTAINMENT
+        - VOICE_VOLTE
+        - VOICE_VOWIFI
+        - VOICEMAIL_DISABLE_NOTIFICATION
   securitySchemes:
     OAuth2:
       type: oauth2
