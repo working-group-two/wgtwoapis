@@ -1,0 +1,120 @@
+// Copyright 2020 Working Group Two AS
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+syntax = "proto3";
+
+package wgtwo.sipbreakout.v0;
+
+import "wgtwo/annotations.proto";
+
+option java_outer_classname = "SipBreakoutProto";
+option java_multiple_files = true;
+option java_package = "com.wgtwo.api.sipbreakout";
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sipbreakout/v0";
+
+// Service to manage virtual SIP Registrations in WG2 Core
+
+service SipBreakoutService {
+  rpc UpsertRegistration (RegistrationRequest) returns (RegistrationResponse) {
+    option (scope) = "call.control.answer_and_initiate";
+  };
+  rpc DeleteRegistration (RegistrationRequest) returns (RegistrationResponse) {
+    option (scope) = "call.control.answer_and_initiate";
+  };
+}
+
+// Virtual SIP Registration makes WG2 Core to involve third party Telephony Application Server (TAS)
+// in to the call processing
+// WG2 Session Boarder Controller(SBC) will forward SIP signalling to the TAS based on presence of the
+// SIP Registration and its type. The type can be one of "looping" or "forking".
+//
+//
+//       ┌──────┐                             ┌────────┐
+//       │ Alice├───1────────┐                │  Alice ├────1──────────┐
+//       └──────┘         ┌──▼──┐             └────────┘               │
+//                    ┌───┤ WG2 │                                    ┌─▼──┐
+//                    │   └▲───┬┘                                    │WG2 │
+//                    │    │   │                                     └─┬─┬┘
+//                    4    3   2                                       │ │
+//                    │    │   │                                       │ 2
+//                    │    │   │                  ┌──────────3─────────┘ │
+//                    │    ├───▼┐                 │                      │
+//                    │    │TAS │              ┌──▼──┐                ┌──▼─┐
+//                    │    └────┘              │ Bob │                │TAS │
+//       ┌────┐       │                        └─────┘                └────┘
+//       │Bob ◄───────┘
+//       └────┘
+//
+//     Loop                   VS                 Fork
+//
+//
+// In looping case leg 4 is not created until call comes back as leg 3. While forked
+// registration makes legs 2 and 3 to happen simultaneously.
+//
+// Please note that in looping case TAS is not obliged to create leg 3 and can itself
+// answer or reject leg 2.
+//
+// Creating the registration
+//  SipBreakOutService.UpsertRegistration(Registration) - registration details select its type, prefixes to use
+//  on leg 2 (see above drawing), domain name of the TAS server.
+//
+// Prefix towards TAS
+//   WG2 can provide prefix in INVITE's URI to help TAS to figure out if call came because
+//   of the Caller or the Answerer. The prefix is set as follows
+//    ---------------------------------------------------------------------------------
+//    Caller has Registration        | Answerer has Registration       | Prefix
+//    -------------------------------|---------------------------------|---------------
+//              Yes                  | Yes                             | mo_prefix
+//              Yes                  | No                              | mo_prefix
+//              No                   | Yes                             | mt_prefix
+//
+// Maintaining the registration
+//  Each SIP Registration has fixed TTL of 3600 seconds since last call to SipBreakOutService.UpsertRegistration()
+//  and has to be refreshed by using again SipBreakOutService.UpsertRegistration(Registration) with same parameters.
+//
+// Deleting the registration
+//  To remove registration with out waiting for TTL to expire use SipBreakOutService.DeleteRegistration().
+//  Registration.suri in DeleteRegistration() shall match the one given in SipBreakOutService.UpsertRegistration().
+//
+// SIP Transport
+//  TLS is used as SIP transport and TAS shall present valid certificate for SIP URI stated in
+//  Registration.suri
+//
+// Media
+//  WebRTC style SDPs are used between WG2 SBC and TAS to encrypt media sessions.
+
+message RegistrationResponse {
+  Status status = 1;
+}
+
+message Status {
+  enum Code {
+    OK = 0;
+    NOT_ACCEPTABLE = 1;
+  }
+  Code code = 1;
+  string message = 2;
+}
+
+message RegistrationRequest {
+  string mo_prefix = 1; // if set to 00 then INVITE sip:+47112334455... becomes INVITE sip:+0047112334455...
+  string mt_prefix = 2;
+  string suri = 3; // sips:example.com or sips:example.com:8888
+  enum RouteType {
+      LOOP = 0;
+      FORK = 1;
+  }
+  RouteType route_type = 4;
+}

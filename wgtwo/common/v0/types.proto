@@ -15,32 +15,11 @@
 
 syntax = "proto3";
 
-package wgtwo.common.v1;
+package wgtwo.common.v0;
 
-option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/common/v1";
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/common/v0";
 option java_package = "com.wgtwo.api.common";
 option java_outer_classname = "TypesProto";
-
-// Country information
-//
-// All programmatic use should depend on the alpha-2 code, and NOT the human readable name
-message Country {
-  // ISO 3166-1 alpha-2 code. Examples: US, NO, SE
-  string code = 1;
-  // Human readable name
-  string name = 2;
-}
-
-// This is identification of the subscription
-//
-// Our OAuth 2.0 server is configured to use Pairwise Pseudonymous Identifiers for its sub field, where all client of
-// a product will share the same identifier for a single subscription.
-//
-// This message contains this subject, given by the product your OAuth 2.0 client belongs to.
-message SubscriptionIdentifier {
-  string value = 1;
-}
-
 
 // International Mobile Subscription Identity
 // An IMSI is composed of three parts:
@@ -54,18 +33,6 @@ message SubscriptionIdentifier {
 //    national regulations indicate that the total length of the IMSI should be less than 15 digits.
 message Imsi {
   string value = 1;
-}
-
-// International Mobile station Equipment Identity and Software Version number
-// An IMEI is composed of four parts:
-//   1) an 8 digit Type Allocation Code (TAC);
-//   2) a 6 digit Serial Number (SNR);
-//   3) an optional Check Digit (CD); and
-//   4) an optional 2 digit Software Version Number (handled separately).
-// For more information see ETSI 123.003 Chapter 6 and Appendix B.
-message ImeiSv {
-  string imei = 1;
-  string software_version = 2;
 }
 
 message NetworkIdentity {
