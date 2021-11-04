@@ -28,7 +28,6 @@
         <module>sms/v0</module>
         <module>subscription/v1</module>
         <module>voicemail/v0</module>
-        <module>wtp/v0</module>
     </modules>
 
     <dependencies>
