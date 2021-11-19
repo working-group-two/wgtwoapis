@@ -491,7 +491,7 @@ paths:
               apnprofile: "apnprofile1"
               services:
                 add:
-                  - servicename: "SMS_OUT_INT_HOME"
+                  - servicename: "SMS_OUT_INT"
                   - servicename: "VOICE_PREMIUM_INFO"
                   - servicename: "VOICE_CALLWAITING"
                     config:
@@ -530,11 +530,11 @@ paths:
               apnprofile: "apnprofile1"
               services:
                 add:
-                  - servicename: "SMS_IN_HOME"
+                  - servicename: "SMS_IN"
                   - servicename: "SMS_IN_ROAM"
-                  - servicename: "SMS_OUT_HOME"
+                  - servicename: "SMS_OUT"
                   - servicename: "SMS_OUT_ROAM"
-                  - servicename: "SMS_OUT_INT_HOME"
+                  - servicename: "SMS_OUT_INT"
                   - servicename: "SMS_OUT_INT_ROAM"
                   - servicename: "VOICE_PREMIUM_INFO"
                 remove:
@@ -1050,26 +1050,46 @@ components:
                     $ref: '#/components/schemas/ServiceNamesV2'
     ServiceNamesV2:
       type: string
+      description: |
+        Each service SERVICE_NAME_ROAM depends on the basic services SERVICE_NAME and ROAMING. For example, to make international calls
+        while abroad you need to have all 3 services, ROAMING, VOICE_OUT_INTER and VOICE_OUT_INTER_ROAM.
+
+        VOICE_CALLWAITING service absent - call waiting is not available
+
+        VOICE_CALLWAITING(active = true) - call waiting is active on the device
+
+        VOICE_CALLWAITING(active = false) - call waiting is not currently active on the device, but can be made active
+
+        VOICE_CALLER_ID_RESTRICTION service absent - caller id always presented
+
+        VOICE_CALLER_ID_RESTRICTION(active = true) - caller id never presented
+
+        VOICE_CALLER_ID_RESTRICTION(active = false) - caller id can be hidden for selected calls
+
+        All data services depend on also having the DATA service. It takes an optional unsigned integer-valued parameter, 'speed_bps' (bits per second), to allow throttling
+        of data speed for all data sessions. If not specified, the QoS settings from the configured APN are used.
       enum:
-        - DATA_3G_HOME
-        - DATA_3G_ROAM
-        - DATA_4G_HOME
+        - DATA
+        - DATA_2G_3G
+        - DATA_2G_3G_ROAM
+        - DATA_4G
         - DATA_4G_ROAM
-        - DATA_5G_HOME
+        - DATA_5G
         - DATA_5G_ROAM
-        - DATA_HIGHSPEED
         - DATA_TETHERING
-        - MMS_IN_HOME
+        - DATA_CONTENT_FILTERING
+        - MMS_IN
         - MMS_IN_ROAM
-        - MMS_OUT_HOME
+        - MMS_OUT
         - MMS_OUT_ROAM
-        - MMS_OUT_INTER_HOME
+        - MMS_OUT_INTER
         - MMS_OUT_INTER_ROAM
-        - SMS_IN_HOME
+        - ROAMING
+        - SMS_IN
         - SMS_IN_ROAM
-        - SMS_OUT_HOME
+        - SMS_OUT
         - SMS_OUT_ROAM
-        - SMS_OUT_INTER_HOME
+        - SMS_OUT_INTER
         - SMS_OUT_INTER_ROAM
         - SMS_PREMIUM
         - USER_CS_BLOCK_OUT
@@ -1081,11 +1101,12 @@ components:
         - VOICE_CALLER_ID_PRESENTATION
         - VOICE_CALLER_ID_RESTRICTION
         - VOICE_CONFERENCE
-        - VOICE_IN_HOME
+        - VOICE_IN
         - VOICE_IN_ROAM
-        - VOICE_OUT_HOME
+        - VOICE_MISSED_CALL_ALERT
+        - VOICE_OUT
         - VOICE_OUT_ROAM
-        - VOICE_OUT_INTER_HOME
+        - VOICE_OUT_INTER
         - VOICE_OUT_INTER_ROAM
         - VOICE_PREMIUM_INFO
         - VOICE_PREMIUM_ENTERTAINMENT
