@@ -6,7 +6,7 @@
 
     <groupId>com.wgtwo.api</groupId>
     <artifactId>pom</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId} parent</name>
@@ -17,8 +17,9 @@
         <grpc.version>1.38.0</grpc.version>
         <maven.deploy.skip>true</maven.deploy.skip>
 
-        <wgtwo.v0.latest>0.0.1</wgtwo.v0.latest>
-        <wgtwo.v1.latest>1.0.0</wgtwo.v1.latest>
+        <wgtwo.grpc.latest>1.0.1</wgtwo.grpc.latest>
+        <wgtwo.v0.latest>0.0.2</wgtwo.v0.latest>
+        <wgtwo.v1.latest>1.0.1</wgtwo.v1.latest>
     </properties>
 
     <modules>
