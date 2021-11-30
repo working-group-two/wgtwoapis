@@ -16,10 +16,18 @@
         <java.version>1.8</java.version>
         <grpc.version>1.38.0</grpc.version>
         <maven.deploy.skip>true</maven.deploy.skip>
+        <wgtwoapis.version>1.0.1</wgtwoapis.version>
 
         <wgtwo.v0.latest>0.0.1</wgtwo.v0.latest>
         <wgtwo.v1.latest>1.0.0</wgtwo.v1.latest>
     </properties>
+
+    <scm>
+      <connection>scm:git:git@github.com:working-group-two/wgtwoapis.git</connection>
+      <developerConnection>scm:git:git@github.com:working-group-two/wgtwoapis.git</developerConnection>
+      <url>https://github.com/working-group-two/wgtwoapis.git</url>
+      <tag>HEAD</tag>
+    </scm>
 
     <modules>
         <module>clients/java/common</module>
