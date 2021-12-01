@@ -12,7 +12,7 @@
     <name>${project.groupId} common</name>
     <artifactId>common</artifactId>
     <groupId>com.wgtwo.api.grpc</groupId>
-    <version>${wgtwo.v0.latest}</version>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
 
     <properties>
