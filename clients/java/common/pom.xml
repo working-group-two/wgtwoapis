@@ -9,7 +9,7 @@
         <relativePath>../../../pom.xml</relativePath>
     </parent>
 
-    <name>${groupId} Common</name>
+    <name>${project.groupId} Common</name>
     <artifactId>common</artifactId>
     <packaging>jar</packaging>
     <version>${wgtwo.v0.latest}</version>

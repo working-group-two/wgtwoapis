@@ -9,7 +9,7 @@
         <relativePath>../../../../pom.xml</relativePath>
     </parent>
 
-    <name>${groupId} Phone number utils</name>
+    <name>${project.groupId} Phone number utils</name>
     <artifactId>phonenumbers</artifactId>
     <groupId>com.wgtwo.api.grpc.utils</groupId>
     <version>${wgtwo.v0.latest}</version>

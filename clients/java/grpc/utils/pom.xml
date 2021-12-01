@@ -9,7 +9,7 @@
         <relativePath>../../../../pom.xml</relativePath>
     </parent>
 
-    <name>${groupId} gRPC Utils</name>
+    <name>${project.groupId} gRPC Utils</name>
     <artifactId>utils</artifactId>
     <groupId>com.wgtwo.api.grpc</groupId>
     <version>${wgtwo.v0.latest}</version>
