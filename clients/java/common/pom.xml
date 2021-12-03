@@ -12,7 +12,7 @@
     <name>${project.groupId} Common</name>
     <artifactId>common</artifactId>
     <packaging>jar</packaging>
-    <version>0.0.1</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <properties>
         <maven.deploy.skip>false</maven.deploy.skip>
