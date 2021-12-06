@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>grpc-pom</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>${project.groupId} gRPC parent</name>
 
@@ -20,13 +20,10 @@
         <module>calling/v0</module>
         <module>callforward/v0</module>
         <module>common/v0</module>
-        <module>common/v1</module>
         <module>data/v0</module>
         <module>events/v0</module>
-        <module>events/v1</module>
         <module>mms/v0</module>
         <module>sms/v0</module>
-        <module>subscription/v1</module>
         <module>voicemail/v0</module>
     </modules>
 
