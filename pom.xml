@@ -17,9 +17,6 @@
         <grpc.version>1.38.0</grpc.version>
         <maven.deploy.skip>true</maven.deploy.skip>
         <wgtwoapis.version>1.0.1</wgtwoapis.version>
-
-        <wgtwo.v0.latest>0.0.1</wgtwo.v0.latest>
-        <wgtwo.v1.latest>1.0.0</wgtwo.v1.latest>
     </properties>
 
     <scm>
@@ -30,10 +27,6 @@
     </scm>
 
     <modules>
-        <module>clients/java/common</module>
-        <module>clients/java/grpc/phonenumber</module>
-        <module>clients/java/grpc/utils</module>
-        <module>openapi</module>
         <module>wgtwo</module>
     </modules>
 
