@@ -41,7 +41,7 @@ enum EventType {
   VOICE_EVENT = 1;
   VOICEMAIL_EVENT = 2;
   LOCATION_UPDATE_EVENT = 3;
-  ROAMING_EVENT = 4;
+  COUNTRY_CHANGE_EVENT = 4;
   TOKEN_AUDIT_EVENT = 5;
   SMS_EVENT = 6;
   SMS_DELIVERY_REPORT_EVENT = 7;
@@ -101,7 +101,7 @@ message Event {
     VoiceEvent voice_event = 4;
     VoicemailEvent voicemail_event = 5;
     LocationUpdateEvent location_update_event = 6;
-    RoamingEvent roaming_event = 7;
+    CountryChangeEvent country_change_event = 7;
     TokenAuditEvent token_audit_event = 8;
     SmsEvent sms_event = 9;
     SmsDeliveryReportEvent sms_delivery_report_event = 10;
@@ -174,7 +174,7 @@ message LocationUpdateEvent {
   Locations current = 4;
 }
 
-message RoamingEvent {
+message CountryChangeEvent {
   reserved 1;
   message Country {
     string code = 1;

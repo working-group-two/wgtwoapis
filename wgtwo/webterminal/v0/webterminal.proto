@@ -156,6 +156,7 @@ message Error {
     NOT_INCALL = 1;
     TRY_AGAIN = 2;
     INVALID_CALL_ID = 3;
+    RATE_LIMIT_HIT = 4;
   }
 }
 

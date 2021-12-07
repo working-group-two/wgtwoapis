@@ -98,6 +98,12 @@ message SendBinaryToSubscriberRequest {
   }
 
   MessageClass message_class = 5;
+
+  message ApplicationPort {
+    uint32 originatorPort = 1;
+    uint32 destinationPort = 2;
+  }
+  ApplicationPort applicationPort = 6;
 }
 
 message SendResponse {
