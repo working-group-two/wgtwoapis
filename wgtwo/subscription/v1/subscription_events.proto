@@ -31,11 +31,11 @@ service SubscriptionEventService {
   rpc AckHandsetChangeEvent (AckHandsetChangeEventRequest) returns (AckHandsetChangeEventResponse) {
     option (scope) = "subscription.handset_details:read";
   }
-  rpc StreamRoamingEvents (StreamRoamingEventsRequest) returns (stream StreamRoamingEventsResponse) {
-    option (scope) = "subscription.roaming_status:read";
+  rpc StreamCountryChangeEvents (StreamCountryChangeEventsRequest) returns (stream StreamCountryChangeEventsResponse) {
+    option (scope) = "subscription.country_change:read";
   }
-  rpc AckRoamingEvent (AckRoamingEventRequest) returns (AckRoamingEventResponse) {
-    option (scope) = "subscription.roaming_status:read";
+  rpc AckCountryChangeEvent (AckCountryChangeEventRequest) returns (AckCountryChangeEventResponse) {
+    option (scope) = "subscription.country_change:read";
   }
 }
 
@@ -56,20 +56,20 @@ message AckHandsetChangeEventResponse {
   wgtwo.events.v1.AckStatus ack_status = 1;
 }
 
-message StreamRoamingEventsRequest {
+message StreamCountryChangeEventsRequest {
   wgtwo.events.v1.StreamConfiguration stream_configuration = 1;
 }
 
-message StreamRoamingEventsResponse {
+message StreamCountryChangeEventsResponse {
   wgtwo.events.v1.Metadata metadata = 1;
-  RoamingEvent roaming_event = 2;
+  CountryChangeEvent country_change_event = 2;
 }
 
-message AckRoamingEventRequest {
+message AckCountryChangeEventRequest {
   wgtwo.events.v1.AckInfo ack_info = 1;
 }
 
-message AckRoamingEventResponse {
+message AckCountryChangeEventResponse {
   wgtwo.events.v1.AckStatus ack_status = 1;
 }
 
@@ -83,7 +83,7 @@ message HandsetChangeEvent {
   common.v1.Imsi imsi = 3;
 }
 
-message RoamingEvent {
+message CountryChangeEvent {
   wgtwo.common.v1.Country previous = 1;
   wgtwo.common.v1.Country current = 2;
 }
