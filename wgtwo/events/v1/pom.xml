@@ -4,14 +4,14 @@
     <parent>
         <groupId>com.wgtwo.api</groupId>
         <artifactId>grpc-pom</artifactId>
-        <version>1.3</version>
+        <version>1.4-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <name>${project.groupId} events</name>
     <artifactId>events</artifactId>
     <groupId>com.wgtwo.api.grpc</groupId>
-    <version>1.0.3</version>
+    <version>1.0.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
