@@ -45,7 +45,7 @@
         <dependencies>
             <dependency>
                 <groupId>io.grpc</groupId>
-                <artifactId>grpc-pom</artifactId>
+                <artifactId>grpc-bom</artifactId>
                 <version>${grpc.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
