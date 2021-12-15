@@ -18,7 +18,7 @@ syntax = "proto3";
 package wgtwo.common.v1;
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/common/v1";
-option java_package = "com.wgtwo.api.common";
+option java_package = "com.wgtwo.api.v1.common";
 option java_outer_classname = "TypesProto";
 
 // Country information

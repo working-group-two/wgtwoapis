@@ -22,7 +22,7 @@ import "google/protobuf/timestamp.proto";
 import "wgtwo/common/v1/types.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/events/v1";
-option java_package = "com.wgtwo.api.events";
+option java_package = "com.wgtwo.api.v1.events";
 option java_outer_classname = "EventsProto";
 
 // This is the configuration for setting up a event stream from our APIs.

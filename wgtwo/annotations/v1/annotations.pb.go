@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.26.0
 // 	protoc        v3.17.3
-// source: wgtwo/annotations.proto
+// source: wgtwo/annotations/v1/annotations.proto
 
-package annotations
+package v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -27,7 +27,7 @@ var file_wgtwo_annotations_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50013,
 		Name:          "wgtwo.scope",
 		Tag:           "bytes,50013,opt,name=scope",
-		Filename:      "wgtwo/annotations.proto",
+		Filename:      "wgtwo/annotations/v1/annotations.proto",
 	},
 }
 

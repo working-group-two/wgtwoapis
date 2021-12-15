@@ -9,7 +9,7 @@
     </parent>
 
     <name>${project.groupId} common</name>
-    <artifactId>common</artifactId>
+    <artifactId>annotations</artifactId>
     <groupId>com.wgtwo.api.v1.grpc</groupId>
     <version>1.4.0-SNAPSHOT</version>
     <packaging>jar</packaging>

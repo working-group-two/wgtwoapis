@@ -2,21 +2,41 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.wgtwo.api</groupId>
+        <groupId>com.wgtwo.api.v1</groupId>
         <artifactId>grpc-pom</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.4.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <name>${project.groupId} events</name>
     <artifactId>events</artifactId>
-    <groupId>com.wgtwo.api.grpc</groupId>
-    <version>1.0.4-SNAPSHOT</version>
+    <groupId>com.wgtwo.api.v1.grpc</groupId>
+    <version>1.4.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
         <maven.deploy.skip>false</maven.deploy.skip>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty-shaded</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-protobuf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-stub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
         <extensions>
@@ -35,7 +55,7 @@
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <configuration>
                     <includes>
-                        <include>wgtwo/annotations.proto</include>
+                        <include>wgtwo/annotations/v1/annotations.proto</include>
                         <include>wgtwo/events/v1/*.proto</include>
                         <include>wgtwo/common/v1/*.proto</include>
                     </includes>

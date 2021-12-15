@@ -15,5 +15,5 @@ See https://docs.wgtwo.com
 
 ## Release/deploy
 
-1. `./mvnw build-helper:parse-version release:prepare -B`
-2. `./mvnw release:perform`
+1. `./mvnw build-helper:parse-version release:prepare -B --file wgtwo/pom.xml`
+2. `./mvnw release:perform --file wgtwo/pom.xml`
