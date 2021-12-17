@@ -17,12 +17,12 @@ syntax = "proto3";
 
 package wgtwo.webterminal.v0;
 
-import "wgtwo/annotations.proto";
+import "wgtwo/annotations/v0/annotations.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
 option java_outer_classname = "WebTerminalProto";
 option java_multiple_files = true;
-option java_package = "com.wgtwo.api.webterminal";
+option java_package = "com.wgtwo.api.v0.webterminal";
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/webterminal/v0";
 
 // Gateway for WebTerminalProtocol. Requires user's consent to answer and initiate calls.
