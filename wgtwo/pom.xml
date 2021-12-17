@@ -229,4 +229,13 @@
       </license>
     </licenses>
 
+    <developers>
+      <developer>
+        <name>WG2 Products Team</name>
+        <email>products@wgtwo.com</email>
+        <organization>Working Group Two</organization>
+        <organizationUrl>https://www.wgtwo.com</organizationUrl>
+      </developer>
+    </developers>
+
 </project>
