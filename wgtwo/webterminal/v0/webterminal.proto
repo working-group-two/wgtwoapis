@@ -98,9 +98,7 @@ service WebTerminalService {
 //   Endpoint <- {Idle{}, call_id}       - call ended
 //
 // ICE
-//   Endpoint can send its candidates in SDP or use Ice{candidate},  message. Using Ice{} assumes both ends
-//   support trickle ICE exchange. Preferred way to handle ICE is to include candidates to SDP and not use trickle
-//   ICE updates
+//   Endpoint may send ICE candidates in the SDP
 //
 // SDP renegotiation
 //   Endpoint must be prepared to receive new Offer{call_id, sdp} with updated SDP from the core after initial
@@ -115,7 +113,6 @@ message WebTerminalMessage {
     Idle idle = 5;
     InCall in_call = 6;
     Error error = 7;
-    Ice ice = 8;
     Action action = 9;
   }
   string call_id = 10;
@@ -134,12 +131,6 @@ message Ringing {
 }
 
 message Bye {
-}
-
-message Ice {
-  repeated string candidates = 1;
-  int32 mLineIndex = 2;
-  string mid = 3;
 }
 
 message Idle {
