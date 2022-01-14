@@ -15,6 +15,7 @@
         <module>annotations/v1</module>
         <module>common/v1</module>
         <module>events/v1</module>
+        <module>sms/v1</module>
         <module>subscription/v1</module>
     </modules>
 
