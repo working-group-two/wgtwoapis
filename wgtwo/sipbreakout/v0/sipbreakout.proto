@@ -115,6 +115,7 @@ message RegistrationRequest {
   enum RouteType {
       LOOP = 0;
       FORK = 1;
+      FALLBACK = 2;
   }
   RouteType route_type = 4;
 }
