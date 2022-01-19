@@ -8,8 +8,8 @@
         <relativePath>../../pom-v0.xml</relativePath>
     </parent>
 
-    <name>${project.groupId} mms</name>
-    <artifactId>mms</artifactId>
+    <name>${project.groupId} voicemail</name>
+    <artifactId>voicemail</artifactId>
     <groupId>com.wgtwo.api.v0.grpc</groupId>
     <version>0.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -18,24 +18,25 @@
         <maven.deploy.skip>false</maven.deploy.skip>
     </properties>
 
+
     <dependencies>
-        <dependency>
-            <groupId>com.wgtwo.api.v0.grpc</groupId>
-            <artifactId>common</artifactId>
-            <version>0.1.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-          <groupId>io.grpc</groupId>
-          <artifactId>grpc-protobuf</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-stub</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-        </dependency>
+      <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>io.grpc</groupId>
+        <artifactId>grpc-stub</artifactId>
+        <version>${grpc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.grpc</groupId>
+        <artifactId>grpc-protobuf</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>javax.annotation</groupId>
+        <artifactId>javax.annotation-api</artifactId>
+    </dependency>
     </dependencies>
 
     <build>
@@ -56,8 +57,8 @@
                 <configuration>
                     <includes>
                         <include>wgtwo/annotations/annotations.proto</include>
+                        <include>wgtwo/webterminal/v0/*.proto</include>
                         <include>wgtwo/common/v0/*.proto</include>
-                        <include>wgtwo/mms/v0/*.proto</include>
                     </includes>
                 </configuration>
             </plugin>
