@@ -1,0 +1,74 @@
+// Copyright 2021 Working Group Two AS
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+syntax = "proto3";
+
+package wgtwo.common.v1;
+
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/common/v1";
+option java_package = "com.wgtwo.api.v1.common";
+option java_outer_classname = "TypesProto";
+
+// Country information
+//
+// All programmatic use should depend on the alpha-2 code, and NOT the human readable name
+message Country {
+  // ISO 3166-1 alpha-2 code. Examples: US, NO, SE
+  string code = 1;
+  // Human readable name
+  string name = 2;
+}
+
+// This is identification of the subscription
+//
+// Our OAuth 2.0 server is configured to use Pairwise Pseudonymous Identifiers for its sub field, where all client of
+// a product will share the same identifier for a single subscription.
+//
+// This message contains this subject, given by the product your OAuth 2.0 client belongs to.
+message SubscriptionIdentifier {
+  string value = 1;
+}
+
+
+// International Mobile Subscription Identity
+// An IMSI is composed of three parts:
+//  1) Mobile Country Code (MCC) consisting of three digits. The MCC is 3 digits long and identifies
+//    uniquely the country of domicile of the mobile subscription;
+//  2) Mobile Network Code (MNC), 2 or 3 digits for 3GPP network applications. The MNC identifies
+//    the home PLMN of the mobile subscription. The length of the MNC depends on the value of the
+//    MCC. A mixture of two and three digit MNC codes within a single MCC area is not recommended.
+//  3) Mobile Subscriber Identification Number (MSIN) identifying the mobile subscription within a
+//    PLMN. Normally there are 10 digits, but can be fewer in the case of a 3-digit MNC or if
+//    national regulations indicate that the total length of the IMSI should be less than 15 digits.
+message Imsi {
+  string value = 1;
+}
+
+// International Mobile station Equipment Identity and Software Version number
+// An IMEI is composed of four parts:
+//   1) an 8 digit Type Allocation Code (TAC);
+//   2) a 6 digit Serial Number (SNR);
+//   3) an optional Check Digit (CD); and
+//   4) an optional 2 digit Software Version Number (handled separately).
+// For more information see ETSI 123.003 Chapter 6 and Appendix B.
+message ImeiSv {
+  string imei = 1;
+  string software_version = 2;
+}
+
+message NetworkIdentity {
+  string mcc = 1;
+  string mnc = 2;
+}

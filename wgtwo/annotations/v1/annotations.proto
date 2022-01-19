@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package wgtwo;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/annotations/v1";
+option java_package = "com.wgtwo.api.v1.annotations";
+option java_outer_classname = "AnnotationsProto";
+
+extend google.protobuf.MethodOptions {
+  string scope = 50013;
+}

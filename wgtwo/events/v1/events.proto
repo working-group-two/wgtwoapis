@@ -1,0 +1,189 @@
+// Copyright 2021 Working Group Two AS
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+syntax = "proto3";
+
+package wgtwo.events.v1;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "wgtwo/common/v1/types.proto";
+
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/events/v1";
+option java_package = "com.wgtwo.api.v1.events";
+option java_outer_classname = "EventsProto";
+
+// This is the configuration for setting up a event stream from our APIs.
+//
+// The client will be forced to reconnect after one hour to ensure it is using fresh access tokens.
+//
+// The default settings should be well suited for production usage, but 'max_in_flight' may be tweaked.
+//
+// Regular:
+//   Warning: This is intended for testing purposes only and is not recommended for production.
+//
+//   All connected clients will see all events in the stream.
+//   Reading position is not stored at the server, so disconnecting will make it start fresh.
+//
+// Durable Queue:
+//   All connected clients with the same name will share the stream, so that an event will only be seen be a single
+//   client.
+//
+//   The server will store the clients reading position for 1 hour after the client has disconnected.
+//   That would make it possible for a client to resume reading after it has been disconnected.
+//
+//    Note:
+//     - The custom_name is namespaced to be per OAuth 2.0 client, so using the same name for two different OAuth 2.0
+//       clients will not make them part of the same stream.
+//
+//    Example:
+//      Giving the following configuration, you may get approximately the distribution shown below:
+//        3 × custom_name = "" (default)
+//        2 × custom_name = "alice"
+//        1 × custom_name = "bob"
+//
+//            ┌─►33 % ─► ""
+//      ─ ─ ──┼─►33 % ─► ""
+//            └─►33 % ─► ""
+//      ─ ─ ──┬─►50 % ─► "alice"
+//            └─►50 % ─► "alice"
+//      ─ ─ ────►100 ──► "bob"
+//
+// Acknowledge:
+//   The server will for the client to sent a ack message. If no such message has been received within 30 seconds,
+//   the event will be resent.
+//
+// Max in-flight:
+//   The server will only allow, by default, 50 in-flight unacknowledged events.
+//   In combination with requiring acks, this allows the client to apply some backpressure.
+//
+//   Note that max in-flight > 1 may cause events to be received out-of-order, something the client must design for.
+//
+// Start Position:
+//   This decides the policy used when a client connects without having its reading position stored at the server.
+//   The start position may be set to
+//   - only include new events (events created after connection)
+//   - a specific ID
+//   - starting at a given time
+//   - deliver all available events
+//
+//
+// All settings are optional, with the following set as default:
+//
+// - Events are load balanced between all connected clients using the same OAuth 2.0 client
+//
+// - Current reading position is remembered on the server for 1 hour, even if no clients are connected
+//   That is, reading may resume even if the clients needs to disconnect
+//
+// - The clients needs to send a ack after processing a event
+//   If a client does not ack within 30 seconds, the event will be resent
+//
+// - 50 un-acknowledged events will be allowed at once
+//
+// - If reading position is not stored in server, that is on first connection or if all clients has been gone for
+//   30 minutes, only new events will be included.
+message StreamConfiguration {
+  // Optional: Will use DurableQueue by default
+  oneof stream_type {
+    RegularStream regular = 1;
+    DurableQueue durable_queue = 2;
+  }
+
+  // Optional: By default, the client is required to send a ack message and will use a timeout of 30 seconds.
+  oneof acknowledge_option {
+    // Disable ack
+    google.protobuf.Empty disable_explicit_ack = 3;
+    // Must be between 10 seconds and 10 minutes
+    google.protobuf.Duration custom_ack_timeout = 4;
+  }
+
+  // Optional: By default, max 50 unacknowledged events may be in-flight
+  // Must be between 1 and 200
+  uint32 max_in_flight = 5;
+
+  // Optional: By default, only new events will be included
+  oneof start_position {
+    // Will only deliver events generated after this subscription was started
+    uint64 start_at_new = 6;
+    // Will deliver events from the given ID
+    uint64 start_at_id = 7;
+    // Will deliver events from the given timestamp
+    google.protobuf.Timestamp start_at_timestamp = 8;
+    // Will deliver all available events
+    google.protobuf.Empty start_at_oldest_possible = 9;
+  }
+}
+
+// All connected clients will see all events in the stream.
+// Reading position is not stored at the server, so disconnecting will make it start fresh.
+message RegularStream {}
+
+// All connected clients with the same name will share the stream, so that an event will only be seen be a single
+// client.
+//
+// The server will store the clients reading position for 1 hour after the client has disconnected.
+// That would make it possible for a client to resume reading after it has been disconnected.
+//
+// If e.g. five group of clients should see all events in the stream, each group must be given a unique name.
+message DurableQueue {
+  // Optional: Messages will by default be shared between all connections using the same OAuth 2.0 client
+  string custom_name = 1;
+}
+
+// This contains a opaque string which should be included in the ack request to identify the event
+message AckInfo {
+  string value = 1;
+}
+
+// Status of the ack request
+//
+// If status is not successful, the ack request may be retried.
+// Everything except AckStatusCodeACK_STATUS_SUCCESS should be treated as a failure
+message AckStatus {
+  enum StatusCode {
+    STATUS_CODE_UNSPECIFIED = 0;
+    STATUS_CODE_FAILURE = 1;
+    STATUS_CODE_SUCCESS = 2;
+  }
+  StatusCode status_code = 1;
+}
+
+// Ack request, which is required for sending a ack of an event
+message AckRequest{
+  AckInfo ack_info = 1;
+}
+
+
+
+// This response includes the status of the ack request
+message AckResponse{
+  AckStatus ack_status = 1;
+}
+// Identity of the subscription this event was generated for.
+message Identifier {
+  wgtwo.common.v1.SubscriptionIdentifier subscription_identifier = 1;
+}
+
+// Metadata about the event
+message Metadata {
+  // The timestamp this event was generated
+  google.protobuf.Timestamp timestamp = 1;
+  // Identity of the subscription this event was generated for.
+  Identifier identifier = 2;
+  // Information that must be included in the ack request to identify the event
+  AckInfo ack_info = 3;
+  // True when this is not the first time the message has been sent
+  bool is_redelivered = 4;
+}
