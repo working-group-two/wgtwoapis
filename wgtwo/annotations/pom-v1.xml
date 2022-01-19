@@ -2,16 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.wgtwo.api.v0</groupId>
+        <groupId>com.wgtwo.api.v1</groupId>
         <artifactId>grpc-pom</artifactId>
-        <version>0.1.1-SNAPSHOT</version>
-        <relativePath>../../pom-v0.xml</relativePath>
+        <version>1.4.3-SNAPSHOT</version>
+        <relativePath>../pom-v1.xml</relativePath>
     </parent>
 
-    <name>${project.groupId} calling</name>
-    <artifactId>calling</artifactId>
-    <groupId>com.wgtwo.api.v0.grpc</groupId>
-    <version>0.1.1-SNAPSHOT</version>
+    <name>${project.groupId} common</name>
+    <artifactId>annotations</artifactId>
+    <groupId>com.wgtwo.api.v1.grpc</groupId>
+    <version>1.4.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -20,13 +20,21 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.wgtwo.api.v0.grpc</groupId>
-            <artifactId>common</artifactId>
-            <version>0.1.1-SNAPSHOT</version>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty-shaded</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
-          <groupId>com.google.protobuf</groupId>
-          <artifactId>protobuf-java</artifactId>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-protobuf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-stub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
         </dependency>
     </dependencies>
 
@@ -48,8 +56,6 @@
                 <configuration>
                     <includes>
                         <include>wgtwo/annotations/annotations.proto</include>
-                        <include>wgtwo/calling/v0/*.proto</include>
-                        <include>wgtwo/common/v0/*.proto</include>
                     </includes>
                 </configuration>
             </plugin>

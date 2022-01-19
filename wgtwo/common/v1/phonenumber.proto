@@ -18,16 +18,41 @@ syntax = "proto3";
 package wgtwo.common.v1;
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/common/v1";
-option java_package = "com.wgtwo.api.common";
+option java_package = "com.wgtwo.api.v1.common";
 option java_outer_classname = "PhoneNumberProto";
 
-/* Phone number formatted as E.164 with leading plus sign
+/**
+ * An international phone number formatted as E.164 with leading plus sign
  *
  * This contains three components:
  * - The plus prefix
- * - Country code, max 3 digits
+ * - Country code, 1 to 3 digits
  * - Subscriber number
+ *
+ * Example "+4787654321" as '+' '47' '87654321'.
+ *
+ * The number may contain sequences that do not strictly conform to the E.164
+ * number standard (e.g. too long), but shall always follow the three components
+ * as described above.
  */
 message E164 {
   string e164 = 1;
+}
+
+/**
+ * A national number can be anything that is usually typed into a number field
+ * for phone numbers, SMS etc. It shall only contains digits (0-9), and the meaning
+ * of the number sequence is dependent on the country of the relevant operator.
+ */
+message National {
+  string number = 1;
+}
+
+/**
+ * An alphanumeric address. This is usually just be the name of a product or service.
+ * Alphanumeric addresses are usually not routable, and can thus only be used in
+ * origin addresses.
+ */
+message Alphanumeric {
+  string text = 1;
 }

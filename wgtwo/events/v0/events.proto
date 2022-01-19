@@ -17,14 +17,15 @@ syntax = "proto3";
 
 package wgtwo.events.v0;
 
-import "google/protobuf/empty.proto";
-import "wgtwo/annotations.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
+import "wgtwo/annotations/annotations.proto";
 import "wgtwo/common/v0/phonenumber.proto";
+import "wgtwo/common/v0/types.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/events/v0";
-option java_package = "com.wgtwo.api.events";
+option java_package = "com.wgtwo.api.v0.events";
 option java_outer_classname = "EventsProto";
 
 service EventsService {
@@ -41,12 +42,14 @@ enum EventType {
   VOICE_EVENT = 1;
   VOICEMAIL_EVENT = 2;
   LOCATION_UPDATE_EVENT = 3;
-  ROAMING_EVENT = 4;
+  COUNTRY_CHANGE_EVENT = 4;
   TOKEN_AUDIT_EVENT = 5;
   SMS_EVENT = 6;
   SMS_DELIVERY_REPORT_EVENT = 7;
   CONSENT_REVOKE_EVENT = 8;
   HANDSET_UPDATE_EVENT = 9;
+  FIRST_ATTACHMENT_EVENT = 10;
+  PERIODIC_COUNTRY_EVENT = 11;
 }
 
 message ManualAckConfig {
@@ -101,12 +104,14 @@ message Event {
     VoiceEvent voice_event = 4;
     VoicemailEvent voicemail_event = 5;
     LocationUpdateEvent location_update_event = 6;
-    RoamingEvent roaming_event = 7;
+    CountryChangeEvent country_change_event = 7;
     TokenAuditEvent token_audit_event = 8;
     SmsEvent sms_event = 9;
     SmsDeliveryReportEvent sms_delivery_report_event = 10;
     ConsentRevokeEvent consent_revoke_event = 11;
     HandsetUpdateEvent handset_update_event = 13;
+    FirstAttachmentEvent first_attachment_event = 14;
+    PeriodicCountryEvent periodic_country_event = 15;
   }
   Owner owner = 12;
 }
@@ -174,7 +179,18 @@ message LocationUpdateEvent {
   Locations current = 4;
 }
 
-message RoamingEvent {
+message FirstAttachmentEvent {
+  wgtwo.common.v0.PhoneNumber number = 1;
+  Imsi imsi = 2;
+}
+
+message PeriodicCountryEvent {
+  wgtwo.common.v0.PhoneNumber number = 1;
+  Imsi imsi = 2;
+  CountryChangeEvent.Country country = 3;
+}
+
+message CountryChangeEvent {
   reserved 1;
   message Country {
     string code = 1;
@@ -244,34 +260,34 @@ message SmsEvent {
   string uuid = 10;
 }
 
-  message SmsDeliveryReportEvent {
-    enum Direction {
-      DIRECTION_UNKNOWN = 0;
-      FROM_SUBSCRIBER = 1;
-      TO_SUBSCRIBER = 2;
-    }
-    enum Status {
-      STATUS_UNKNOWN = 0;
-      DELIVERED = 1;
-      TEMPORARY_FAILURE = 2;
-      FINAL_FAILURE = 3;
-      EXPIRED = 4;
-    }
+message SmsDeliveryReportEvent {
+  enum Direction {
+    DIRECTION_UNKNOWN = 0;
+    FROM_SUBSCRIBER = 1;
+    TO_SUBSCRIBER = 2;
+  }
+  enum Status {
+    STATUS_UNKNOWN = 0;
+    DELIVERED = 1;
+    TEMPORARY_FAILURE = 2;
+    FINAL_FAILURE = 3;
+    EXPIRED = 4;
+  }
 
-    string id = 1;
-    oneof from_address {
-      wgtwo.common.v0.PhoneNumber from_e164 = 2;
-      wgtwo.common.v0.NationalPhoneNumber from_national_phone_number = 3;
-      wgtwo.common.v0.TextAddress from_text_address = 4;
-    }
-    oneof to_address {
-      wgtwo.common.v0.PhoneNumber to_e164 = 5;
-      wgtwo.common.v0.NationalPhoneNumber to_national_phone_number = 6;
-      wgtwo.common.v0.TextAddress to_text_address = 7;
-    }
-    Direction direction = 8;
-    string sms_id = 9;
-    Status status = 10;
+  string id = 1;
+  oneof from_address {
+    wgtwo.common.v0.PhoneNumber from_e164 = 2;
+    wgtwo.common.v0.NationalPhoneNumber from_national_phone_number = 3;
+    wgtwo.common.v0.TextAddress from_text_address = 4;
+  }
+  oneof to_address {
+    wgtwo.common.v0.PhoneNumber to_e164 = 5;
+    wgtwo.common.v0.NationalPhoneNumber to_national_phone_number = 6;
+    wgtwo.common.v0.TextAddress to_text_address = 7;
+  }
+  Direction direction = 8;
+  string sms_id = 9;
+  Status status = 10;
 }
 
 message ImeiSv {

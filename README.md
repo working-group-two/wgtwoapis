@@ -12,3 +12,13 @@ Maven packages to simplify integration.
 
 ## Documentation
 See https://docs.wgtwo.com
+
+## Release/deploy v0
+
+1. `./mvnw build-helper:parse-version release:prepare -B --file wgtwo/pom-v0.xml`
+2. `./mvnw release:perform --file wgtwo/pom-v0.xml`
+
+## Release/deploy v1
+
+1. `./mvnw build-helper:parse-version release:prepare -B --file wgtwo/pom-v1.xml`
+2. `./mvnw release:perform --file wgtwo/pom-v1.xml`

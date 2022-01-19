@@ -20,8 +20,47 @@ const _ = grpc.SupportPackageIsVersion7
 type SubscriptionEventServiceClient interface {
 	StreamHandsetChangeEvents(ctx context.Context, in *StreamHandsetChangeEventsRequest, opts ...grpc.CallOption) (SubscriptionEventService_StreamHandsetChangeEventsClient, error)
 	AckHandsetChangeEvent(ctx context.Context, in *AckHandsetChangeEventRequest, opts ...grpc.CallOption) (*AckHandsetChangeEventResponse, error)
-	StreamRoamingEvents(ctx context.Context, in *StreamRoamingEventsRequest, opts ...grpc.CallOption) (SubscriptionEventService_StreamRoamingEventsClient, error)
-	AckRoamingEvent(ctx context.Context, in *AckRoamingEventRequest, opts ...grpc.CallOption) (*AckRoamingEventResponse, error)
+	// First Attachment events are triggered whenever a SIM is first attached to the
+	// network. It contains the IMSI to distinguish which SIM of the subscriber has
+	// been attached.
+	StreamFirstAttachmentEvents(ctx context.Context, in *StreamFirstAttachmentEventsRequest, opts ...grpc.CallOption) (SubscriptionEventService_StreamFirstAttachmentEventsClient, error)
+	// Manually ack a first attachment event.
+	AckFirstAttachmentEvent(ctx context.Context, in *AckFirstAttachmentEventRequest, opts ...grpc.CallOption) (*AckFirstAttachmentEventResponse, error)
+	// Country change events are triggered whenever a SIM changes current country
+	// location. It has both the current (new) country and the previous (old) country.
+	//
+	// This event is triggered when the previously seen country and the currently seen country
+	// are different. Note that subscribers being close to borders, or during travels may generate
+	// a lot of CountryChange events. See 'PeriodicCountry' events for an alternative.
+	//
+	// For subscribers with multiple SIM cards you will see an event for each SIM
+	// (IMSI), as they can move between countries individually.
+	StreamCountryChangeEvents(ctx context.Context, in *StreamCountryChangeEventsRequest, opts ...grpc.CallOption) (SubscriptionEventService_StreamCountryChangeEventsClient, error)
+	// Manually ack a country change event.
+	AckCountryChangeEvent(ctx context.Context, in *AckCountryChangeEventRequest, opts ...grpc.CallOption) (*AckCountryChangeEventResponse, error)
+	// Timed country events are triggered on a regular basis for each user for each
+	// country where they are seen. It is triggered by knowingly seeing the subscriber
+	// & handset in a specific country, and for each tenant will be triggered on a
+	// regular interval. E.g. if 'Operator X' is configured for a 2 week interval,
+	// there will be an event every 14 days (or 336 hours or 1209600 seconds) as long
+	// as the subscriber is still seen in that country.
+	//
+	// As this event is not always triggered based on the subscriber moving between
+	// countries, it does not contain the previously seen country. For getting the real-time
+	// movement of the subscriber between countries, use 'CountryChange' event.
+	//
+	// This event is triggered:
+	//
+	// - When the subscriber enters a new country (not visited before). This is triggered
+	//   at the same time as the corresponding 'CountryChange' event.
+	// - When the subscriber is seen in a country, and the 'PeriodicCountry' event for that
+	//   subscriber and country has not been triggered for the configured time delay.
+	//
+	// For subscribers with multiple SIM cards you will see an event for each SIM
+	// (IMSI), as they can move between countries individually.
+	StreamPeriodicCountryEvents(ctx context.Context, in *StreamPeriodicCountryEventsRequest, opts ...grpc.CallOption) (SubscriptionEventService_StreamPeriodicCountryEventsClient, error)
+	// Manually ack a timed country event.
+	AckPeriodicCountryEvent(ctx context.Context, in *AckPeriodicCountryEventRequest, opts ...grpc.CallOption) (*AckPeriodicCountryEventResponse, error)
 }
 
 type subscriptionEventServiceClient struct {
@@ -73,12 +112,12 @@ func (c *subscriptionEventServiceClient) AckHandsetChangeEvent(ctx context.Conte
 	return out, nil
 }
 
-func (c *subscriptionEventServiceClient) StreamRoamingEvents(ctx context.Context, in *StreamRoamingEventsRequest, opts ...grpc.CallOption) (SubscriptionEventService_StreamRoamingEventsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &SubscriptionEventService_ServiceDesc.Streams[1], "/wgtwo.subscription.v1.SubscriptionEventService/StreamRoamingEvents", opts...)
+func (c *subscriptionEventServiceClient) StreamFirstAttachmentEvents(ctx context.Context, in *StreamFirstAttachmentEventsRequest, opts ...grpc.CallOption) (SubscriptionEventService_StreamFirstAttachmentEventsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &SubscriptionEventService_ServiceDesc.Streams[1], "/wgtwo.subscription.v1.SubscriptionEventService/StreamFirstAttachmentEvents", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &subscriptionEventServiceStreamRoamingEventsClient{stream}
+	x := &subscriptionEventServiceStreamFirstAttachmentEventsClient{stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -88,26 +127,108 @@ func (c *subscriptionEventServiceClient) StreamRoamingEvents(ctx context.Context
 	return x, nil
 }
 
-type SubscriptionEventService_StreamRoamingEventsClient interface {
-	Recv() (*StreamRoamingEventsResponse, error)
+type SubscriptionEventService_StreamFirstAttachmentEventsClient interface {
+	Recv() (*StreamFirstAttachmentEventsResponse, error)
 	grpc.ClientStream
 }
 
-type subscriptionEventServiceStreamRoamingEventsClient struct {
+type subscriptionEventServiceStreamFirstAttachmentEventsClient struct {
 	grpc.ClientStream
 }
 
-func (x *subscriptionEventServiceStreamRoamingEventsClient) Recv() (*StreamRoamingEventsResponse, error) {
-	m := new(StreamRoamingEventsResponse)
+func (x *subscriptionEventServiceStreamFirstAttachmentEventsClient) Recv() (*StreamFirstAttachmentEventsResponse, error) {
+	m := new(StreamFirstAttachmentEventsResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
 
-func (c *subscriptionEventServiceClient) AckRoamingEvent(ctx context.Context, in *AckRoamingEventRequest, opts ...grpc.CallOption) (*AckRoamingEventResponse, error) {
-	out := new(AckRoamingEventResponse)
-	err := c.cc.Invoke(ctx, "/wgtwo.subscription.v1.SubscriptionEventService/AckRoamingEvent", in, out, opts...)
+func (c *subscriptionEventServiceClient) AckFirstAttachmentEvent(ctx context.Context, in *AckFirstAttachmentEventRequest, opts ...grpc.CallOption) (*AckFirstAttachmentEventResponse, error) {
+	out := new(AckFirstAttachmentEventResponse)
+	err := c.cc.Invoke(ctx, "/wgtwo.subscription.v1.SubscriptionEventService/AckFirstAttachmentEvent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *subscriptionEventServiceClient) StreamCountryChangeEvents(ctx context.Context, in *StreamCountryChangeEventsRequest, opts ...grpc.CallOption) (SubscriptionEventService_StreamCountryChangeEventsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &SubscriptionEventService_ServiceDesc.Streams[2], "/wgtwo.subscription.v1.SubscriptionEventService/StreamCountryChangeEvents", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &subscriptionEventServiceStreamCountryChangeEventsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type SubscriptionEventService_StreamCountryChangeEventsClient interface {
+	Recv() (*StreamCountryChangeEventsResponse, error)
+	grpc.ClientStream
+}
+
+type subscriptionEventServiceStreamCountryChangeEventsClient struct {
+	grpc.ClientStream
+}
+
+func (x *subscriptionEventServiceStreamCountryChangeEventsClient) Recv() (*StreamCountryChangeEventsResponse, error) {
+	m := new(StreamCountryChangeEventsResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *subscriptionEventServiceClient) AckCountryChangeEvent(ctx context.Context, in *AckCountryChangeEventRequest, opts ...grpc.CallOption) (*AckCountryChangeEventResponse, error) {
+	out := new(AckCountryChangeEventResponse)
+	err := c.cc.Invoke(ctx, "/wgtwo.subscription.v1.SubscriptionEventService/AckCountryChangeEvent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *subscriptionEventServiceClient) StreamPeriodicCountryEvents(ctx context.Context, in *StreamPeriodicCountryEventsRequest, opts ...grpc.CallOption) (SubscriptionEventService_StreamPeriodicCountryEventsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &SubscriptionEventService_ServiceDesc.Streams[3], "/wgtwo.subscription.v1.SubscriptionEventService/StreamPeriodicCountryEvents", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &subscriptionEventServiceStreamPeriodicCountryEventsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type SubscriptionEventService_StreamPeriodicCountryEventsClient interface {
+	Recv() (*StreamPeriodicCountryEventsResponse, error)
+	grpc.ClientStream
+}
+
+type subscriptionEventServiceStreamPeriodicCountryEventsClient struct {
+	grpc.ClientStream
+}
+
+func (x *subscriptionEventServiceStreamPeriodicCountryEventsClient) Recv() (*StreamPeriodicCountryEventsResponse, error) {
+	m := new(StreamPeriodicCountryEventsResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *subscriptionEventServiceClient) AckPeriodicCountryEvent(ctx context.Context, in *AckPeriodicCountryEventRequest, opts ...grpc.CallOption) (*AckPeriodicCountryEventResponse, error) {
+	out := new(AckPeriodicCountryEventResponse)
+	err := c.cc.Invoke(ctx, "/wgtwo.subscription.v1.SubscriptionEventService/AckPeriodicCountryEvent", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -120,8 +241,47 @@ func (c *subscriptionEventServiceClient) AckRoamingEvent(ctx context.Context, in
 type SubscriptionEventServiceServer interface {
 	StreamHandsetChangeEvents(*StreamHandsetChangeEventsRequest, SubscriptionEventService_StreamHandsetChangeEventsServer) error
 	AckHandsetChangeEvent(context.Context, *AckHandsetChangeEventRequest) (*AckHandsetChangeEventResponse, error)
-	StreamRoamingEvents(*StreamRoamingEventsRequest, SubscriptionEventService_StreamRoamingEventsServer) error
-	AckRoamingEvent(context.Context, *AckRoamingEventRequest) (*AckRoamingEventResponse, error)
+	// First Attachment events are triggered whenever a SIM is first attached to the
+	// network. It contains the IMSI to distinguish which SIM of the subscriber has
+	// been attached.
+	StreamFirstAttachmentEvents(*StreamFirstAttachmentEventsRequest, SubscriptionEventService_StreamFirstAttachmentEventsServer) error
+	// Manually ack a first attachment event.
+	AckFirstAttachmentEvent(context.Context, *AckFirstAttachmentEventRequest) (*AckFirstAttachmentEventResponse, error)
+	// Country change events are triggered whenever a SIM changes current country
+	// location. It has both the current (new) country and the previous (old) country.
+	//
+	// This event is triggered when the previously seen country and the currently seen country
+	// are different. Note that subscribers being close to borders, or during travels may generate
+	// a lot of CountryChange events. See 'PeriodicCountry' events for an alternative.
+	//
+	// For subscribers with multiple SIM cards you will see an event for each SIM
+	// (IMSI), as they can move between countries individually.
+	StreamCountryChangeEvents(*StreamCountryChangeEventsRequest, SubscriptionEventService_StreamCountryChangeEventsServer) error
+	// Manually ack a country change event.
+	AckCountryChangeEvent(context.Context, *AckCountryChangeEventRequest) (*AckCountryChangeEventResponse, error)
+	// Timed country events are triggered on a regular basis for each user for each
+	// country where they are seen. It is triggered by knowingly seeing the subscriber
+	// & handset in a specific country, and for each tenant will be triggered on a
+	// regular interval. E.g. if 'Operator X' is configured for a 2 week interval,
+	// there will be an event every 14 days (or 336 hours or 1209600 seconds) as long
+	// as the subscriber is still seen in that country.
+	//
+	// As this event is not always triggered based on the subscriber moving between
+	// countries, it does not contain the previously seen country. For getting the real-time
+	// movement of the subscriber between countries, use 'CountryChange' event.
+	//
+	// This event is triggered:
+	//
+	// - When the subscriber enters a new country (not visited before). This is triggered
+	//   at the same time as the corresponding 'CountryChange' event.
+	// - When the subscriber is seen in a country, and the 'PeriodicCountry' event for that
+	//   subscriber and country has not been triggered for the configured time delay.
+	//
+	// For subscribers with multiple SIM cards you will see an event for each SIM
+	// (IMSI), as they can move between countries individually.
+	StreamPeriodicCountryEvents(*StreamPeriodicCountryEventsRequest, SubscriptionEventService_StreamPeriodicCountryEventsServer) error
+	// Manually ack a timed country event.
+	AckPeriodicCountryEvent(context.Context, *AckPeriodicCountryEventRequest) (*AckPeriodicCountryEventResponse, error)
 }
 
 // UnimplementedSubscriptionEventServiceServer should be embedded to have forward compatible implementations.
@@ -134,11 +294,23 @@ func (UnimplementedSubscriptionEventServiceServer) StreamHandsetChangeEvents(*St
 func (UnimplementedSubscriptionEventServiceServer) AckHandsetChangeEvent(context.Context, *AckHandsetChangeEventRequest) (*AckHandsetChangeEventResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AckHandsetChangeEvent not implemented")
 }
-func (UnimplementedSubscriptionEventServiceServer) StreamRoamingEvents(*StreamRoamingEventsRequest, SubscriptionEventService_StreamRoamingEventsServer) error {
-	return status.Errorf(codes.Unimplemented, "method StreamRoamingEvents not implemented")
+func (UnimplementedSubscriptionEventServiceServer) StreamFirstAttachmentEvents(*StreamFirstAttachmentEventsRequest, SubscriptionEventService_StreamFirstAttachmentEventsServer) error {
+	return status.Errorf(codes.Unimplemented, "method StreamFirstAttachmentEvents not implemented")
 }
-func (UnimplementedSubscriptionEventServiceServer) AckRoamingEvent(context.Context, *AckRoamingEventRequest) (*AckRoamingEventResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AckRoamingEvent not implemented")
+func (UnimplementedSubscriptionEventServiceServer) AckFirstAttachmentEvent(context.Context, *AckFirstAttachmentEventRequest) (*AckFirstAttachmentEventResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AckFirstAttachmentEvent not implemented")
+}
+func (UnimplementedSubscriptionEventServiceServer) StreamCountryChangeEvents(*StreamCountryChangeEventsRequest, SubscriptionEventService_StreamCountryChangeEventsServer) error {
+	return status.Errorf(codes.Unimplemented, "method StreamCountryChangeEvents not implemented")
+}
+func (UnimplementedSubscriptionEventServiceServer) AckCountryChangeEvent(context.Context, *AckCountryChangeEventRequest) (*AckCountryChangeEventResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AckCountryChangeEvent not implemented")
+}
+func (UnimplementedSubscriptionEventServiceServer) StreamPeriodicCountryEvents(*StreamPeriodicCountryEventsRequest, SubscriptionEventService_StreamPeriodicCountryEventsServer) error {
+	return status.Errorf(codes.Unimplemented, "method StreamPeriodicCountryEvents not implemented")
+}
+func (UnimplementedSubscriptionEventServiceServer) AckPeriodicCountryEvent(context.Context, *AckPeriodicCountryEventRequest) (*AckPeriodicCountryEventResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AckPeriodicCountryEvent not implemented")
 }
 
 // UnsafeSubscriptionEventServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -191,41 +363,119 @@ func _SubscriptionEventService_AckHandsetChangeEvent_Handler(srv interface{}, ct
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SubscriptionEventService_StreamRoamingEvents_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(StreamRoamingEventsRequest)
+func _SubscriptionEventService_StreamFirstAttachmentEvents_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(StreamFirstAttachmentEventsRequest)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(SubscriptionEventServiceServer).StreamRoamingEvents(m, &subscriptionEventServiceStreamRoamingEventsServer{stream})
+	return srv.(SubscriptionEventServiceServer).StreamFirstAttachmentEvents(m, &subscriptionEventServiceStreamFirstAttachmentEventsServer{stream})
 }
 
-type SubscriptionEventService_StreamRoamingEventsServer interface {
-	Send(*StreamRoamingEventsResponse) error
+type SubscriptionEventService_StreamFirstAttachmentEventsServer interface {
+	Send(*StreamFirstAttachmentEventsResponse) error
 	grpc.ServerStream
 }
 
-type subscriptionEventServiceStreamRoamingEventsServer struct {
+type subscriptionEventServiceStreamFirstAttachmentEventsServer struct {
 	grpc.ServerStream
 }
 
-func (x *subscriptionEventServiceStreamRoamingEventsServer) Send(m *StreamRoamingEventsResponse) error {
+func (x *subscriptionEventServiceStreamFirstAttachmentEventsServer) Send(m *StreamFirstAttachmentEventsResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _SubscriptionEventService_AckRoamingEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AckRoamingEventRequest)
+func _SubscriptionEventService_AckFirstAttachmentEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AckFirstAttachmentEventRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SubscriptionEventServiceServer).AckRoamingEvent(ctx, in)
+		return srv.(SubscriptionEventServiceServer).AckFirstAttachmentEvent(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wgtwo.subscription.v1.SubscriptionEventService/AckRoamingEvent",
+		FullMethod: "/wgtwo.subscription.v1.SubscriptionEventService/AckFirstAttachmentEvent",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SubscriptionEventServiceServer).AckRoamingEvent(ctx, req.(*AckRoamingEventRequest))
+		return srv.(SubscriptionEventServiceServer).AckFirstAttachmentEvent(ctx, req.(*AckFirstAttachmentEventRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SubscriptionEventService_StreamCountryChangeEvents_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(StreamCountryChangeEventsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(SubscriptionEventServiceServer).StreamCountryChangeEvents(m, &subscriptionEventServiceStreamCountryChangeEventsServer{stream})
+}
+
+type SubscriptionEventService_StreamCountryChangeEventsServer interface {
+	Send(*StreamCountryChangeEventsResponse) error
+	grpc.ServerStream
+}
+
+type subscriptionEventServiceStreamCountryChangeEventsServer struct {
+	grpc.ServerStream
+}
+
+func (x *subscriptionEventServiceStreamCountryChangeEventsServer) Send(m *StreamCountryChangeEventsResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _SubscriptionEventService_AckCountryChangeEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AckCountryChangeEventRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubscriptionEventServiceServer).AckCountryChangeEvent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/wgtwo.subscription.v1.SubscriptionEventService/AckCountryChangeEvent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubscriptionEventServiceServer).AckCountryChangeEvent(ctx, req.(*AckCountryChangeEventRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SubscriptionEventService_StreamPeriodicCountryEvents_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(StreamPeriodicCountryEventsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(SubscriptionEventServiceServer).StreamPeriodicCountryEvents(m, &subscriptionEventServiceStreamPeriodicCountryEventsServer{stream})
+}
+
+type SubscriptionEventService_StreamPeriodicCountryEventsServer interface {
+	Send(*StreamPeriodicCountryEventsResponse) error
+	grpc.ServerStream
+}
+
+type subscriptionEventServiceStreamPeriodicCountryEventsServer struct {
+	grpc.ServerStream
+}
+
+func (x *subscriptionEventServiceStreamPeriodicCountryEventsServer) Send(m *StreamPeriodicCountryEventsResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _SubscriptionEventService_AckPeriodicCountryEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AckPeriodicCountryEventRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubscriptionEventServiceServer).AckPeriodicCountryEvent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/wgtwo.subscription.v1.SubscriptionEventService/AckPeriodicCountryEvent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubscriptionEventServiceServer).AckPeriodicCountryEvent(ctx, req.(*AckPeriodicCountryEventRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -242,8 +492,16 @@ var SubscriptionEventService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SubscriptionEventService_AckHandsetChangeEvent_Handler,
 		},
 		{
-			MethodName: "AckRoamingEvent",
-			Handler:    _SubscriptionEventService_AckRoamingEvent_Handler,
+			MethodName: "AckFirstAttachmentEvent",
+			Handler:    _SubscriptionEventService_AckFirstAttachmentEvent_Handler,
+		},
+		{
+			MethodName: "AckCountryChangeEvent",
+			Handler:    _SubscriptionEventService_AckCountryChangeEvent_Handler,
+		},
+		{
+			MethodName: "AckPeriodicCountryEvent",
+			Handler:    _SubscriptionEventService_AckPeriodicCountryEvent_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
@@ -253,8 +511,18 @@ var SubscriptionEventService_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 		{
-			StreamName:    "StreamRoamingEvents",
-			Handler:       _SubscriptionEventService_StreamRoamingEvents_Handler,
+			StreamName:    "StreamFirstAttachmentEvents",
+			Handler:       _SubscriptionEventService_StreamFirstAttachmentEvents_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "StreamCountryChangeEvents",
+			Handler:       _SubscriptionEventService_StreamCountryChangeEvents_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "StreamPeriodicCountryEvents",
+			Handler:       _SubscriptionEventService_StreamPeriodicCountryEvents_Handler,
 			ServerStreams: true,
 		},
 	},

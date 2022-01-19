@@ -17,12 +17,12 @@ syntax = "proto3";
 
 package wgtwo.webterminal.v0;
 
-import "wgtwo/annotations.proto";
+import "wgtwo/annotations/annotations.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
 option java_outer_classname = "WebTerminalProto";
 option java_multiple_files = true;
-option java_package = "com.wgtwo.api.webterminal";
+option java_package = "com.wgtwo.api.v0.webterminal";
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/webterminal/v0";
 
 // Gateway for WebTerminalProtocol. Requires user's consent to answer and initiate calls.
@@ -98,9 +98,7 @@ service WebTerminalService {
 //   Endpoint <- {Idle{}, call_id}       - call ended
 //
 // ICE
-//   Endpoint can send its candidates in SDP or use Ice{candidate},  message. Using Ice{} assumes both ends
-//   support trickle ICE exchange. Preferred way to handle ICE is to include candidates to SDP and not use trickle
-//   ICE updates
+//   Endpoint may send ICE candidates in the SDP
 //
 // SDP renegotiation
 //   Endpoint must be prepared to receive new Offer{call_id, sdp} with updated SDP from the core after initial
@@ -115,7 +113,6 @@ message WebTerminalMessage {
     Idle idle = 5;
     InCall in_call = 6;
     Error error = 7;
-    Ice ice = 8;
     Action action = 9;
   }
   string call_id = 10;
@@ -136,12 +133,6 @@ message Ringing {
 message Bye {
 }
 
-message Ice {
-  repeated string candidates = 1;
-  int32 mLineIndex = 2;
-  string mid = 3;
-}
-
 message Idle {
 }
 
@@ -156,6 +147,7 @@ message Error {
     NOT_INCALL = 1;
     TRY_AGAIN = 2;
     INVALID_CALL_ID = 3;
+    RATE_LIMIT_HIT = 4;
   }
 }
 

@@ -17,12 +17,12 @@ syntax = "proto3";
 
 package wgtwo.sms.v0;
 
-import "wgtwo/annotations.proto";
+import "wgtwo/annotations/annotations.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sms/v0";
 
-option java_package = "com.wgtwo.api.sms";
+option java_package = "com.wgtwo.api.v0.sms";
 option java_outer_classname = "SmsProto";
 
 service SmsService {
@@ -33,7 +33,6 @@ service SmsService {
     option (scope) = "sms.send.to_subscriber";
   }
   rpc SendTextToSubscriber (SendTextToSubscriberRequest) returns (SendResponse) {
-    option deprecated = true; // use one of the two below
     option (scope) = "sms.send.to_subscriber";
   }
   rpc SendTextToSubscriberAsOperator (SendTextAsOperatorRequest) returns (SendResponse) {
@@ -57,22 +56,25 @@ message SendTextAsProductRequest {
 }
 
 message SendTextToSubscriberRequest {
-  string content = 1 [deprecated=true];
+  string content = 1;
 
   oneof from_address {
-    wgtwo.common.v0.PhoneNumber from_e164 = 2 [deprecated=true];
-    wgtwo.common.v0.TextAddress from_text_address = 3 [deprecated=true];
+    wgtwo.common.v0.PhoneNumber from_e164 = 2;
+    wgtwo.common.v0.TextAddress from_text_address = 3;
+    wgtwo.common.v0.NationalPhoneNumber from_short_number = 5;
   }
 
-  wgtwo.common.v0.PhoneNumber to_subscriber = 4 [deprecated=true];
+  wgtwo.common.v0.PhoneNumber to_subscriber = 4;
 }
 
 message SendTextFromSubscriberRequest {
   string content = 1;
 
   wgtwo.common.v0.PhoneNumber from_subscriber = 2;
-
-  wgtwo.common.v0.PhoneNumber to_e164 = 3;
+  oneof to_address {
+    wgtwo.common.v0.PhoneNumber to_e164 = 3;
+    wgtwo.common.v0.NationalPhoneNumber to_short_number = 5;
+  }
 }
 
 
@@ -82,6 +84,7 @@ message SendBinaryToSubscriberRequest {
   oneof from_address {
     wgtwo.common.v0.PhoneNumber from_e164 = 2;
     wgtwo.common.v0.TextAddress from_text_address = 3;
+    wgtwo.common.v0.NationalPhoneNumber from_short_number = 7;
   }
 
   wgtwo.common.v0.PhoneNumber to_subscriber = 4;
@@ -98,6 +101,12 @@ message SendBinaryToSubscriberRequest {
   }
 
   MessageClass message_class = 5;
+
+  message ApplicationPort {
+    uint32 originatorPort = 1;
+    uint32 destinationPort = 2;
+  }
+  ApplicationPort applicationPort = 6;
 }
 
 message SendResponse {

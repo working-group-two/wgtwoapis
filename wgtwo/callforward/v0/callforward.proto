@@ -18,11 +18,11 @@ syntax = "proto3";
 package wgtwo.callforward.v0;
 
 import "google/protobuf/empty.proto";
-import "wgtwo/annotations.proto";
+import "wgtwo/annotations/annotations.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/callforward/v0";
-option java_package = "com.wgtwo.api.callforward";
+option java_package = "com.wgtwo.api.v0.callforward";
 option java_outer_classname = "CallForwardingProto";
 
 service CallForwardingService {

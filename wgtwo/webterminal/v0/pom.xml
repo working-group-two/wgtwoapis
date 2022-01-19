@@ -8,8 +8,8 @@
         <relativePath>../../pom-v0.xml</relativePath>
     </parent>
 
-    <name>${project.groupId} calling</name>
-    <artifactId>calling</artifactId>
+    <name>${project.groupId} webterminal</name>
+    <artifactId>webterminal</artifactId>
     <groupId>com.wgtwo.api.v0.grpc</groupId>
     <version>0.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -18,16 +18,25 @@
         <maven.deploy.skip>false</maven.deploy.skip>
     </properties>
 
+
     <dependencies>
-        <dependency>
-            <groupId>com.wgtwo.api.v0.grpc</groupId>
-            <artifactId>common</artifactId>
-            <version>0.1.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-          <groupId>com.google.protobuf</groupId>
-          <artifactId>protobuf-java</artifactId>
-        </dependency>
+      <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>io.grpc</groupId>
+        <artifactId>grpc-stub</artifactId>
+        <version>${grpc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.grpc</groupId>
+        <artifactId>grpc-protobuf</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>javax.annotation</groupId>
+        <artifactId>javax.annotation-api</artifactId>
+    </dependency>
     </dependencies>
 
     <build>
@@ -48,7 +57,7 @@
                 <configuration>
                     <includes>
                         <include>wgtwo/annotations/annotations.proto</include>
-                        <include>wgtwo/calling/v0/*.proto</include>
+                        <include>wgtwo/webterminal/v0/*.proto</include>
                         <include>wgtwo/common/v0/*.proto</include>
                     </includes>
                 </configuration>

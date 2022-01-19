@@ -17,11 +17,11 @@ syntax = "proto3";
 
 package wgtwo.mms.v0;
 
-import "wgtwo/annotations.proto";
+import "wgtwo/annotations/annotations.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/mms/v0";
-option java_package = "com.wgtwo.api.mms";
+option java_package = "com.wgtwo.api.v0.mms";
 option java_outer_classname = "MmsProto";
 
 service MmsService {
