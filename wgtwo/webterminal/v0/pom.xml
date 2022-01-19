@@ -8,8 +8,8 @@
         <relativePath>../../pom-v0.xml</relativePath>
     </parent>
 
-    <name>${project.groupId} voicemail</name>
-    <artifactId>voicemail</artifactId>
+    <name>${project.groupId} webterminal</name>
+    <artifactId>webterminal</artifactId>
     <groupId>com.wgtwo.api.v0.grpc</groupId>
     <version>0.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
