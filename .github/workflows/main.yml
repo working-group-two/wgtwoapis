@@ -22,7 +22,11 @@ jobs:
       - name: Make Maven Wrapper executable
         if: contains(matrix.os, 'win') == false
         run: chmod +x ./mvnw
-      - name: Build with Maven
+      - name: Package v1
         run: ./mvnw package --file wgtwo/pom-v1.xml --batch-mode
+        env:
+          MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+      - name: Package v0
+        run: ./mvnw package --file wgtwo/pom-v0.xml --batch-mode
         env:
           MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
