@@ -20,7 +20,7 @@
         <module>mms/v0</module>
         <module>sms/v0</module>
         <module>voicemail/v0</module>
-        <module>annotations/v0</module>
+        <module>annotations/pom-v0.xml</module>
     </modules>
 
     <properties>

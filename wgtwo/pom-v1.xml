@@ -12,7 +12,7 @@
     <description>WGTWO grpc api v1</description>
 
     <modules>
-        <module>annotations/v1</module>
+        <module>annotations/pom-v1.xml</module>
         <module>common/v1</module>
         <module>events/v1</module>
         <module>sms/v1</module>
