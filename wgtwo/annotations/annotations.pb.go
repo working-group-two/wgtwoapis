@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.26.0
 // 	protoc        v3.17.3
-// source: wgtwo/annotations/v0/annotations.proto
+// source: wgtwo/annotations/annotations.proto
 
 package annotations
 
@@ -27,7 +27,7 @@ var file_wgtwo_annotations_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50013,
 		Name:          "wgtwo.scope",
 		Tag:           "bytes,50013,opt,name=scope",
-		Filename:      "wgtwo/annotations/v0/annotations.proto",
+		Filename:      "wgtwo/annotations/annotations.proto",
 	},
 }
 
