@@ -22,7 +22,7 @@
 package v1
 
 import (
-	_ "github.com/working-group-two/wgtwoapis/wgtwo/annotations/v0"
+	_ "github.com/working-group-two/wgtwoapis/wgtwo/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"

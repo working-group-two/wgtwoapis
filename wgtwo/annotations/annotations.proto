@@ -4,8 +4,8 @@ package wgtwo;
 
 import "google/protobuf/descriptor.proto";
 
-option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/annotations/v0";
-option java_package = "com.wgtwo.api.v0.annotations";
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/annotations";
+option java_package = "com.wgtwo.api.annotations";
 option java_outer_classname = "AnnotationsProto";
 
 extend google.protobuf.MethodOptions {
