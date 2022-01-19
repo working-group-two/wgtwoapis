@@ -23,7 +23,7 @@ package wgtwo.voicemail.v0;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/duration.proto";
-import "wgtwo/annotations/v0/annotations.proto";
+import "wgtwo/annotations/annotations.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/voicemail/v0";

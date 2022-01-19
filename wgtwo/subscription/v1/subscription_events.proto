@@ -16,7 +16,7 @@ syntax = "proto3";
 
 package wgtwo.subscription.v1;
 
-import "wgtwo/annotations/v1/annotations.proto";
+import "wgtwo/annotations/annotations.proto";
 import "wgtwo/common/v1/phonenumber.proto";
 import "wgtwo/common/v1/types.proto";
 import "wgtwo/events/v1/events.proto";

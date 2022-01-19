@@ -20,7 +20,7 @@ package wgtwo.events.v0;
 import "google/protobuf/duration.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
-import "wgtwo/annotations/v0/annotations.proto";
+import "wgtwo/annotations/annotations.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 import "wgtwo/common/v0/types.proto";
 

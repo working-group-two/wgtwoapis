@@ -55,7 +55,7 @@
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <configuration>
                     <includes>
-                        <include>wgtwo/common/v1/*.proto</include>
+                        <include>wgtwo/annotations/annotations.proto</include>
                     </includes>
                 </configuration>
             </plugin>

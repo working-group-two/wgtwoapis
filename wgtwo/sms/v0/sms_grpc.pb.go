@@ -20,7 +20,6 @@ const _ = grpc.SupportPackageIsVersion7
 type SmsServiceClient interface {
 	SendTextFromSubscriber(ctx context.Context, in *SendTextFromSubscriberRequest, opts ...grpc.CallOption) (*SendResponse, error)
 	SendBinaryToSubscriber(ctx context.Context, in *SendBinaryToSubscriberRequest, opts ...grpc.CallOption) (*SendResponse, error)
-	// Deprecated: Do not use.
 	SendTextToSubscriber(ctx context.Context, in *SendTextToSubscriberRequest, opts ...grpc.CallOption) (*SendResponse, error)
 	SendTextToSubscriberAsOperator(ctx context.Context, in *SendTextAsOperatorRequest, opts ...grpc.CallOption) (*SendResponse, error)
 	SendTextToSubscriberAsProduct(ctx context.Context, in *SendTextAsProductRequest, opts ...grpc.CallOption) (*SendResponse, error)
@@ -52,7 +51,6 @@ func (c *smsServiceClient) SendBinaryToSubscriber(ctx context.Context, in *SendB
 	return out, nil
 }
 
-// Deprecated: Do not use.
 func (c *smsServiceClient) SendTextToSubscriber(ctx context.Context, in *SendTextToSubscriberRequest, opts ...grpc.CallOption) (*SendResponse, error) {
 	out := new(SendResponse)
 	err := c.cc.Invoke(ctx, "/wgtwo.sms.v0.SmsService/SendTextToSubscriber", in, out, opts...)
@@ -86,7 +84,6 @@ func (c *smsServiceClient) SendTextToSubscriberAsProduct(ctx context.Context, in
 type SmsServiceServer interface {
 	SendTextFromSubscriber(context.Context, *SendTextFromSubscriberRequest) (*SendResponse, error)
 	SendBinaryToSubscriber(context.Context, *SendBinaryToSubscriberRequest) (*SendResponse, error)
-	// Deprecated: Do not use.
 	SendTextToSubscriber(context.Context, *SendTextToSubscriberRequest) (*SendResponse, error)
 	SendTextToSubscriberAsOperator(context.Context, *SendTextAsOperatorRequest) (*SendResponse, error)
 	SendTextToSubscriberAsProduct(context.Context, *SendTextAsProductRequest) (*SendResponse, error)

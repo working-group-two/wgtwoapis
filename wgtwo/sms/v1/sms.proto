@@ -18,7 +18,7 @@ syntax = "proto3";
 package wgtwo.sms.v1;
 
 import "google/protobuf/duration.proto";
-import "wgtwo/annotations/v1/annotations.proto";
+import "wgtwo/annotations/annotations.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sms/v1";
 
