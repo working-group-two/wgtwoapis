@@ -2,16 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.wgtwo.api</groupId>
+        <groupId>com.wgtwo.api.v0</groupId>
         <artifactId>grpc-pom</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
+        <version>0.1.1-SNAPSHOT</version>
+        <relativePath>../../pom-v0.xml</relativePath>
     </parent>
 
     <name>${project.groupId} sms</name>
     <artifactId>sms</artifactId>
-    <groupId>com.wgtwo.api.grpc</groupId>
-    <version>0.0.1</version>
+    <groupId>com.wgtwo.api.v0.grpc</groupId>
+    <version>0.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -20,9 +20,17 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.wgtwo.api.grpc</groupId>
+            <groupId>com.wgtwo.api.v0.grpc</groupId>
             <artifactId>common</artifactId>
-            <version>0.0.1</version>
+            <version>0.1.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+          <groupId>io.grpc</groupId>
+          <artifactId>grpc-protobuf</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>io.grpc</groupId>
+          <artifactId>grpc-stub</artifactId>
         </dependency>
     </dependencies>
 
@@ -43,7 +51,7 @@
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <configuration>
                     <includes>
-                        <include>wgtwo/annotations.proto</include>
+                        <include>wgtwo/annotations/v0/annotations.proto</include>
                         <include>wgtwo/common/v0/*.proto</include>
                         <include>wgtwo/sms/v0/*.proto</include>
                     </includes>

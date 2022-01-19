@@ -17,11 +17,11 @@ syntax = "proto3";
 
 package wgtwo.sipbreakout.v0;
 
-import "wgtwo/annotations.proto";
+import "wgtwo/annotations/v0/annotations.proto";
 
 option java_outer_classname = "SipBreakoutProto";
 option java_multiple_files = true;
-option java_package = "com.wgtwo.api.sipbreakout";
+option java_package = "com.wgtwo.api.v0.sipbreakout";
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sipbreakout/v0";
 
 // Service to manage virtual SIP Registrations in WG2 Core
@@ -115,6 +115,7 @@ message RegistrationRequest {
   enum RouteType {
       LOOP = 0;
       FORK = 1;
+      FALLBACK = 2;
   }
   RouteType route_type = 4;
 }
