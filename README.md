@@ -62,6 +62,8 @@ now been pushed to github so you'll have to edit the history and do a force push
 
 ## Protobuf FileDescriptorSet release
 
+Install `buf` on your local machine first ([buf installation](https://docs.buf.build/installation)) or contact your resident `buf` buff.
+
 1. `buf build -o image.bin`
 
 ## Go release
