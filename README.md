@@ -18,6 +18,17 @@ See https://docs.wgtwo.com
 See [our internal wiki](https://github.com/omnicate/loltel/wiki/Public-APIs#releasing-to-the-maven-central-repository) for the required local tooling/setup for releasing to the maven central repository.
 
 ## Java/maven artifacts
+
+The java artifacts are released to maven central. We use semver, but the first number/major
+version iteration represents the "v0" or "v1" part of the api.
+That is, all releases of version 1 of the sms api should have `1` as their major number.
+Running `release:prepare` will increase the patch version by one (`major.minor.patch`).
+If you need to increase the major or minor version, increment this manually in the various
+pom.xml files before running the commands below.
+E.g. if the current version is `x.y.z-SNAPSHOT`, version `x.y.z` is the version that will be released next.
+To instead release version `x.b.0`, edit the pom.xml files and set the version property
+to `x.b.0-SNAPSHOT`.
+
 ### Release/deploy v0
 
 1. `./mvnw build-helper:parse-version release:prepare -B --file wgtwo/pom-v0.xml`
