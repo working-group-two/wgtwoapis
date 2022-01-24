@@ -38,7 +38,7 @@ type SubscriptionEventServiceClient interface {
 	StreamCountryChangeEvents(ctx context.Context, in *StreamCountryChangeEventsRequest, opts ...grpc.CallOption) (SubscriptionEventService_StreamCountryChangeEventsClient, error)
 	// Manually ack a country change event.
 	AckCountryChangeEvent(ctx context.Context, in *AckCountryChangeEventRequest, opts ...grpc.CallOption) (*AckCountryChangeEventResponse, error)
-	// Timed country events are triggered on a regular basis for each user for each
+	// Periodic country events are triggered on a regular basis for each user for each
 	// country where they are seen. It is triggered by knowingly seeing the subscriber
 	// & handset in a specific country, and for each tenant will be triggered on a
 	// regular interval. E.g. if 'Operator X' is configured for a 2 week interval,
@@ -51,6 +51,9 @@ type SubscriptionEventServiceClient interface {
 	//
 	// This event is triggered:
 	//
+	// - When the subscriber first turns on the device and it connects to a network, it
+	//   will be triggered for the country of the connected network at the same time as the
+	//   corresponding 'FirstAttachment' event.
 	// - When the subscriber enters a new country (not visited before). This is triggered
 	//   at the same time as the corresponding 'CountryChange' event.
 	// - When the subscriber is seen in a country, and the 'PeriodicCountry' event for that
@@ -59,7 +62,7 @@ type SubscriptionEventServiceClient interface {
 	// For subscribers with multiple SIM cards you will see an event for each SIM
 	// (IMSI), as they can move between countries individually.
 	StreamPeriodicCountryEvents(ctx context.Context, in *StreamPeriodicCountryEventsRequest, opts ...grpc.CallOption) (SubscriptionEventService_StreamPeriodicCountryEventsClient, error)
-	// Manually ack a timed country event.
+	// Manually ack a periodic country event.
 	AckPeriodicCountryEvent(ctx context.Context, in *AckPeriodicCountryEventRequest, opts ...grpc.CallOption) (*AckPeriodicCountryEventResponse, error)
 }
 
@@ -259,7 +262,7 @@ type SubscriptionEventServiceServer interface {
 	StreamCountryChangeEvents(*StreamCountryChangeEventsRequest, SubscriptionEventService_StreamCountryChangeEventsServer) error
 	// Manually ack a country change event.
 	AckCountryChangeEvent(context.Context, *AckCountryChangeEventRequest) (*AckCountryChangeEventResponse, error)
-	// Timed country events are triggered on a regular basis for each user for each
+	// Periodic country events are triggered on a regular basis for each user for each
 	// country where they are seen. It is triggered by knowingly seeing the subscriber
 	// & handset in a specific country, and for each tenant will be triggered on a
 	// regular interval. E.g. if 'Operator X' is configured for a 2 week interval,
@@ -272,6 +275,9 @@ type SubscriptionEventServiceServer interface {
 	//
 	// This event is triggered:
 	//
+	// - When the subscriber first turns on the device and it connects to a network, it
+	//   will be triggered for the country of the connected network at the same time as the
+	//   corresponding 'FirstAttachment' event.
 	// - When the subscriber enters a new country (not visited before). This is triggered
 	//   at the same time as the corresponding 'CountryChange' event.
 	// - When the subscriber is seen in a country, and the 'PeriodicCountry' event for that
@@ -280,7 +286,7 @@ type SubscriptionEventServiceServer interface {
 	// For subscribers with multiple SIM cards you will see an event for each SIM
 	// (IMSI), as they can move between countries individually.
 	StreamPeriodicCountryEvents(*StreamPeriodicCountryEventsRequest, SubscriptionEventService_StreamPeriodicCountryEventsServer) error
-	// Manually ack a timed country event.
+	// Manually ack a periodic country event.
 	AckPeriodicCountryEvent(context.Context, *AckPeriodicCountryEventRequest) (*AckPeriodicCountryEventResponse, error)
 }
 

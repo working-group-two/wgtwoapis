@@ -30,7 +30,7 @@ option java_outer_classname = "SubscriptionEventsProto";
 // See events.proto for details on subscribing.
 //
 // - First Attachment : When the subscriber first attaches to the network.
-// - Timed Country    : While the subscriber is in a country.
+// - Periodic Country : While the subscriber is in a country.
 // - Country Change   : When the subscriber changes current country location.
 // - Handset Change   : When the SIM card is moved from one handset to another.
 service SubscriptionEventService {
@@ -67,7 +67,7 @@ service SubscriptionEventService {
   rpc AckCountryChangeEvent (AckCountryChangeEventRequest) returns (AckCountryChangeEventResponse) {
     option (scope) = "subscription.country_change:read";
   }
-  // Timed country events are triggered on a regular basis for each user for each
+  // Periodic country events are triggered on a regular basis for each user for each
   // country where they are seen. It is triggered by knowingly seeing the subscriber
   // & handset in a specific country, and for each tenant will be triggered on a
   // regular interval. E.g. if 'Operator X' is configured for a 2 week interval,
@@ -80,6 +80,9 @@ service SubscriptionEventService {
   //
   // This event is triggered:
   //
+  // - When the subscriber first turns on the device and it connects to a network, it
+  //   will be triggered for the country of the connected network at the same time as the
+  //   corresponding 'FirstAttachment' event.
   // - When the subscriber enters a new country (not visited before). This is triggered
   //   at the same time as the corresponding 'CountryChange' event.
   // - When the subscriber is seen in a country, and the 'PeriodicCountry' event for that
@@ -91,7 +94,7 @@ service SubscriptionEventService {
       stream StreamPeriodicCountryEventsResponse) {
     option (scope) = "subscription.periodic_country:read";
   }
-  // Manually ack a timed country event.
+  // Manually ack a periodic country event.
   rpc AckPeriodicCountryEvent (AckPeriodicCountryEventRequest) returns (AckPeriodicCountryEventResponse) {
     option (scope) = "subscription.periodic_country:read";
   }
@@ -170,13 +173,21 @@ message Handset {
 }
 
 message HandsetChangeEvent {
-  Handset previous = 1;
-  Handset current = 2;
+  // The international number of the subscriber.
+  common.v1.E164 number = 4;
+  // The IMSI for the SIM card that has been observed. This is PII sensitive information, and
+  // needs to be handled with care.
   common.v1.Imsi imsi = 3;
+  // The previously stored handset info, may be empty.
+  Handset previous = 1;
+  // The updated handset info
+  Handset current = 2;
 }
 
 message CountryChangeEvent {
+  // The country the subscriber moved from.
   wgtwo.common.v1.Country previous = 1;
+  // The country the subscriber moved to.
   wgtwo.common.v1.Country current = 2;
 }
 
