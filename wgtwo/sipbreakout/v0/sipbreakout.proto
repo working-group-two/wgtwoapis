@@ -101,8 +101,9 @@ message RegistrationResponse {
 
 message Status {
   enum Code {
-    OK = 0;
-    NOT_ACCEPTABLE = 1;
+    CODE_UNSPECIFIED = 0;
+    CODE_OK = 1;
+    CODE_NOT_ACCEPTABLE = 2;
   }
   Code code = 1;
   string message = 2;
@@ -113,9 +114,10 @@ message RegistrationRequest {
   string mt_prefix = 2;
   string suri = 3; // sips:example.com or sips:example.com:8888
   enum RouteType {
-      LOOP = 0;
-      FORK = 1;
-      FALLBACK = 2;
+    ROUTE_TYPE_UNSPECIFIED = 0;
+    ROUTE_TYPE_LOOP = 1;
+    ROUTE_TYPE_FORK = 2;
+    ROUTE_TYPE_FALLBACK = 3;
   }
   RouteType route_type = 4;
 }
