@@ -17,6 +17,7 @@ syntax = "proto3";
 
 package wgtwo.sipbreakout.v0;
 
+import "google/protobuf/duration.proto";
 import "wgtwo/annotations/annotations.proto";
 
 option java_outer_classname = "SipBreakoutProto";
@@ -24,100 +25,126 @@ option java_multiple_files = true;
 option java_package = "com.wgtwo.api.v0.sipbreakout";
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sipbreakout/v0";
 
-// Service to manage virtual SIP Registrations in WG2 Core
-
-service SipBreakoutService {
-  rpc UpsertRegistration (RegistrationRequest) returns (RegistrationResponse) {
-    option (scope) = "call.control.answer_and_initiate";
-  };
-  rpc DeleteRegistration (RegistrationRequest) returns (RegistrationResponse) {
-    option (scope) = "call.control.answer_and_initiate";
-  };
-}
-
 // Virtual SIP Registration makes WG2 Core to involve third party Telephony Application Server (TAS)
 // in to the call processing
 // WG2 Session Boarder Controller(SBC) will forward SIP signalling to the TAS based on presence of the
-// SIP Registration and its type. The type can be one of "looping" or "forking".
+// SIP Registration and its type. The type can be one of "loop", "fork", or "fallback".
 //
+//       ┌───────┐                   |    ┌───────┐
+//       │ Alice ├───1───────┐       |    │ Alice ├───1───────┐
+//       └───────┘           │       |    └───────┘           │
+//                           │       |                        │
+//       ┌──────┐         ┌──▼──┐    |    ┌───────┐        ┌──▼──┐
+//       │ Bob  ◄────4────┤ WG2 │    |    │ Bob   ◄───2────┤ WG2 │
+//       └──────┘         └─▲──┬┘    |    └───────┘        └──┬──┘
+//                          3  2     |                        3
+//                          │  │     |                        │
+//                         ┌┴──▼┐    |                      ┌─▼──┐
+//                         │TAS │    |                      │TAS │
+//                         └────┘    |                      └────┘
+//                                  |
+//               Loop               VS       Fork / Fallback
 //
-//       ┌──────┐                             ┌────────┐
-//       │ Alice├───1────────┐                │  Alice ├────1──────────┐
-//       └──────┘         ┌──▼──┐             └────────┘               │
-//                    ┌───┤ WG2 │                                    ┌─▼──┐
-//                    │   └▲───┬┘                                    │WG2 │
-//                    │    │   │                                     └─┬─┬┘
-//                    4    3   2                                       │ │
-//                    │    │   │                                       │ 2
-//                    │    │   │                  ┌──────────3─────────┘ │
-//                    │    ├───▼┐                 │                      │
-//                    │    │TAS │              ┌──▼──┐                ┌──▼─┐
-//                    │    └────┘              │ Bob │                │TAS │
-//       ┌────┐       │                        └─────┘                └────┘
-//       │Bob ◄───────┘
-//       └────┘
+// For `ROUTE_TYPE_LOOP` leg 4 is not created until call comes back as leg 3.
+// In this case, TAS is not obliged to create leg 3, and can itself answer or reject leg 2.
 //
-//     Loop                   VS                 Fork
+// For `ROUTE_TYPE_FORK` registration makes legs 2 and 3 to happen simultaneously.
 //
+// For `ROUTE_TYPE_FALLBACK` case leg 3 will only be created if leg 2 is not answered.
 //
-// In looping case leg 4 is not created until call comes back as leg 3. While forked
-// registration makes legs 2 and 3 to happen simultaneously.
-//
-// Please note that in looping case TAS is not obliged to create leg 3 and can itself
-// answer or reject leg 2.
 //
 // Creating the registration
 //  SipBreakOutService.UpsertRegistration(Registration) - registration details select its type, prefixes to use
 //  on leg 2 (see above drawing), domain name of the TAS server.
 //
 // Prefix towards TAS
-//   WG2 can provide prefix in INVITE's URI to help TAS to figure out if call came because
+//   Working Group Two can provide prefix in INVITE's URI to help TAS to figure out if call came because
 //   of the Caller or the Answerer. The prefix is set as follows
 //    ---------------------------------------------------------------------------------
 //    Caller has Registration        | Answerer has Registration       | Prefix
 //    -------------------------------|---------------------------------|---------------
-//              Yes                  | Yes                             | mo_prefix
-//              Yes                  | No                              | mo_prefix
-//              No                   | Yes                             | mt_prefix
+//              Yes                  | Yes                             | mobile_originating_prefix
+//              Yes                  | No                              | mobile_originating_prefix
+//              No                   | Yes                             | mobile_terminating_prefix
 //
 // Maintaining the registration
 //  Each SIP Registration has fixed TTL of 3600 seconds since last call to SipBreakOutService.UpsertRegistration()
 //  and has to be refreshed by using again SipBreakOutService.UpsertRegistration(Registration) with same parameters.
 //
 // Deleting the registration
-//  To remove registration with out waiting for TTL to expire use SipBreakOutService.DeleteRegistration().
-//  Registration.suri in DeleteRegistration() shall match the one given in SipBreakOutService.UpsertRegistration().
+//  To remove registration without waiting for TTL to expire use SipBreakOutService.DeleteRegistration()
+//  with the same sip uri used in the original registration.
 //
 // SIP Transport
 //  TLS is used as SIP transport and TAS shall present valid certificate for SIP URI stated in
-//  Registration.suri
+//  Registration.sip_uri
 //
 // Media
 //  WebRTC style SDPs are used between WG2 SBC and TAS to encrypt media sessions.
+service SipBreakoutService {
 
-message RegistrationResponse {
-  Status status = 1;
+  // Add or replace a registration
+  rpc UpsertRegistration (UpsertRegistrationRequest) returns (UpsertRegistrationResponse) {
+    option (scope) = "call.control:answer_and_initiate";
+  };
+
+  // Delete an existing registration
+  rpc DeleteRegistration (DeleteRegistrationRequest) returns (DeleteRegistrationResponse) {
+    option (scope) = "call.control:answer_and_initiate";
+  };
 }
 
-message Status {
-  enum Code {
-    CODE_UNSPECIFIED = 0;
-    CODE_OK = 1;
-    CODE_NOT_ACCEPTABLE = 2;
-  }
-  Code code = 1;
-  string message = 2;
+message UpsertRegistrationRequest {
+  Registration registration = 1;
 }
 
-message RegistrationRequest {
-  string mo_prefix = 1; // if set to 00 then INVITE sip:+47112334455... becomes INVITE sip:+0047112334455...
-  string mt_prefix = 2;
-  string suri = 3; // sips:example.com or sips:example.com:8888
-  enum RouteType {
-    ROUTE_TYPE_UNSPECIFIED = 0;
-    ROUTE_TYPE_LOOP = 1;
-    ROUTE_TYPE_FORK = 2;
-    ROUTE_TYPE_FALLBACK = 3;
-  }
+message UpsertRegistrationResponse {
+  // The response status for attempting to updating the registration
+  StatusCode status_code = 1;
+
+  // Human readable description for what failed or rejected the registration.
+  string error_message = 2;
+
+  // Time to live for the registration
+  google.protobuf.Duration time_to_live = 3;
+}
+
+message DeleteRegistrationRequest {
+  Registration registration = 1;
+}
+
+message DeleteRegistrationResponse {
+  // The response status for attempting to updating the registration
+  StatusCode status_code = 1;
+
+  // Human readable description for what failed or rejected the registration.
+  string error_message = 2;
+}
+
+message Registration {
+  // If set to 00 then INVITE sip:+47112334455... becomes INVITE sip:+0047112334455
+  // This field is optional
+  string mobile_originating_prefix = 1;
+
+  // If set to 00 then INVITE sip:+47112334455... becomes INVITE sip:+0047112334455
+  // This field is optional
+  string mobile_terminating_prefix = 2;
+
+  // sips:example.com or sips:example.com:8888
+  string sip_uri = 3;
+
   RouteType route_type = 4;
+}
+
+enum StatusCode {
+  STATUS_CODE_UNSPECIFIED = 0;
+  STATUS_CODE_OK = 1;
+  STATUS_CODE_NOT_ACCEPTABLE = 2;
+}
+
+enum RouteType {
+  ROUTE_TYPE_UNSPECIFIED = 0;
+  ROUTE_TYPE_LOOP = 1;
+  ROUTE_TYPE_FORK = 2;
+  ROUTE_TYPE_FALLBACK = 3;
 }
