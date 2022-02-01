@@ -372,7 +372,7 @@ type SendDataToSubscriberRequest struct {
 	// and a delivery is not succeeded, the message delivery will fail. If not set
 	// will use the maximum deadline. Maximum is 7 days.
 	DeliveryDeadline *durationpb.Duration `protobuf:"bytes,4,opt,name=delivery_deadline,json=deliveryDeadline,proto3" json:"delivery_deadline,omitempty"`
-	// The message class to use for the data SMS message. Must be set.
+	// The message class to use for the data SMS message.
 	MessageClass MessageClass `protobuf:"varint,5,opt,name=message_class,json=messageClass,proto3,enum=wgtwo.sms.v1.MessageClass" json:"message_class,omitempty"`
 	// The application port for the message.
 	ApplicationPort *ApplicationPort `protobuf:"bytes,6,opt,name=application_port,json=applicationPort,proto3" json:"application_port,omitempty"`

@@ -18,8 +18,10 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SipBreakoutServiceClient interface {
-	UpsertRegistration(ctx context.Context, in *RegistrationRequest, opts ...grpc.CallOption) (*RegistrationResponse, error)
-	DeleteRegistration(ctx context.Context, in *RegistrationRequest, opts ...grpc.CallOption) (*RegistrationResponse, error)
+	// Add or replace a registration
+	UpsertRegistration(ctx context.Context, in *UpsertRegistrationRequest, opts ...grpc.CallOption) (*UpsertRegistrationResponse, error)
+	// Delete an existing registration
+	DeleteRegistration(ctx context.Context, in *DeleteRegistrationRequest, opts ...grpc.CallOption) (*DeleteRegistrationResponse, error)
 }
 
 type sipBreakoutServiceClient struct {
@@ -30,8 +32,8 @@ func NewSipBreakoutServiceClient(cc grpc.ClientConnInterface) SipBreakoutService
 	return &sipBreakoutServiceClient{cc}
 }
 
-func (c *sipBreakoutServiceClient) UpsertRegistration(ctx context.Context, in *RegistrationRequest, opts ...grpc.CallOption) (*RegistrationResponse, error) {
-	out := new(RegistrationResponse)
+func (c *sipBreakoutServiceClient) UpsertRegistration(ctx context.Context, in *UpsertRegistrationRequest, opts ...grpc.CallOption) (*UpsertRegistrationResponse, error) {
+	out := new(UpsertRegistrationResponse)
 	err := c.cc.Invoke(ctx, "/wgtwo.sipbreakout.v0.SipBreakoutService/UpsertRegistration", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -39,8 +41,8 @@ func (c *sipBreakoutServiceClient) UpsertRegistration(ctx context.Context, in *R
 	return out, nil
 }
 
-func (c *sipBreakoutServiceClient) DeleteRegistration(ctx context.Context, in *RegistrationRequest, opts ...grpc.CallOption) (*RegistrationResponse, error) {
-	out := new(RegistrationResponse)
+func (c *sipBreakoutServiceClient) DeleteRegistration(ctx context.Context, in *DeleteRegistrationRequest, opts ...grpc.CallOption) (*DeleteRegistrationResponse, error) {
+	out := new(DeleteRegistrationResponse)
 	err := c.cc.Invoke(ctx, "/wgtwo.sipbreakout.v0.SipBreakoutService/DeleteRegistration", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -52,18 +54,20 @@ func (c *sipBreakoutServiceClient) DeleteRegistration(ctx context.Context, in *R
 // All implementations should embed UnimplementedSipBreakoutServiceServer
 // for forward compatibility
 type SipBreakoutServiceServer interface {
-	UpsertRegistration(context.Context, *RegistrationRequest) (*RegistrationResponse, error)
-	DeleteRegistration(context.Context, *RegistrationRequest) (*RegistrationResponse, error)
+	// Add or replace a registration
+	UpsertRegistration(context.Context, *UpsertRegistrationRequest) (*UpsertRegistrationResponse, error)
+	// Delete an existing registration
+	DeleteRegistration(context.Context, *DeleteRegistrationRequest) (*DeleteRegistrationResponse, error)
 }
 
 // UnimplementedSipBreakoutServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedSipBreakoutServiceServer struct {
 }
 
-func (UnimplementedSipBreakoutServiceServer) UpsertRegistration(context.Context, *RegistrationRequest) (*RegistrationResponse, error) {
+func (UnimplementedSipBreakoutServiceServer) UpsertRegistration(context.Context, *UpsertRegistrationRequest) (*UpsertRegistrationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpsertRegistration not implemented")
 }
-func (UnimplementedSipBreakoutServiceServer) DeleteRegistration(context.Context, *RegistrationRequest) (*RegistrationResponse, error) {
+func (UnimplementedSipBreakoutServiceServer) DeleteRegistration(context.Context, *DeleteRegistrationRequest) (*DeleteRegistrationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteRegistration not implemented")
 }
 
@@ -79,7 +83,7 @@ func RegisterSipBreakoutServiceServer(s grpc.ServiceRegistrar, srv SipBreakoutSe
 }
 
 func _SipBreakoutService_UpsertRegistration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegistrationRequest)
+	in := new(UpsertRegistrationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -91,13 +95,13 @@ func _SipBreakoutService_UpsertRegistration_Handler(srv interface{}, ctx context
 		FullMethod: "/wgtwo.sipbreakout.v0.SipBreakoutService/UpsertRegistration",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SipBreakoutServiceServer).UpsertRegistration(ctx, req.(*RegistrationRequest))
+		return srv.(SipBreakoutServiceServer).UpsertRegistration(ctx, req.(*UpsertRegistrationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _SipBreakoutService_DeleteRegistration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegistrationRequest)
+	in := new(DeleteRegistrationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -109,7 +113,7 @@ func _SipBreakoutService_DeleteRegistration_Handler(srv interface{}, ctx context
 		FullMethod: "/wgtwo.sipbreakout.v0.SipBreakoutService/DeleteRegistration",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SipBreakoutServiceServer).DeleteRegistration(ctx, req.(*RegistrationRequest))
+		return srv.(SipBreakoutServiceServer).DeleteRegistration(ctx, req.(*DeleteRegistrationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

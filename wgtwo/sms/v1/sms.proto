@@ -122,7 +122,7 @@ message SendDataToSubscriberRequest {
   // will use the maximum deadline. Maximum is 7 days.
   google.protobuf.Duration delivery_deadline = 4;
 
-  // The message class to use for the data SMS message. Must be set.
+  // The message class to use for the data SMS message.
   MessageClass message_class = 5;
 
   // The application port for the message.
