@@ -5,11 +5,13 @@ on:
     branches:
       - 'master'
     paths-ignore:
+      - '*.md'
       - '.github/**'
       - '.gitignore'
       - 'package.json'
   pull_request:
     paths-ignore:
+      - '*.md'
       - '.github/**'
       - '.gitignore'
       - 'package.json'
