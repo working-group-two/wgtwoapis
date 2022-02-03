@@ -1,6 +1,7 @@
-target/
-.idea/
 *.iml
+.classpath
+.idea/
+.npmjs
 .project
 .settings
-.classpath
+target/

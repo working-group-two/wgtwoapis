@@ -1,0 +1,14 @@
+{
+	"name": "@working-group-two/wgtwoapis",
+	"version": "1.5.0",
+	"license": "Apache-2.0",
+	"private": false,
+	"author": {
+		"name": "Working Group Two",
+		"url": "https://wgtwo.com/",
+		"email": "products@wgtwo.com"
+	},
+	"files": [
+		"/wgtwo/**/*.proto"
+	]
+}

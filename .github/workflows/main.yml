@@ -1,6 +1,20 @@
 name: Test all JDKs on all OSes
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - 'master'
+    paths-ignore:
+      - '*.md'
+      - '.github/**'
+      - '.gitignore'
+      - 'package.json'
+  pull_request:
+    paths-ignore:
+      - '*.md'
+      - '.github/**'
+      - '.gitignore'
+      - 'package.json'
 
 jobs:
   build:

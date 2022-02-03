@@ -1,0 +1,52 @@
+name: Publish NPM package
+
+on:
+  release:
+    types: [ created ]
+
+env:
+  NODE_SCOPE: '@working-group-two'
+
+jobs:
+  publish-package:
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Match Github tag to package version
+        uses: geritol/match-tag-to-package-version@0.2.0
+        with:
+          TAG_PREFIX: v
+
+      - name: Use Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          # registry-url: 'https://npm.pkg.github.com'
+          scope: ${{ env.NODE_SCOPE }}
+
+      - name: Publish to Github Registry
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          registry: 'https://npm.pkg.github.com'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          access: public
+          dry-run: false
+          check-version: true
+
+      - name: Publish to NPMJS
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          registry: 'https://registry.npmjs.org'
+          token: ${{ secrets.NPMJS_TOKEN }}
+          access: public
+          dry-run: false
+          check-version: true
+
