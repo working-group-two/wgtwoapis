@@ -53,7 +53,7 @@
                 <artifactId>grpc-bom</artifactId>
                 <version>${grpc.version}</version>
                 <type>pom</type>
-                <scope>import</scope>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>javax.annotation</groupId>
