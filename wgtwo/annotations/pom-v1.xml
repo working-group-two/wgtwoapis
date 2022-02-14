@@ -23,17 +23,14 @@
             <groupId>io.grpc</groupId>
             <artifactId>grpc-netty-shaded</artifactId>
             <scope>runtime</scope>
-            <version>${grpc.version}</version>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-protobuf</artifactId>
-            <version>${grpc.version}</version>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-stub</artifactId>
-            <version>${grpc.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
