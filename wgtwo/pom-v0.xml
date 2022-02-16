@@ -67,23 +67,26 @@
         <dependency>
           <groupId>io.grpc</groupId>
           <artifactId>grpc-netty-shaded</artifactId>
-          <scope>runtime</scope>
+          <scope>provided</scope>
           <version>${grpc.version}</version>
         </dependency>
         <dependency>
           <groupId>io.grpc</groupId>
           <artifactId>grpc-protobuf</artifactId>
+          <scope>provided</scope>
           <version>${grpc.version}</version>
         </dependency>
         <dependency>
           <groupId>io.grpc</groupId>
           <artifactId>grpc-stub</artifactId>
           <version>${grpc.version}</version>
+          <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>com.google.protobuf</groupId>
           <artifactId>protobuf-java</artifactId>
           <version>3.19.1</version>
+          <scope>provided</scope>
         </dependency>
       </dependencies>
     </dependencyManagement>
