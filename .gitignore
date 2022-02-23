@@ -10,3 +10,4 @@ target/
 *.next
 *.tag
 *.releaseBackup
+*.releaseProperties
