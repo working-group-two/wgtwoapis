@@ -5,7 +5,7 @@
         <groupId>com.wgtwo.api.v1</groupId>
         <artifactId>grpc-pom</artifactId>
         <version>1.4.3-SNAPSHOT</version>
-        <relativePath>../pom-v1.xml</relativePath>
+        <relativePath>../v1/pom.xml</relativePath>
     </parent>
 
     <name>${project.groupId} common</name>
