@@ -9,6 +9,7 @@
 		"email": "products@wgtwo.com"
 	},
 	"files": [
-		"/wgtwo/**/*.proto"
+		  "/v0/**/*.proto",
+		  "/v1/**/*.proto"
 	]
 }
