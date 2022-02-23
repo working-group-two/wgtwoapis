@@ -5,3 +5,8 @@
 .project
 .settings
 target/
+
+# mvn release:prepare dry run output
+*.next
+*.tag
+*.releaseBackup
