@@ -37,10 +37,10 @@ jobs:
         if: contains(matrix.os, 'win') == false
         run: chmod +x ./mvnw
       - name: Package v1
-        run: ./mvnw package --file wgtwo/pom-v1.xml --batch-mode
+        run: ./mvnw package --file wgtwo/v1/pom.xml --batch-mode
         env:
           MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
       - name: Package v0
-        run: ./mvnw package --file wgtwo/pom-v0.xml --batch-mode
+        run: ./mvnw package --file wgtwo/v0/pom.xml --batch-mode
         env:
           MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
