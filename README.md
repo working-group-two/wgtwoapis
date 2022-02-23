@@ -38,13 +38,13 @@ to `x.b.0-SNAPSHOT`.
 
 ### Release/deploy v0
 
-1. `./mvnw build-helper:parse-version release:prepare -B --file v0/pom.xml`
-2. `./mvnw release:perform --file v0/pom.xml`
+1. `./mvnw build-helper:parse-version release:prepare -B --file wgtwo/v0/pom.xml`
+2. `./mvnw release:perform --file wgtwo/v0/pom.xml`
 
 ### Release/deploy v1
 
-1. `./mvnw build-helper:parse-version release:prepare -B --file v1/pom.xml`
-2. `./mvnw release:perform --file v1/pom.xml`
+1. `./mvnw build-helper:parse-version release:prepare -B --file wgtwo/v1/pom.xml`
+2. `./mvnw release:perform --file wgtwo/v1/pom.xml`
 
 ### Troubleshooting
 
