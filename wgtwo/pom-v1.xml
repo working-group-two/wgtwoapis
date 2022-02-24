@@ -12,11 +12,11 @@
     <description>WGTWO grpc api v1</description>
 
     <modules>
-        <module>../annotations/pom-v1.xml</module>
-        <module>../common/v1</module>
-        <module>../events/v1</module>
-        <module>../sms/v1</module>
-        <module>../subscription/v1</module>
+        <module>annotations/pom-v1.xml</module>
+        <module>common/v1</module>
+        <module>events/v1</module>
+        <module>sms/v1</module>
+        <module>subscription/v1</module>
     </modules>
 
     <properties>
@@ -110,6 +110,7 @@
                     <configuration>
                         <scmCommentPrefix>[RELEASE] </scmCommentPrefix>
                         <tagNameFormat>v${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</tagNameFormat>
+                        <pomFileName>wgtwo/pom-v1.xml</pomFileName>
                     </configuration>
                 </plugin>
                 <plugin>

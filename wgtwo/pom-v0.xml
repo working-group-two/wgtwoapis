@@ -12,16 +12,16 @@
     <description>WGTWO grpc api v0</description>
 
     <modules>
-        <module>../calling/v0</module>
-        <module>../callforward/v0</module>
-        <module>../common/v0</module>
-        <module>../data/v0</module>
-        <module>../events/v0</module>
-        <module>../mms/v0</module>
-        <module>../sms/v0</module>
-        <module>../voicemail/v0</module>
-        <module>../webterminal/v0</module>
-        <module>../annotations/pom-v0.xml</module>
+        <module>calling/v0</module>
+        <module>callforward/v0</module>
+        <module>common/v0</module>
+        <module>data/v0</module>
+        <module>events/v0</module>
+        <module>mms/v0</module>
+        <module>sms/v0</module>
+        <module>voicemail/v0</module>
+        <module>webterminal/v0</module>
+        <module>annotations/pom-v0.xml</module>
     </modules>
 
     <properties>
@@ -135,6 +135,7 @@
                     <configuration>
                         <scmCommentPrefix>[RELEASE] </scmCommentPrefix>
                         <tagNameFormat>v${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</tagNameFormat>
+                        <pomFileName>wgtwo/pom-v0.xml</pomFileName>
                     </configuration>
                 </plugin>
                 <plugin>
