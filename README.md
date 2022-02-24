@@ -61,11 +61,9 @@ Maybe you forgot to set the intended version number in the pom.xml files before 
 command. Maybe you didn't know that it would create new commits. Anyway those commits have
 now been pushed to github so you'll have to edit the history and do a force push.
 
+1. run `./mvnw release:rollback --file wgtwo/vX/pom.xml`
 1. delete the tag created by maven locally: `git tag -d $TAG`
 2. delete the tag on the remote: `git push --delete $REMOTE $TAG`
-3. roll back the commits: `git reset --hard $COMMIT`
-(find the first commit prior to the [RELEASE] commits)
-4. do a force push: `git push --force`
 
 ## Protobuf FileDescriptorSet release
 
