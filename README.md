@@ -36,15 +36,21 @@ E.g. if the current version is `x.y.z-SNAPSHOT`, version `x.y.z` is the version 
 To instead release version `x.b.0`, edit the pom.xml files and set the version property
 to `x.b.0-SNAPSHOT`.
 
+Note that maven needs to be run from within the wgtwo directory because of reasons only maven
+knows.
+
 ### Release/deploy v0
 
-1. `./mvnw build-helper:parse-version release:prepare -B --file wgtwo/v0/pom.xml`
-2. `./mvnw release:perform --file wgtwo/v0/pom.xml`
+
+1. `cd wgtwo`
+2. `./mvnw build-helper:parse-version release:prepare -B --file wgtwo/v0/pom.xml`
+3. `./mvnw release:perform --file wgtwo/v0/pom.xml`
 
 ### Release/deploy v1
 
-1. `./mvnw build-helper:parse-version release:prepare -B --file wgtwo/v1/pom.xml`
-2. `./mvnw release:perform --file wgtwo/v1/pom.xml`
+1. `cd wgtwo`
+2. `./mvnw build-helper:parse-version release:prepare -B --file wgtwo/v1/pom.xml`
+3. `./mvnw release:perform --file wgtwo/v1/pom.xml`
 
 ### Troubleshooting
 
