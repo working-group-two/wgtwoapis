@@ -25,7 +25,7 @@
         <grpc.version>1.38.0</grpc.version>
         <maven.deploy.skip>false</maven.deploy.skip>
         <wgtwoapis.version>1.0.1</wgtwoapis.version>
-        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+        <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
     </properties>
 
     <scm>
