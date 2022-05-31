@@ -33,7 +33,7 @@ jobs:
           java-version: ${{ matrix.java_version }}
       - name: Make Maven Wrapper executable
         if: contains(matrix.os, 'win') == false
-        run: chmod +x ./mvnw
+        run: chmod +x ./wgtwo/mvnw
       - name: Package v1
         working-directory: ./wgtwo
         run: ./mvnw package --file pom-v1.xml --batch-mode
