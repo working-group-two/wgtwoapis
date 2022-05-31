@@ -185,6 +185,8 @@ message HandsetChangeEvent {
 }
 
 message CountryChangeEvent {
+  // The international number of the subscriber.
+  common.v1.E164 number = 3;
   // The country the subscriber moved from.
   wgtwo.common.v1.Country previous = 1;
   // The country the subscriber moved to.

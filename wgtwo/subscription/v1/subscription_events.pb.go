@@ -950,6 +950,8 @@ type CountryChangeEvent struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The international number of the subscriber.
+	Number *v11.E164 `protobuf:"bytes,3,opt,name=number,proto3" json:"number,omitempty"`
 	// The country the subscriber moved from.
 	Previous *v11.Country `protobuf:"bytes,1,opt,name=previous,proto3" json:"previous,omitempty"`
 	// The country the subscriber moved to.
@@ -986,6 +988,13 @@ func (x *CountryChangeEvent) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CountryChangeEvent.ProtoReflect.Descriptor instead.
 func (*CountryChangeEvent) Descriptor() ([]byte, []int) {
 	return file_wgtwo_subscription_v1_subscription_events_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *CountryChangeEvent) GetNumber() *v11.E164 {
+	if x != nil {
+		return x.Number
+	}
+	return nil
 }
 
 func (x *CountryChangeEvent) GetPrevious() *v11.Country {
@@ -1284,9 +1293,12 @@ var file_wgtwo_subscription_v1_subscription_events_proto_rawDesc = []byte{
 	0x73, 0x12, 0x38, 0x0a, 0x07, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01,
 	0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e, 0x73, 0x75, 0x62, 0x73, 0x63,
 	0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x48, 0x61, 0x6e, 0x64, 0x73,
-	0x65, 0x74, 0x52, 0x07, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x22, 0x7e, 0x0a, 0x12, 0x43,
-	0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x45, 0x76, 0x65, 0x6e,
-	0x74, 0x12, 0x34, 0x0a, 0x08, 0x70, 0x72, 0x65, 0x76, 0x69, 0x6f, 0x75, 0x73, 0x18, 0x01, 0x20,
+	0x65, 0x74, 0x52, 0x07, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x22, 0xad, 0x01, 0x0a, 0x12,
+	0x43, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x45, 0x76, 0x65,
+	0x6e, 0x74, 0x12, 0x2d, 0x0a, 0x06, 0x6e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x15, 0x2e, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f,
+	0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x31, 0x36, 0x34, 0x52, 0x06, 0x6e, 0x75, 0x6d, 0x62, 0x65,
+	0x72, 0x12, 0x34, 0x0a, 0x08, 0x70, 0x72, 0x65, 0x76, 0x69, 0x6f, 0x75, 0x73, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x77, 0x67, 0x74, 0x77, 0x6f, 0x2e, 0x63, 0x6f, 0x6d, 0x6d,
 	0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x08, 0x70,
 	0x72, 0x65, 0x76, 0x69, 0x6f, 0x75, 0x73, 0x12, 0x32, 0x0a, 0x07, 0x63, 0x75, 0x72, 0x72, 0x65,
@@ -1484,34 +1496,35 @@ var file_wgtwo_subscription_v1_subscription_events_proto_depIdxs = []int32{
 	27, // 22: wgtwo.subscription.v1.HandsetChangeEvent.imsi:type_name -> wgtwo.common.v1.Imsi
 	16, // 23: wgtwo.subscription.v1.HandsetChangeEvent.previous:type_name -> wgtwo.subscription.v1.Handset
 	16, // 24: wgtwo.subscription.v1.HandsetChangeEvent.current:type_name -> wgtwo.subscription.v1.Handset
-	28, // 25: wgtwo.subscription.v1.CountryChangeEvent.previous:type_name -> wgtwo.common.v1.Country
-	28, // 26: wgtwo.subscription.v1.CountryChangeEvent.current:type_name -> wgtwo.common.v1.Country
-	26, // 27: wgtwo.subscription.v1.FirstAttachmentEvent.number:type_name -> wgtwo.common.v1.E164
-	27, // 28: wgtwo.subscription.v1.FirstAttachmentEvent.imsi:type_name -> wgtwo.common.v1.Imsi
-	26, // 29: wgtwo.subscription.v1.PeriodicCountryEvent.number:type_name -> wgtwo.common.v1.E164
-	27, // 30: wgtwo.subscription.v1.PeriodicCountryEvent.imsi:type_name -> wgtwo.common.v1.Imsi
-	28, // 31: wgtwo.subscription.v1.PeriodicCountryEvent.country:type_name -> wgtwo.common.v1.Country
-	0,  // 32: wgtwo.subscription.v1.SubscriptionEventService.StreamHandsetChangeEvents:input_type -> wgtwo.subscription.v1.StreamHandsetChangeEventsRequest
-	2,  // 33: wgtwo.subscription.v1.SubscriptionEventService.AckHandsetChangeEvent:input_type -> wgtwo.subscription.v1.AckHandsetChangeEventRequest
-	8,  // 34: wgtwo.subscription.v1.SubscriptionEventService.StreamFirstAttachmentEvents:input_type -> wgtwo.subscription.v1.StreamFirstAttachmentEventsRequest
-	10, // 35: wgtwo.subscription.v1.SubscriptionEventService.AckFirstAttachmentEvent:input_type -> wgtwo.subscription.v1.AckFirstAttachmentEventRequest
-	4,  // 36: wgtwo.subscription.v1.SubscriptionEventService.StreamCountryChangeEvents:input_type -> wgtwo.subscription.v1.StreamCountryChangeEventsRequest
-	6,  // 37: wgtwo.subscription.v1.SubscriptionEventService.AckCountryChangeEvent:input_type -> wgtwo.subscription.v1.AckCountryChangeEventRequest
-	12, // 38: wgtwo.subscription.v1.SubscriptionEventService.StreamPeriodicCountryEvents:input_type -> wgtwo.subscription.v1.StreamPeriodicCountryEventsRequest
-	14, // 39: wgtwo.subscription.v1.SubscriptionEventService.AckPeriodicCountryEvent:input_type -> wgtwo.subscription.v1.AckPeriodicCountryEventRequest
-	1,  // 40: wgtwo.subscription.v1.SubscriptionEventService.StreamHandsetChangeEvents:output_type -> wgtwo.subscription.v1.StreamHandsetChangeEventsResponse
-	3,  // 41: wgtwo.subscription.v1.SubscriptionEventService.AckHandsetChangeEvent:output_type -> wgtwo.subscription.v1.AckHandsetChangeEventResponse
-	9,  // 42: wgtwo.subscription.v1.SubscriptionEventService.StreamFirstAttachmentEvents:output_type -> wgtwo.subscription.v1.StreamFirstAttachmentEventsResponse
-	11, // 43: wgtwo.subscription.v1.SubscriptionEventService.AckFirstAttachmentEvent:output_type -> wgtwo.subscription.v1.AckFirstAttachmentEventResponse
-	5,  // 44: wgtwo.subscription.v1.SubscriptionEventService.StreamCountryChangeEvents:output_type -> wgtwo.subscription.v1.StreamCountryChangeEventsResponse
-	7,  // 45: wgtwo.subscription.v1.SubscriptionEventService.AckCountryChangeEvent:output_type -> wgtwo.subscription.v1.AckCountryChangeEventResponse
-	13, // 46: wgtwo.subscription.v1.SubscriptionEventService.StreamPeriodicCountryEvents:output_type -> wgtwo.subscription.v1.StreamPeriodicCountryEventsResponse
-	15, // 47: wgtwo.subscription.v1.SubscriptionEventService.AckPeriodicCountryEvent:output_type -> wgtwo.subscription.v1.AckPeriodicCountryEventResponse
-	40, // [40:48] is the sub-list for method output_type
-	32, // [32:40] is the sub-list for method input_type
-	32, // [32:32] is the sub-list for extension type_name
-	32, // [32:32] is the sub-list for extension extendee
-	0,  // [0:32] is the sub-list for field type_name
+	26, // 25: wgtwo.subscription.v1.CountryChangeEvent.number:type_name -> wgtwo.common.v1.E164
+	28, // 26: wgtwo.subscription.v1.CountryChangeEvent.previous:type_name -> wgtwo.common.v1.Country
+	28, // 27: wgtwo.subscription.v1.CountryChangeEvent.current:type_name -> wgtwo.common.v1.Country
+	26, // 28: wgtwo.subscription.v1.FirstAttachmentEvent.number:type_name -> wgtwo.common.v1.E164
+	27, // 29: wgtwo.subscription.v1.FirstAttachmentEvent.imsi:type_name -> wgtwo.common.v1.Imsi
+	26, // 30: wgtwo.subscription.v1.PeriodicCountryEvent.number:type_name -> wgtwo.common.v1.E164
+	27, // 31: wgtwo.subscription.v1.PeriodicCountryEvent.imsi:type_name -> wgtwo.common.v1.Imsi
+	28, // 32: wgtwo.subscription.v1.PeriodicCountryEvent.country:type_name -> wgtwo.common.v1.Country
+	0,  // 33: wgtwo.subscription.v1.SubscriptionEventService.StreamHandsetChangeEvents:input_type -> wgtwo.subscription.v1.StreamHandsetChangeEventsRequest
+	2,  // 34: wgtwo.subscription.v1.SubscriptionEventService.AckHandsetChangeEvent:input_type -> wgtwo.subscription.v1.AckHandsetChangeEventRequest
+	8,  // 35: wgtwo.subscription.v1.SubscriptionEventService.StreamFirstAttachmentEvents:input_type -> wgtwo.subscription.v1.StreamFirstAttachmentEventsRequest
+	10, // 36: wgtwo.subscription.v1.SubscriptionEventService.AckFirstAttachmentEvent:input_type -> wgtwo.subscription.v1.AckFirstAttachmentEventRequest
+	4,  // 37: wgtwo.subscription.v1.SubscriptionEventService.StreamCountryChangeEvents:input_type -> wgtwo.subscription.v1.StreamCountryChangeEventsRequest
+	6,  // 38: wgtwo.subscription.v1.SubscriptionEventService.AckCountryChangeEvent:input_type -> wgtwo.subscription.v1.AckCountryChangeEventRequest
+	12, // 39: wgtwo.subscription.v1.SubscriptionEventService.StreamPeriodicCountryEvents:input_type -> wgtwo.subscription.v1.StreamPeriodicCountryEventsRequest
+	14, // 40: wgtwo.subscription.v1.SubscriptionEventService.AckPeriodicCountryEvent:input_type -> wgtwo.subscription.v1.AckPeriodicCountryEventRequest
+	1,  // 41: wgtwo.subscription.v1.SubscriptionEventService.StreamHandsetChangeEvents:output_type -> wgtwo.subscription.v1.StreamHandsetChangeEventsResponse
+	3,  // 42: wgtwo.subscription.v1.SubscriptionEventService.AckHandsetChangeEvent:output_type -> wgtwo.subscription.v1.AckHandsetChangeEventResponse
+	9,  // 43: wgtwo.subscription.v1.SubscriptionEventService.StreamFirstAttachmentEvents:output_type -> wgtwo.subscription.v1.StreamFirstAttachmentEventsResponse
+	11, // 44: wgtwo.subscription.v1.SubscriptionEventService.AckFirstAttachmentEvent:output_type -> wgtwo.subscription.v1.AckFirstAttachmentEventResponse
+	5,  // 45: wgtwo.subscription.v1.SubscriptionEventService.StreamCountryChangeEvents:output_type -> wgtwo.subscription.v1.StreamCountryChangeEventsResponse
+	7,  // 46: wgtwo.subscription.v1.SubscriptionEventService.AckCountryChangeEvent:output_type -> wgtwo.subscription.v1.AckCountryChangeEventResponse
+	13, // 47: wgtwo.subscription.v1.SubscriptionEventService.StreamPeriodicCountryEvents:output_type -> wgtwo.subscription.v1.StreamPeriodicCountryEventsResponse
+	15, // 48: wgtwo.subscription.v1.SubscriptionEventService.AckPeriodicCountryEvent:output_type -> wgtwo.subscription.v1.AckPeriodicCountryEventResponse
+	41, // [41:49] is the sub-list for method output_type
+	33, // [33:41] is the sub-list for method input_type
+	33, // [33:33] is the sub-list for extension type_name
+	33, // [33:33] is the sub-list for extension extendee
+	0,  // [0:33] is the sub-list for field type_name
 }
 
 func init() { file_wgtwo_subscription_v1_subscription_events_proto_init() }
