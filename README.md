@@ -42,18 +42,16 @@ knows.
 ### Release/deploy v0
 
 
-1. `cd wgtwo`
-2. `./mvnw build-helper:parse-version release:prepare -B --file pom-v0.xml`
-3. `./mvnw release:perform --file pom-v0.xml`
-4. Access [Sonatype's repo manager](https://s01.oss.sonatype.org/#welcome) and confirm the
+1. `./mvnw build-helper:parse-version release:prepare -B --file wgtwo/pom-v0.xml`
+2. `./mvnw release:perform --file wgtwo/pom-v0.xml`
+3. Access [Sonatype's repo manager](https://s01.oss.sonatype.org/#welcome) and confirm the
    artifacts for release.
 
 ### Release/deploy v1
 
-1. `cd wgtwo`
-2. `./mvnw build-helper:parse-version release:prepare -B --file pom-v1.xml`
-3. `./mvnw release:perform --file pom-v1.xml`
-4. Access [Sonatype's repo manager](https://s01.oss.sonatype.org/#welcome) and confirm the
+1. `./mvnw build-helper:parse-version release:prepare -B --file wgtwo/pom-v1.xml`
+2. `./mvnw release:perform --file wgtwo/pom-v1.xml`
+3. Access [Sonatype's repo manager](https://s01.oss.sonatype.org/#welcome) and confirm the
    artifacts for release.
 
 ### Troubleshooting
@@ -71,7 +69,7 @@ Maybe you forgot to set the intended version number in the pom.xml files before 
 command. Maybe you didn't know that it would create new commits. Anyway those commits have
 now been pushed to github so you'll have to edit the history and do a force push.
 
-1. run `./mvnw release:rollback --file pom-vX.xml`
+1. run `./mvnw release:rollback --file wgtwo/pom-vX.xml`
 1. delete the tag created by maven locally: `git tag -d $TAG`
 2. delete the tag on the remote: `git push --delete $REMOTE $TAG`
 
