@@ -135,7 +135,7 @@
                     <configuration>
                         <scmCommentPrefix>[RELEASE] </scmCommentPrefix>
                         <tagNameFormat>v${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</tagNameFormat>
-                        <pomFileName>pom-v0.xml</pomFileName>
+                        <pomFileName>wgtwo/pom-v0.xml</pomFileName>
                     </configuration>
                 </plugin>
                 <plugin>
