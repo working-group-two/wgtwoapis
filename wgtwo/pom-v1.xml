@@ -110,6 +110,7 @@
                     <configuration>
                         <scmCommentPrefix>[RELEASE] </scmCommentPrefix>
                         <tagNameFormat>v${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</tagNameFormat>
+                        <pomFileName>pom-v1.xml</pomFileName>
                     </configuration>
                 </plugin>
                 <plugin>
