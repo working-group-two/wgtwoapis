@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package wgtwo.voice.v1;
+
+import "wgtwo/annotations/annotations.proto";
+import "wgtwo/common/v1/phonenumber.proto";
+import "wgtwo/events/v1/events.proto";
+
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/voice/v1";
+option java_package = "com.wgtwo.api.v1.voice";
+option java_outer_classname = "VoiceEventsProto";
+
+// Service to handle events related to voice, such as call events when a call is initiated / ended.
+// See events.proto for details on subscribing
+service VoiceEventService {
+    rpc StreamCallEvents(StreamCallEventsRequest) returns (
+        stream StreamCallEventsResponse) {
+      option (scope) = "events.voice.subscribe";
+    }
+    rpc AckCallEvent (AckCallEventRequest) returns (AckCallEventResponse) {
+      option (scope) = "events.voice.subscribe";
+    }
+}
+
+message CallEvent {
+    reserved 5;
+    reserved "owner";
+    enum VoiceEventType {
+      UNSPECIFIED = 0;
+      CALL_INITIATED = 1;
+      CALL_RINGING = 2;
+      CALL_ANSWERED = 3;
+      CALL_ENDED = 4;
+      CALL_FWD_VOICEMAIL = 5;
+    }
+
+    // The call identifier of the call in the event.
+    string call_id = 1;
+    // The type of the call event, see VoiceEventType enum.
+    VoiceEventType type = 2;
+    // A side international number of the call.
+    wgtwo.common.v1.E164 from_number = 3;
+    // B side international number of the call.
+    wgtwo.common.v1.E164 to_number = 4;
+    // Represents if the call in the event was an anonymous call.
+    bool caller_id_hidden = 6;
+}
+
+message StreamCallEventsRequest {
+  wgtwo.events.v1.StreamConfiguration stream_configuration = 1;
+}
+
+message StreamCallEventsResponse {
+  wgtwo.events.v1.Metadata metadata = 1;
+  CallEvent call_event = 2;
+}
+
+message AckCallEventRequest {
+  wgtwo.events.v1.AckInfo ack_info = 1;
+}
+
+message AckCallEventResponse {
+  wgtwo.events.v1.AckStatus ack_status = 1;
+}
