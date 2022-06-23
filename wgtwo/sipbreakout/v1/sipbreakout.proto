@@ -42,7 +42,7 @@ option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sipbreakout/v1
 //                         ┌┴──▼┐    |                      ┌─▼──┐
 //                         │TAS │    |                      │TAS │
 //                         └────┘    |                      └────┘
-//                                  |
+//                                   |
 //               Loop               VS       Fork / Fallback
 //
 // For `ROUTE_TYPE_LOOP` leg 4 is not created until call comes back as leg 3.
@@ -69,7 +69,7 @@ option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sipbreakout/v1
 //
 // Maintaining the registration
 //  Each SIP Registration has fixed TTL of 3600 seconds since last call to SipBreakOutService.UpsertRegistration()
-//  and has to be refreshed by using again SipBreakOutService.UpsertRegistration(Registration) with same parameters.
+//  and has to be refreshed by a new `UpsertRegistration` request with the same parameters.
 //
 // Deleting the registration
 //  To remove registration without waiting for TTL to expire use SipBreakOutService.DeleteRegistration()
