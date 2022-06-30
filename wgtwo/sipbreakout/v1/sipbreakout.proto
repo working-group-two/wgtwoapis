@@ -1,4 +1,4 @@
-// Copyright 2020 Working Group Two AS
+// Copyright 2022 Working Group Two AS
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,16 +15,16 @@
 
 syntax = "proto3";
 
-package wgtwo.sipbreakout.v0;
+package wgtwo.sipbreakout.v1;
 
 import "google/protobuf/duration.proto";
 import "wgtwo/annotations/annotations.proto";
-import "wgtwo/common/v0/phonenumber.proto";
+import "wgtwo/common/v1/phonenumber.proto";
 
 option java_outer_classname = "SipBreakoutProto";
 option java_multiple_files = true;
-option java_package = "com.wgtwo.api.v0.sipbreakout";
-option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sipbreakout/v0";
+option java_package = "com.wgtwo.api.v1.sipbreakout";
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sipbreakout/v1";
 
 // Virtual SIP Registration makes WG2 Core to involve third party Telephony Application Server (TAS)
 // in to the call processing
@@ -43,7 +43,7 @@ option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sipbreakout/v0
 //                         ┌┴──▼┐    |                      ┌─▼──┐
 //                         │TAS │    |                      │TAS │
 //                         └────┘    |                      └────┘
-//                                  |
+//                                   |
 //               Loop               VS       Fork / Fallback
 //
 // For `ROUTE_TYPE_LOOP` leg 4 is not created until call comes back as leg 3.
@@ -86,12 +86,12 @@ service SipBreakoutService {
 
   // Add or replace a registration
   rpc UpsertRegistration (UpsertRegistrationRequest) returns (UpsertRegistrationResponse) {
-    option (scope) = "call.control:answer_and_initiate";
+    option (scope) = "call.routing:write";
   };
 
   // Delete an existing registration
   rpc DeleteRegistration (DeleteRegistrationRequest) returns (DeleteRegistrationResponse) {
-    option (scope) = "call.control:answer_and_initiate";
+    option (scope) = "call.routing:write";
   };
 }
 
@@ -137,7 +137,7 @@ message Registration {
   RouteType route_type = 4;
 
   // Must be provided if using client access token
-  wgtwo.common.v0.PhoneNumber phone_number = 5;
+  wgtwo.common.v1.E164 phone_number = 5;
 }
 
 enum StatusCode {

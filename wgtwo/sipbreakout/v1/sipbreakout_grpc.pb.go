@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             (unknown)
-// source: wgtwo/sipbreakout/v0/sipbreakout.proto
+// source: wgtwo/sipbreakout/v1/sipbreakout.proto
 
-package v0
+package v1
 
 import (
 	context "context"
@@ -38,7 +38,7 @@ func NewSipBreakoutServiceClient(cc grpc.ClientConnInterface) SipBreakoutService
 
 func (c *sipBreakoutServiceClient) UpsertRegistration(ctx context.Context, in *UpsertRegistrationRequest, opts ...grpc.CallOption) (*UpsertRegistrationResponse, error) {
 	out := new(UpsertRegistrationResponse)
-	err := c.cc.Invoke(ctx, "/wgtwo.sipbreakout.v0.SipBreakoutService/UpsertRegistration", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wgtwo.sipbreakout.v1.SipBreakoutService/UpsertRegistration", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (c *sipBreakoutServiceClient) UpsertRegistration(ctx context.Context, in *U
 
 func (c *sipBreakoutServiceClient) DeleteRegistration(ctx context.Context, in *DeleteRegistrationRequest, opts ...grpc.CallOption) (*DeleteRegistrationResponse, error) {
 	out := new(DeleteRegistrationResponse)
-	err := c.cc.Invoke(ctx, "/wgtwo.sipbreakout.v0.SipBreakoutService/DeleteRegistration", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wgtwo.sipbreakout.v1.SipBreakoutService/DeleteRegistration", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +96,7 @@ func _SipBreakoutService_UpsertRegistration_Handler(srv interface{}, ctx context
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wgtwo.sipbreakout.v0.SipBreakoutService/UpsertRegistration",
+		FullMethod: "/wgtwo.sipbreakout.v1.SipBreakoutService/UpsertRegistration",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SipBreakoutServiceServer).UpsertRegistration(ctx, req.(*UpsertRegistrationRequest))
@@ -114,7 +114,7 @@ func _SipBreakoutService_DeleteRegistration_Handler(srv interface{}, ctx context
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wgtwo.sipbreakout.v0.SipBreakoutService/DeleteRegistration",
+		FullMethod: "/wgtwo.sipbreakout.v1.SipBreakoutService/DeleteRegistration",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SipBreakoutServiceServer).DeleteRegistration(ctx, req.(*DeleteRegistrationRequest))
@@ -126,7 +126,7 @@ func _SipBreakoutService_DeleteRegistration_Handler(srv interface{}, ctx context
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var SipBreakoutService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "wgtwo.sipbreakout.v0.SipBreakoutService",
+	ServiceName: "wgtwo.sipbreakout.v1.SipBreakoutService",
 	HandlerType: (*SipBreakoutServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -139,5 +139,5 @@ var SipBreakoutService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "wgtwo/sipbreakout/v0/sipbreakout.proto",
+	Metadata: "wgtwo/sipbreakout/v1/sipbreakout.proto",
 }
