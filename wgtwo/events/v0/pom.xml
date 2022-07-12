@@ -4,14 +4,14 @@
     <parent>
         <groupId>com.wgtwo.api.v0</groupId>
         <artifactId>grpc-pom</artifactId>
-        <version>0.1.2</version>
+        <version>0.1.3-SNAPSHOT</version>
         <relativePath>../../pom-v0.xml</relativePath>
     </parent>
 
     <name>${project.groupId} events</name>
     <artifactId>events</artifactId>
     <groupId>com.wgtwo.api.v0.grpc</groupId>
-    <version>0.1.2</version>
+    <version>0.1.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.wgtwo.api.v0.grpc</groupId>
             <artifactId>common</artifactId>
-            <version>0.1.2</version>
+            <version>0.1.3-SNAPSHOT</version>
         </dependency>
         <dependency>
           <groupId>io.grpc</groupId>
