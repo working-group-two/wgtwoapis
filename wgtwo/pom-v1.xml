@@ -17,6 +17,7 @@
         <module>events/v1</module>
         <module>sms/v1</module>
         <module>subscription/v1</module>
+        <module>sipbreakout/v1</module>
     </modules>
 
     <properties>
