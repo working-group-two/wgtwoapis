@@ -1,0 +1,76 @@
+// Copyright 2021 Working Group Two AS
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+syntax = "proto3";
+
+package wgtwo.consents.v1;
+
+import "wgtwo/annotations/annotations.proto";
+import "wgtwo/common/v1/phonenumber.proto";
+import "wgtwo/events/v1/events.proto";
+
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/consents/v1";
+option java_package = "com.wgtwo.api.v1.consent";
+option java_outer_classname = "ConsentEventsProto";
+
+service ConsentEventService {
+  rpc StreamConsentChangeEvents (StreamConsentChangeEventsRequest) returns (stream StreamConsentChangeEventsResponse) {
+    option (scope) = "";
+  }
+  rpc AckConsentChangeEvent (AckConsentChangeEventRequest) returns (AckConsentChangeEventResponse) {
+    option (scope) = "";
+  }
+}
+
+message StreamConsentChangeEventsRequest {
+  wgtwo.events.v1.StreamConfiguration stream_configuration = 1;
+}
+
+message StreamConsentChangeEventsResponse {
+  wgtwo.events.v1.Metadata metadata = 1;
+  ConsentChangeEvent consent_change_event = 2;
+}
+
+message AckConsentChangeEventRequest {
+  wgtwo.events.v1.AckInfo ack_info = 1;
+}
+
+message AckConsentChangeEventResponse {
+  wgtwo.events.v1.AckStatus ack_status = 1;
+}
+
+
+message ConsentChangeEvent {
+  oneof type {
+    ConsentAdded added = 1;
+    ConsentUpdated updated = 2;
+    ConsentRevoked revoked = 3;
+  }
+  oneof target {
+    // The international number of the subscriber.
+    common.v1.E164 number = 4;
+    string tenant = 5;
+  }
+}
+
+message ConsentAdded {
+  repeated string scopes = 1;
+}
+
+message ConsentUpdated {
+  repeated string scopes = 1;
+}
+
+message ConsentRevoked {
+}
