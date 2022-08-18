@@ -9,7 +9,7 @@
     </parent>
 
     <name>${project.groupId} consent-events</name>
-    <artifactId>events</artifactId>
+    <artifactId>consent-events</artifactId>
     <groupId>com.wgtwo.api.v1.grpc</groupId>
     <version>1.7.1-SNAPSHOT</version>
     <packaging>jar</packaging>
