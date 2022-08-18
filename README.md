@@ -45,9 +45,10 @@ Useful for when we add a new module or for any other reason want to explicitly s
 next version before a release:
 
 ```bash
-./mvnw build-helper:parse-version versions:set -DnewVersion=ASPARAGUS versions:commit
+./mvnw build-helper:parse-version versions:set -DnewVersion=ASPARAGUS versions:commit --file wgtwo/pom-vX.xml
 ```
 Replace "ASPARAGUS" with the desired x.y.z version number.
+Also replace "vX" with v0 or v1 depending on which version of the api you need to target.
 
 ### Release/deploy v0
 
