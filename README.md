@@ -39,6 +39,16 @@ to `x.b.0-SNAPSHOT`.
 Note that maven needs to be run from within the wgtwo directory because of reasons only maven
 knows.
 
+### Bump v1/v0 to specific version
+
+Useful for when we add a new module or for any other reason want to explicitly set the
+next version before a release:
+
+```bash
+./mvnw build-helper:parse-version versions:set -DnewVersion=ASPARAGUS versions:commit
+```
+Replace "ASPARAGUS" with the desired x.y.z version number.
+
 ### Release/deploy v0
 
 
