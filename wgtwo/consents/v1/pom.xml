@@ -58,7 +58,7 @@
                         <include>wgtwo/annotations/annotations.proto</include>
                         <include>wgtwo/events/v1/*.proto</include>
                         <include>wgtwo/common/v1/*.proto</include>
-                        <include>wgtwo/consent-events/v1/*.proto</include>
+                        <include>wgtwo/consents/v1/*.proto</include>
                     </includes>
                 </configuration>
             </plugin>
