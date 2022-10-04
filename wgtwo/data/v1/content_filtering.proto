@@ -1,0 +1,116 @@
+// Copyright 2021 Working Group Two AS
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+syntax = "proto3";
+
+package wgtwo.data.v1;
+
+import "google/protobuf/empty.proto";
+import "wgtwo/annotations/annotations.proto";
+import "wgtwo/common/v1/phonenumber.proto";
+
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/content_filtering/v1";
+option java_package = "com.wgtwo.api.v1.contentFiltering";
+option java_outer_classname = "ContentFiltering";
+
+service ContentFilteringService {
+  rpc SetGlobalFilter (SetGlobalFilterRequest) returns (SetGlobalFilterResponse) {
+    option (scope) = "data.content_filtering:write";
+  }
+  rpc GetGlobalFilter (GetGlobalFilterRequest) returns (GetGlobalFilterResponse) {
+    option (scope) = "data.content_filtering:read";
+  }
+}
+
+message SetGlobalFilterRequest {
+  Filter filter = 1;
+}
+
+
+message SetGlobalFilterResponse {
+  // The response status for setting the filter
+  SetFilterStatus status = 1;
+  
+  // Human readable description provided in case of a unsuccessful update
+  string description = 2;
+}
+
+enum SetFilterStatus {
+    SET_FILTER_STATUS_UNSPECIFIED = 0;
+    // Filter has been successfully updated
+    SET_FILTER_STATUS_OK = 1;
+    // Update failed
+    SET_FILTER_STATUS_ERROR = 2;
+  }
+
+message GetGlobalFilterRequest {
+}
+
+message GetGlobalFilterResponse {
+  Filter active_filter = 1;
+}
+
+message Filter {
+  repeated Category blocked_categories = 1;
+}
+
+enum Category {
+  CATEGORY_UNSPECIFIED = 0;
+  CATEGORY_ABORTION = 1;
+  CATEGORY_ADULT = 2;
+  CATEGORY_ADVERTISING = 3;
+  CATEGORY_ALCOHOL_AND_TOBACCO = 4;
+  CATEGORY_BLOGS_AND_PERSONAL = 5;
+  CATEGORY_BUSINESS = 6;
+  CATEGORY_CHAT_AND_MESSAGING = 7;
+  CATEGORY_CONTENTSERVER = 8;
+  CATEGORY_CRYPTOMINING = 9;
+  CATEGORY_DECEPTIVE = 10;
+  CATEGORY_DRUGS = 11;
+  CATEGORY_ECONOMY_AND_FINANCE = 12;
+  CATEGORY_EDUCATION = 13;
+  CATEGORY_ENTERTAINMENT = 14;
+  CATEGORY_FOOD_AND_RECIPES = 15;
+  CATEGORY_GAMBLING = 16;
+  CATEGORY_GAMES = 17;
+  CATEGORY_GOVERNMENT = 18;
+  CATEGORY_HACKING = 19;
+  CATEGORY_HATE = 20;
+  CATEGORY_HEALTH = 21;
+  CATEGORY_HUMOR = 22;
+  CATEGORY_ILLEGALCONTENT = 23;
+  CATEGORY_INFORMATIONTECH = 24;
+  CATEGORY_JOBRELATED = 25;
+  CATEGORY_MALICIOUS = 26;
+  CATEGORY_MEDIASHARING = 27;
+  CATEGORY_MESSAGEBOARDS_AND_FORUMS = 28;
+  CATEGORY_NEWS_AND_MEDIA = 29;
+  CATEGORY_PARKED = 30;
+  CATEGORY_PERSONALS = 31;
+  CATEGORY_PRO3XY_AND_FILTERAVOIDANCE = 32;
+  CATEGORY_REALESTATE = 33;
+  CATEGORY_RELIGION = 34;
+  CATEGORY_SEARCHENGINES_AND_PORTALS = 35;
+  CATEGORY_SHOPPING = 36;
+  CATEGORY_SOCIALNETWORKING = 37;
+  CATEGORY_SPORTS = 38;
+  CATEGORY_STREAMINGMEDIA = 39;
+  CATEGORY_TRACKERS = 40;
+  CATEGORY_TRANSLATORS = 41;
+  CATEGORY_TRAVEL = 42;
+  CATEGORY_UNCATEGORIZED = 43;
+  CATEGORY_VEHICLES = 44;
+  CATEGORY_VIRTUALREALITY = 45;
+  CATEGORY_WEAPONS = 46;
+}
