@@ -19,6 +19,7 @@
         <module>subscription/v1</module>
         <module>sipbreakout/v1</module>
         <module>consents/v1</module>
+        <module>data/v1</module>
     </modules>
 
     <properties>
