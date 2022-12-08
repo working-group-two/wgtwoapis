@@ -35,7 +35,23 @@ message Imsi {
   string value = 1;
 }
 
+message Tadig {
+  string value = 1;
+}
+
+message Iccid {
+  string value = 1;
+}
+
 message NetworkIdentity {
   string mcc = 1;
   string mnc = 2;
+}
+
+enum NetworkGeneration {
+  NETWORK_GENERATION_UNSPECIFIED = 0;
+  NETWORK_GENERATION_2G = 1;
+  NETWORK_GENERATION_3G = 2;
+  NETWORK_GENERATION_4G = 3;
+  NETWORK_GENERATION_5G = 4;
 }

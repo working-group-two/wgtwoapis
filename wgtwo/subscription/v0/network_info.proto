@@ -1,0 +1,94 @@
+// Copyright 2022 Working Group Two AS
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+syntax = "proto3";
+
+package wgtwo.subscription.v0;
+
+import "google/protobuf/timestamp.proto";
+import "wgtwo/annotations/annotations.proto";
+import "wgtwo/common/v0/phonenumber.proto";
+import "wgtwo/common/v0/types.proto";
+
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/subscriptions/v0";
+option java_package = "com.wgtwo.api.v0.subscription";
+option java_outer_classname = "AttachmentProto";
+
+service NetworkInfoService {
+  rpc GetNetworkInfoForSubscriber (GetNetworkInfoForSubscriberRequest)
+      returns (GetNetworkInfoForSubscriberResponse) {
+    option (scope) = "subscription.network:read";
+  }
+  rpc GetAttachmentAttemptsForSubscriber (GetAttachmentAttemptsForSubscriberRequest)
+      returns (GetAttachmentAttemptsForSubscriberResponse) {
+    option (scope) = "subscription.network:read";
+  }
+}
+
+message GetNetworkInfoForSubscriberRequest {
+  wgtwo.common.v0.PhoneNumber phone_number = 1;
+}
+
+message GetNetworkInfoForSubscriberResponse {
+  repeated NetworkInfo network_infos = 1;
+}
+
+message GetAttachmentAttemptsForSubscriberRequest {
+  wgtwo.common.v0.PhoneNumber phone_number = 1;
+  Interval filter_by_interval = 2;
+  uint32 max_attempts = 3;
+}
+
+message GetAttachmentAttemptsForSubscriberResponse {
+  repeated AttachmentAttempt attachment_attempts = 1;
+}
+
+message Interval {
+  google.protobuf.Timestamp after = 1;
+  google.protobuf.Timestamp before = 2;
+}
+
+message AttachmentAttempt {
+  wgtwo.common.v0.Iccid iccid = 1;
+  wgtwo.common.v0.Imsi imsi = 2;
+  google.protobuf.Timestamp timestamp = 3;
+  wgtwo.common.v0.NetworkIdentity network_identity = 4;
+  wgtwo.common.v0.NetworkGeneration network_generation = 5;
+  wgtwo.common.v0.Tadig tadig = 6;
+  Status status = 7;
+}
+
+message NetworkInfo {
+  wgtwo.common.v0.Iccid iccid = 1;
+  wgtwo.common.v0.Imsi imsi = 2;
+  google.protobuf.Timestamp timestamp = 3;
+  wgtwo.common.v0.NetworkIdentity network_identity = 4;
+  wgtwo.common.v0.NetworkGeneration network_generation = 5;
+  wgtwo.common.v0.Tadig tadig = 6;
+}
+
+enum Code {
+  CODE_UNSPECIFIED = 0;
+  CODE_OK = 1;
+  CODE_ABSENT_PROFILE = 2;
+  CODE_ABSENT_SUBSCRIBER = 3;
+  CODE_UNKNOWN_PROFILE = 4;
+  CODE_BLOCKED_PROFILE = 5;
+  CODE_ROAMING_NOT_ALLOWED = 6;
+}
+
+message Status {
+  Code code = 1;
+  string description = 2;
+}
