@@ -26,10 +26,14 @@ option java_package = "com.wgtwo.api.v0.subscription";
 option java_outer_classname = "AttachmentProto";
 
 service NetworkInfoService {
+
+  // Get current network information for subscriber
   rpc GetNetworkInfoForSubscriber (GetNetworkInfoForSubscriberRequest)
       returns (GetNetworkInfoForSubscriberResponse) {
     option (scope) = "subscription.network:read";
   }
+
+  // Get attachment attempts, both failed and successful, for subscriber
   rpc GetAttachmentAttemptsForSubscriber (GetAttachmentAttemptsForSubscriberRequest)
       returns (GetAttachmentAttemptsForSubscriberResponse) {
     option (scope) = "subscription.network:read";
@@ -75,7 +79,26 @@ message NetworkInfo {
   google.protobuf.Timestamp timestamp = 3;
   wgtwo.common.v0.NetworkIdentity network_identity = 4;
   wgtwo.common.v0.NetworkGeneration network_generation = 5;
+
+  // TADIG code, if present
+  // May be empty
   wgtwo.common.v0.Tadig tadig = 6;
+
+  // MSC, if present
+  // May be empty
+
+  wgtwo.common.v0.GlobalTitle msc = 7;
+  // VLR, if present
+  // May be empty
+  wgtwo.common.v0.GlobalTitle vlr = 8;
+
+  // SGSN, if present
+  // May be empty
+  wgtwo.common.v0.GlobalTitle sgsn = 9;
+
+  // MME, if present
+  // May be empty
+  wgtwo.common.v0.Fqdn mme = 10;
 }
 
 enum Code {

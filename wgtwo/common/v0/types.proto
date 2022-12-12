@@ -55,3 +55,12 @@ enum NetworkGeneration {
   NETWORK_GENERATION_4G = 3;
   NETWORK_GENERATION_5G = 4;
 }
+
+message GlobalTitle {
+  string value = 1;
+}
+
+// Fully Qualified Domain Name
+message Fqdn {
+  string value = 1;
+}

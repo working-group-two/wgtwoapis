@@ -22,7 +22,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type NetworkInfoServiceClient interface {
+	// Get current network information for subscriber
 	GetNetworkInfoForSubscriber(ctx context.Context, in *GetNetworkInfoForSubscriberRequest, opts ...grpc.CallOption) (*GetNetworkInfoForSubscriberResponse, error)
+	// Get attachment attempts, both failed and successful, for subscriber
 	GetAttachmentAttemptsForSubscriber(ctx context.Context, in *GetAttachmentAttemptsForSubscriberRequest, opts ...grpc.CallOption) (*GetAttachmentAttemptsForSubscriberResponse, error)
 }
 
@@ -56,7 +58,9 @@ func (c *networkInfoServiceClient) GetAttachmentAttemptsForSubscriber(ctx contex
 // All implementations should embed UnimplementedNetworkInfoServiceServer
 // for forward compatibility
 type NetworkInfoServiceServer interface {
+	// Get current network information for subscriber
 	GetNetworkInfoForSubscriber(context.Context, *GetNetworkInfoForSubscriberRequest) (*GetNetworkInfoForSubscriberResponse, error)
+	// Get attachment attempts, both failed and successful, for subscriber
 	GetAttachmentAttemptsForSubscriber(context.Context, *GetAttachmentAttemptsForSubscriberRequest) (*GetAttachmentAttemptsForSubscriberResponse, error)
 }
 
