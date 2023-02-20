@@ -17,6 +17,7 @@ syntax = "proto3";
 package wgtwo.data.v1;
 
 import "wgtwo/annotations/annotations.proto";
+import "wgtwo/common/v1/types.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/content_filtering/v1";
 option java_package = "com.wgtwo.api.v1.contentFiltering";
@@ -68,6 +69,10 @@ message GetGlobalFilterResponse {
 
 message Filter {
   repeated Category blocked_categories = 1;
+  // The ip to redirect to if the category is blocked
+  oneof block_mode {
+    BlockModeIp block_mode_ip = 2;
+  }
 }
 
 enum Category {
@@ -118,4 +123,8 @@ enum Category {
 
   // Weapons
   CATEGORY_WEAPONS = 46;
+}
+
+message BlockModeIp {
+  common.v1.IpAddressV4 ipv4 = 1;
 }

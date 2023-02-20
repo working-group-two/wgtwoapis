@@ -72,3 +72,8 @@ message NetworkIdentity {
   string mcc = 1;
   string mnc = 2;
 }
+
+// IpAddress v4
+message IpAddressV4 {
+  string value = 1;
+}
