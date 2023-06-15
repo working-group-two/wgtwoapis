@@ -23,13 +23,19 @@ option java_outer_classname = "TypesProto";
 
 // International Mobile Subscription Identity
 // An IMSI is composed of three parts:
-//  1) Mobile Country Code (MCC) consisting of three digits. The MCC is 3 digits long and identifies
-//    uniquely the country of domicile of the mobile subscription;
-//  2) Mobile Network Code (MNC), 2 or 3 digits for 3GPP network applications. The MNC identifies
-//    the home PLMN of the mobile subscription. The length of the MNC depends on the value of the
-//    MCC. A mixture of two and three digit MNC codes within a single MCC area is not recommended.
-//  3) Mobile Subscriber Identification Number (MSIN) identifying the mobile subscription within a
-//    PLMN. Normally there are 10 digits, but can be fewer in the case of a 3-digit MNC or if
+//  1) Mobile Country Code (MCC) consisting of three digits.
+//
+//    The MCC is 3 digits long and identifies uniquely the country of domicile of the mobile subscription
+//
+//  2) Mobile Network Code (MNC), 2 or 3 digits for 3GPP network applications.
+//
+//     The MNC in combination with the MCC identify the home PLMN of the mobile subscription.
+//     The length of the MNC in most cases depends on the value of the MCC.
+//     Note that some MCC use a mixture of two and three digit MNC codes.
+//
+//  3) Mobile Subscriber Identification Number (MSIN) identifying the mobile subscription within a PLMN.
+//
+//    Normally there are 10 digits, but can be fewer in the case of a 3-digit MNC or if
 //    national regulations indicate that the total length of the IMSI should be less than 15 digits.
 message Imsi {
   string value = 1;
@@ -63,4 +69,14 @@ message GlobalTitle {
 // Fully Qualified Domain Name
 message Fqdn {
   string value = 1;
+}
+
+message SubscriberIdentifier {
+  // A globally unique string identifying a subscription. This will stay the same even if msisdn of subscription changes
+  string value = 1;
+  Tenant tenant = 2;
+}
+
+message Tenant {
+  string name = 1;
 }
