@@ -1,0 +1,102 @@
+// Copyright 2021 Working Group Two AS
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+syntax = "proto3";
+
+package wgtwo.consents.v0;
+
+import "wgtwo/annotations/annotations.proto";
+import "wgtwo/common/v0/errors.proto";
+import "wgtwo/common/v0/phonenumber.proto";
+import "wgtwo/common/v0/types.proto";
+
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/consents/v0";
+option java_package = "com.wgtwo.api.v0.consent";
+option java_outer_classname = "ConsentsProto";
+
+service ConsentService {
+  rpc GetConsentsForSubscriber (GetConsentsForSubscriberRequest) returns (GetConsentsForSubscriberResponse) {
+    option (scope) = "subscription.consent:read";
+  }
+
+  rpc CreateConsentForSubscriber (CreateConsentForSubscriberRequest) returns (CreateConsentForSubscriberResponse) {
+    option (scope) = "subscription.consent:write";
+  }
+
+  rpc RevokeConsentForSubscriber (RevokeConsentForSubscriberRequest) returns (RevokeConsentForSubscriberResponse) {
+    option (scope) = "subscription.consent:write";
+  }
+
+}
+
+message GetConsentsForSubscriberRequest {
+  wgtwo.common.v0.SubscriberIdentifier id = 1;
+  wgtwo.common.v0.PhoneNumber phone_number = 2; // TODO to be removed
+}
+
+message GetConsentsForSubscriberResponse {
+  repeated Consent consents = 1;
+  wgtwo.common.v0.StatusCode status_code = 2;
+  string error_message = 3;
+}
+
+message CreateConsentForSubscriberRequest {
+  wgtwo.common.v0.SubscriberIdentifier id = 1;
+  wgtwo.common.v0.PhoneNumber phone_number = 4; // TODO to be removed
+  string product_id = 2;
+  string product_version = 3;
+}
+
+message CreateConsentForSubscriberResponse {
+  wgtwo.common.v0.StatusCode status_code = 1;
+  string error_message = 2;
+}
+
+message RevokeConsentForSubscriberRequest {
+  wgtwo.common.v0.SubscriberIdentifier id = 1;
+  wgtwo.common.v0.PhoneNumber phone_number = 3; // TODO to be removed
+  string product_id = 2;
+}
+
+message RevokeConsentForSubscriberResponse {
+  wgtwo.common.v0.StatusCode status_code = 1;
+  string error_message = 2;
+}
+
+message Consent {
+  ConsentOwner owner = 1;
+  string product_id = 2;
+  repeated Scope scopes = 3;
+  bool revokable = 4;
+}
+
+message ConsentOwner {
+  oneof value {
+    Subscription subscription = 1;
+    Tenant tenant = 2;
+  }
+}
+
+message Subscription {
+  //TODO include msisdn or leave it up to consumer to fetch via separate API?
+  wgtwo.common.v0.SubscriberIdentifier subscriber_identifier = 1;
+}
+
+message Tenant {
+  string name = 1;
+}
+
+message Scope {
+  string property = 1;
+}
