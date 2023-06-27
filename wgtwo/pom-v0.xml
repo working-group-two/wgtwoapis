@@ -23,6 +23,7 @@
         <module>voicemail/v0</module>
         <module>webterminal/v0</module>
         <module>sipbreakout/v0</module>
+        <module>subscription/v0</module>
         <module>annotations/pom-v0.xml</module>
     </modules>
 

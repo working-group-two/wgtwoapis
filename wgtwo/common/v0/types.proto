@@ -71,7 +71,7 @@ message Fqdn {
   string value = 1;
 }
 
-message SubscriberIdentifier {
+message SubscriptionIdentifier {
   // A globally unique string identifying a subscription. This will stay the same even if msisdn of subscription changes
   string value = 1;
   Tenant tenant = 2;

@@ -26,50 +26,53 @@ option java_package = "com.wgtwo.api.v0.consent";
 option java_outer_classname = "ConsentsProto";
 
 service ConsentService {
-  rpc GetConsentsForSubscriber (GetConsentsForSubscriberRequest) returns (GetConsentsForSubscriberResponse) {
+  rpc GetConsentsForSubscription (GetConsentsForSubscriptionRequest)
+      returns (GetConsentsForSubscriptionResponse) {
     option (scope) = "subscription.consent:read";
   }
 
-  rpc CreateConsentForSubscriber (CreateConsentForSubscriberRequest) returns (CreateConsentForSubscriberResponse) {
+  rpc CreateConsentForSubscription (CreateConsentForSubscriptionRequest)
+      returns (CreateConsentForSubscriptionResponse) {
     option (scope) = "subscription.consent:write";
   }
 
-  rpc RevokeConsentForSubscriber (RevokeConsentForSubscriberRequest) returns (RevokeConsentForSubscriberResponse) {
+  rpc RevokeConsentForSubscription (RevokeConsentForSubscriptionRequest)
+      returns (RevokeConsentForSubscriptionResponse) {
     option (scope) = "subscription.consent:write";
   }
 
 }
 
-message GetConsentsForSubscriberRequest {
-  wgtwo.common.v0.SubscriberIdentifier id = 1;
+message GetConsentsForSubscriptionRequest {
+  wgtwo.common.v0.SubscriptionIdentifier id = 1;
   wgtwo.common.v0.PhoneNumber phone_number = 2; // TODO to be removed
 }
 
-message GetConsentsForSubscriberResponse {
+message GetConsentsForSubscriptionResponse {
   repeated Consent consents = 1;
   wgtwo.common.v0.StatusCode status_code = 2;
   string error_message = 3;
 }
 
-message CreateConsentForSubscriberRequest {
-  wgtwo.common.v0.SubscriberIdentifier id = 1;
+message CreateConsentForSubscriptionRequest {
+  wgtwo.common.v0.SubscriptionIdentifier id = 1;
   wgtwo.common.v0.PhoneNumber phone_number = 4; // TODO to be removed
   string product_id = 2;
   string product_version = 3;
 }
 
-message CreateConsentForSubscriberResponse {
+message CreateConsentForSubscriptionResponse {
   wgtwo.common.v0.StatusCode status_code = 1;
   string error_message = 2;
 }
 
-message RevokeConsentForSubscriberRequest {
-  wgtwo.common.v0.SubscriberIdentifier id = 1;
+message RevokeConsentForSubscriptionRequest {
+  wgtwo.common.v0.SubscriptionIdentifier id = 1;
   wgtwo.common.v0.PhoneNumber phone_number = 3; // TODO to be removed
   string product_id = 2;
 }
 
-message RevokeConsentForSubscriberResponse {
+message RevokeConsentForSubscriptionResponse {
   wgtwo.common.v0.StatusCode status_code = 1;
   string error_message = 2;
 }
@@ -84,17 +87,12 @@ message Consent {
 message ConsentOwner {
   oneof value {
     Subscription subscription = 1;
-    Tenant tenant = 2;
+    wgtwo.common.v0.Tenant tenant = 2;
   }
 }
 
 message Subscription {
-  //TODO include msisdn or leave it up to consumer to fetch via separate API?
-  wgtwo.common.v0.SubscriberIdentifier subscriber_identifier = 1;
-}
-
-message Tenant {
-  string name = 1;
+  wgtwo.common.v0.SubscriptionIdentifier subscription_identifier = 1;
 }
 
 message Scope {

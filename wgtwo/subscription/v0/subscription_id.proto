@@ -1,0 +1,61 @@
+// Copyright 2022 Working Group Two AS
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+syntax = "proto3";
+
+package wgtwo.subscription.v0;
+
+import "wgtwo/annotations/annotations.proto";
+import "wgtwo/common/v0/errors.proto";
+import "wgtwo/common/v0/phonenumber.proto";
+import "wgtwo/common/v0/types.proto";
+
+
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/subscriptions/v0";
+option java_package = "com.wgtwo.api.v0.subscription";
+option java_outer_classname = "SubscriptionIdProto";
+
+service SubscriptionIdService {
+
+  // Get globally unique subscription id for a msisdn
+  rpc GetSubscriptionId (GetSubscriptionIdRequest) returns (GetSubscriptionIdResponse) {
+    option (scope) = "subscription.id:read";
+  }
+
+  // Get msisdn for a globally unique subscription id
+  rpc GetMsisdn (GetMsisdnRequest) returns (GetMsisdnResponse) {
+    option (scope) = "subscription.id:read";
+  }
+
+}
+
+message GetSubscriptionIdRequest {
+  wgtwo.common.v0.PhoneNumber phone_number = 1;
+}
+
+message GetSubscriptionIdResponse {
+  wgtwo.common.v0.SubscriptionIdentifier subscription_id = 1;
+  wgtwo.common.v0.StatusCode status_code = 2;
+  string error_message = 3;
+}
+
+message GetMsisdnRequest {
+  wgtwo.common.v0.SubscriptionIdentifier subscription_id = 1;
+}
+
+message GetMsisdnResponse {
+  wgtwo.common.v0.PhoneNumber phone_number = 1;
+  wgtwo.common.v0.StatusCode status_code = 2;
+  string error_message = 3;
+}
