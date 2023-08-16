@@ -116,7 +116,7 @@ message StreamConfiguration {
   // Optional: By default, only new events will be included
   oneof start_position {
     // Will only deliver events generated after this subscription was started
-    uint64 start_at_new = 6;
+    google.protobuf.Empty start_at_new = 6;
     // Will deliver events from the given ID
     uint64 start_at_id = 7;
     // Will deliver events from the given timestamp

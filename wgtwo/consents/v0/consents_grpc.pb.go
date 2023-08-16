@@ -34,18 +34,18 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ConsentService_GetConsentsForSubscriber_FullMethodName   = "/wgtwo.consents.v0.ConsentService/GetConsentsForSubscriber"
-	ConsentService_CreateConsentForSubscriber_FullMethodName = "/wgtwo.consents.v0.ConsentService/CreateConsentForSubscriber"
-	ConsentService_RevokeConsentForSubscriber_FullMethodName = "/wgtwo.consents.v0.ConsentService/RevokeConsentForSubscriber"
+	ConsentService_GetConsentsForSubscription_FullMethodName   = "/wgtwo.consents.v0.ConsentService/GetConsentsForSubscription"
+	ConsentService_CreateConsentForSubscription_FullMethodName = "/wgtwo.consents.v0.ConsentService/CreateConsentForSubscription"
+	ConsentService_RevokeConsentForSubscription_FullMethodName = "/wgtwo.consents.v0.ConsentService/RevokeConsentForSubscription"
 )
 
 // ConsentServiceClient is the client API for ConsentService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ConsentServiceClient interface {
-	GetConsentsForSubscriber(ctx context.Context, in *GetConsentsForSubscriberRequest, opts ...grpc.CallOption) (*GetConsentsForSubscriberResponse, error)
-	CreateConsentForSubscriber(ctx context.Context, in *CreateConsentForSubscriberRequest, opts ...grpc.CallOption) (*CreateConsentForSubscriberResponse, error)
-	RevokeConsentForSubscriber(ctx context.Context, in *RevokeConsentForSubscriberRequest, opts ...grpc.CallOption) (*RevokeConsentForSubscriberResponse, error)
+	GetConsentsForSubscription(ctx context.Context, in *GetConsentsForSubscriptionRequest, opts ...grpc.CallOption) (*GetConsentsForSubscriptionResponse, error)
+	CreateConsentForSubscription(ctx context.Context, in *CreateConsentForSubscriptionRequest, opts ...grpc.CallOption) (*CreateConsentForSubscriptionResponse, error)
+	RevokeConsentForSubscription(ctx context.Context, in *RevokeConsentForSubscriptionRequest, opts ...grpc.CallOption) (*RevokeConsentForSubscriptionResponse, error)
 }
 
 type consentServiceClient struct {
@@ -56,27 +56,27 @@ func NewConsentServiceClient(cc grpc.ClientConnInterface) ConsentServiceClient {
 	return &consentServiceClient{cc}
 }
 
-func (c *consentServiceClient) GetConsentsForSubscriber(ctx context.Context, in *GetConsentsForSubscriberRequest, opts ...grpc.CallOption) (*GetConsentsForSubscriberResponse, error) {
-	out := new(GetConsentsForSubscriberResponse)
-	err := c.cc.Invoke(ctx, ConsentService_GetConsentsForSubscriber_FullMethodName, in, out, opts...)
+func (c *consentServiceClient) GetConsentsForSubscription(ctx context.Context, in *GetConsentsForSubscriptionRequest, opts ...grpc.CallOption) (*GetConsentsForSubscriptionResponse, error) {
+	out := new(GetConsentsForSubscriptionResponse)
+	err := c.cc.Invoke(ctx, ConsentService_GetConsentsForSubscription_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *consentServiceClient) CreateConsentForSubscriber(ctx context.Context, in *CreateConsentForSubscriberRequest, opts ...grpc.CallOption) (*CreateConsentForSubscriberResponse, error) {
-	out := new(CreateConsentForSubscriberResponse)
-	err := c.cc.Invoke(ctx, ConsentService_CreateConsentForSubscriber_FullMethodName, in, out, opts...)
+func (c *consentServiceClient) CreateConsentForSubscription(ctx context.Context, in *CreateConsentForSubscriptionRequest, opts ...grpc.CallOption) (*CreateConsentForSubscriptionResponse, error) {
+	out := new(CreateConsentForSubscriptionResponse)
+	err := c.cc.Invoke(ctx, ConsentService_CreateConsentForSubscription_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *consentServiceClient) RevokeConsentForSubscriber(ctx context.Context, in *RevokeConsentForSubscriberRequest, opts ...grpc.CallOption) (*RevokeConsentForSubscriberResponse, error) {
-	out := new(RevokeConsentForSubscriberResponse)
-	err := c.cc.Invoke(ctx, ConsentService_RevokeConsentForSubscriber_FullMethodName, in, out, opts...)
+func (c *consentServiceClient) RevokeConsentForSubscription(ctx context.Context, in *RevokeConsentForSubscriptionRequest, opts ...grpc.CallOption) (*RevokeConsentForSubscriptionResponse, error) {
+	out := new(RevokeConsentForSubscriptionResponse)
+	err := c.cc.Invoke(ctx, ConsentService_RevokeConsentForSubscription_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -87,23 +87,23 @@ func (c *consentServiceClient) RevokeConsentForSubscriber(ctx context.Context, i
 // All implementations should embed UnimplementedConsentServiceServer
 // for forward compatibility
 type ConsentServiceServer interface {
-	GetConsentsForSubscriber(context.Context, *GetConsentsForSubscriberRequest) (*GetConsentsForSubscriberResponse, error)
-	CreateConsentForSubscriber(context.Context, *CreateConsentForSubscriberRequest) (*CreateConsentForSubscriberResponse, error)
-	RevokeConsentForSubscriber(context.Context, *RevokeConsentForSubscriberRequest) (*RevokeConsentForSubscriberResponse, error)
+	GetConsentsForSubscription(context.Context, *GetConsentsForSubscriptionRequest) (*GetConsentsForSubscriptionResponse, error)
+	CreateConsentForSubscription(context.Context, *CreateConsentForSubscriptionRequest) (*CreateConsentForSubscriptionResponse, error)
+	RevokeConsentForSubscription(context.Context, *RevokeConsentForSubscriptionRequest) (*RevokeConsentForSubscriptionResponse, error)
 }
 
 // UnimplementedConsentServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedConsentServiceServer struct {
 }
 
-func (UnimplementedConsentServiceServer) GetConsentsForSubscriber(context.Context, *GetConsentsForSubscriberRequest) (*GetConsentsForSubscriberResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetConsentsForSubscriber not implemented")
+func (UnimplementedConsentServiceServer) GetConsentsForSubscription(context.Context, *GetConsentsForSubscriptionRequest) (*GetConsentsForSubscriptionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetConsentsForSubscription not implemented")
 }
-func (UnimplementedConsentServiceServer) CreateConsentForSubscriber(context.Context, *CreateConsentForSubscriberRequest) (*CreateConsentForSubscriberResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateConsentForSubscriber not implemented")
+func (UnimplementedConsentServiceServer) CreateConsentForSubscription(context.Context, *CreateConsentForSubscriptionRequest) (*CreateConsentForSubscriptionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateConsentForSubscription not implemented")
 }
-func (UnimplementedConsentServiceServer) RevokeConsentForSubscriber(context.Context, *RevokeConsentForSubscriberRequest) (*RevokeConsentForSubscriberResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RevokeConsentForSubscriber not implemented")
+func (UnimplementedConsentServiceServer) RevokeConsentForSubscription(context.Context, *RevokeConsentForSubscriptionRequest) (*RevokeConsentForSubscriptionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokeConsentForSubscription not implemented")
 }
 
 // UnsafeConsentServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -117,56 +117,56 @@ func RegisterConsentServiceServer(s grpc.ServiceRegistrar, srv ConsentServiceSer
 	s.RegisterService(&ConsentService_ServiceDesc, srv)
 }
 
-func _ConsentService_GetConsentsForSubscriber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetConsentsForSubscriberRequest)
+func _ConsentService_GetConsentsForSubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetConsentsForSubscriptionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ConsentServiceServer).GetConsentsForSubscriber(ctx, in)
+		return srv.(ConsentServiceServer).GetConsentsForSubscription(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ConsentService_GetConsentsForSubscriber_FullMethodName,
+		FullMethod: ConsentService_GetConsentsForSubscription_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConsentServiceServer).GetConsentsForSubscriber(ctx, req.(*GetConsentsForSubscriberRequest))
+		return srv.(ConsentServiceServer).GetConsentsForSubscription(ctx, req.(*GetConsentsForSubscriptionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ConsentService_CreateConsentForSubscriber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateConsentForSubscriberRequest)
+func _ConsentService_CreateConsentForSubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateConsentForSubscriptionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ConsentServiceServer).CreateConsentForSubscriber(ctx, in)
+		return srv.(ConsentServiceServer).CreateConsentForSubscription(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ConsentService_CreateConsentForSubscriber_FullMethodName,
+		FullMethod: ConsentService_CreateConsentForSubscription_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConsentServiceServer).CreateConsentForSubscriber(ctx, req.(*CreateConsentForSubscriberRequest))
+		return srv.(ConsentServiceServer).CreateConsentForSubscription(ctx, req.(*CreateConsentForSubscriptionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ConsentService_RevokeConsentForSubscriber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RevokeConsentForSubscriberRequest)
+func _ConsentService_RevokeConsentForSubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RevokeConsentForSubscriptionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ConsentServiceServer).RevokeConsentForSubscriber(ctx, in)
+		return srv.(ConsentServiceServer).RevokeConsentForSubscription(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ConsentService_RevokeConsentForSubscriber_FullMethodName,
+		FullMethod: ConsentService_RevokeConsentForSubscription_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConsentServiceServer).RevokeConsentForSubscriber(ctx, req.(*RevokeConsentForSubscriberRequest))
+		return srv.(ConsentServiceServer).RevokeConsentForSubscription(ctx, req.(*RevokeConsentForSubscriptionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -179,16 +179,16 @@ var ConsentService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ConsentServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetConsentsForSubscriber",
-			Handler:    _ConsentService_GetConsentsForSubscriber_Handler,
+			MethodName: "GetConsentsForSubscription",
+			Handler:    _ConsentService_GetConsentsForSubscription_Handler,
 		},
 		{
-			MethodName: "CreateConsentForSubscriber",
-			Handler:    _ConsentService_CreateConsentForSubscriber_Handler,
+			MethodName: "CreateConsentForSubscription",
+			Handler:    _ConsentService_CreateConsentForSubscription_Handler,
 		},
 		{
-			MethodName: "RevokeConsentForSubscriber",
-			Handler:    _ConsentService_RevokeConsentForSubscriber_Handler,
+			MethodName: "RevokeConsentForSubscription",
+			Handler:    _ConsentService_RevokeConsentForSubscription_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

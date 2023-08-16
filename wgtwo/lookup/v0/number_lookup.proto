@@ -27,16 +27,36 @@ option java_outer_classname = "NumberLookupProto";
 
 service NumberLookupService {
   rpc NumberLookup (stream NumberLookupResponse) returns (stream NumberLookupRequest) {
-    option (scope) = "number.from:read";
+    option (scope) = "lookup.number:read";
   }
 }
 
 message NumberLookupRequest {
+  // An ID representing the request, used for routing purposes
   string id = 1;
+  // The number to lookup
   wgtwo.common.v0.PhoneNumber number = 2;
 }
 
 message NumberLookupResponse {
+  // The origin request this response is for
   NumberLookupRequest number_lookup_request = 1;
-  string name = 2;
+
+  // The result of the lookup
+  // If neither Result nor Error is set, an empty Result is assumed
+  oneof reply {
+    Result result = 2;
+    Error error = 3;
+  }
+}
+
+message Result {
+  // The name associated with the number
+  // May be empty if no name is found
+  string name = 1;
+}
+
+message Error {
+  // Human readable description describing the error
+  string message = 1;
 }

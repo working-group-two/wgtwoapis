@@ -1,0 +1,79 @@
+// Copyright 2022 Working Group Two AS
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+syntax = "proto3";
+
+package wgtwo.phonebook.v0;
+
+import "wgtwo/annotations/annotations.proto";
+import "wgtwo/common/v0/phonenumber.proto";
+
+option java_outer_classname = "PhonebookProto";
+option java_multiple_files = true;
+option java_package = "com.wgtwo.api.v0.phonebook";
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/phonebook/v0";
+
+
+// Phonebook API provides a way to associate a text with caller's phone number.
+// When given Phonebook is activated on receiver's subscription it will be consulted
+// to retrieve the text label on caller's phone number. The label is then sent to the answerer
+// together with the digits to display it on phone's UI.
+// When caller's phone number is part of callee's contact list - contact list takes precedence
+//
+//
+
+service PhonebookService {
+
+  // Add/Delete or Replace a msisdn->text pair(s)
+  rpc Update (UpdateRequest) returns (UpdateResponse) {
+    option (scope) = "call.phonebook:write";
+  };
+
+  // Turn given phonebook on/off for a subscriber
+  rpc Toggle (ToggleRequest) returns (ToggleResponse) {
+    option (scope) = "call.phonebook:write";
+  };
+}
+
+message UpdateRequest {
+  repeated Contact contacts = 1;
+}
+
+message UpdateResponse {
+  uint32 number_of_updates = 1;
+  StatusCode status_code = 2;
+  string error_message = 3;
+}
+
+message Contact {
+  wgtwo.common.v0.PhoneNumber phone_number = 1;
+  string label = 2; // empty to delete
+}
+
+message ToggleRequest {
+  wgtwo.common.v0.PhoneNumber subscription = 1;
+  bool enabled = 2;
+}
+
+message ToggleResponse {
+  StatusCode status_code = 1;
+  string error_message = 2;
+}
+
+enum StatusCode {
+  STATUS_CODE_UNSPECIFIED = 0;
+  STATUS_CODE_OK = 1;
+  STATUS_CODE_ERROR = 2;
+}
