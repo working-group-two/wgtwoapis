@@ -24,10 +24,6 @@
             <artifactId>common</artifactId>
             <version>0.1.7-SNAPSHOT</version>
         </dependency>
-        <dependency>
-          <groupId>com.google.protobuf</groupId>
-          <artifactId>protobuf-java</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
