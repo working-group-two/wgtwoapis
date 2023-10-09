@@ -58,7 +58,7 @@ message CreateConsentForSubscriptionRequest {
   wgtwo.common.v0.SubscriptionIdentifier id = 1;
   wgtwo.common.v0.PhoneNumber phone_number = 4; // TODO to be removed
   string product_id = 2;
-  string product_version = 3;
+  map<string, string> metadata = 3;
 }
 
 message CreateConsentForSubscriptionResponse {
@@ -82,6 +82,7 @@ message Consent {
   string product_id = 2;
   repeated Scope scopes = 3;
   bool revokable = 4;
+  map<string, string> metadata = 5;
 }
 
 message ConsentOwner {

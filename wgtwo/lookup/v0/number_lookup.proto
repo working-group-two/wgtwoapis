@@ -17,6 +17,7 @@ syntax = "proto3";
 
 package wgtwo.lookup.v0;
 
+import "google/protobuf/duration.proto";
 import "wgtwo/annotations/annotations.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 
@@ -48,6 +49,9 @@ message NumberLookupResponse {
     Result result = 2;
     Error error = 3;
   }
+
+  // Cache settings for this response
+  CacheControl cache_control = 4;
 }
 
 message Result {
@@ -59,4 +63,14 @@ message Result {
 message Error {
   // Human readable description describing the error
   string message = 1;
+}
+
+message CacheControl {
+  // The maximum duration for which this response can be cached.
+  //
+  // If unset or set to zero, default duration of 24 hours will be used.
+  // If set to value lower than the minimum duration of 15 minutes, the minimum duration will be used.
+  //
+  // Note: The minimum and default values might be subject to change without notice.
+  google.protobuf.Duration max_age = 1;
 }
