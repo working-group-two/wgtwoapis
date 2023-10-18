@@ -31,14 +31,20 @@ message Country {
   string name = 2;
 }
 
-// This is identification of the subscription
+// Subscription Identification:
+// The `wg2rn` field follows the format `{tenant}:{region}:{id}`, where:
+// - `tenant`: The tenant to which this subscription belongs
+// - `region`: The region code of the subscription's MSISDN
+// - `id`: A static identifier for the subscription
 //
-// Our OAuth 2.0 server is configured to use Pairwise Pseudonymous Identifiers for its sub field, where all client of
-// a product will share the same identifier for a single subscription.
+// The `wg2rn` uniquely identifies a subscription.
 //
-// This message contains this subject, given by the product your OAuth 2.0 client belongs to.
+// Note: Our OAuth 2.0 server supports Pairwise Pseudonymous Identifiers for the 'sub' field.
+// All clients of a product share the same identifier for a single subscription, stored in the 'value' field.
+// Please be aware that the 'value' field is deprecated and will be removed in the future.
 message SubscriptionIdentifier {
-  string value = 1;
+  string value = 1 [deprecated = true];
+  string wg2rn = 2;
 }
 
 
