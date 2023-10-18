@@ -1,0 +1,38 @@
+name: Build v0 Java for all JDKs on all OSes
+
+on:
+  push:
+    branches:
+      - 'master'
+    paths-ignore:
+      - '*.md'
+      - '.gitignore'
+  pull_request:
+    paths-ignore:
+      - '*.md'
+      - '.gitignore'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        java_version: [8, 11, 17, 20]
+        os: [windows-latest, macOS-latest, ubuntu-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK ${{ matrix.java_version }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: ${{ matrix.java_version }}
+      - name: Make Maven Wrapper executable
+        if: contains(matrix.os, 'win') == false
+        working-directory: ./java
+        run: chmod +x mvnw
+      - name: Package
+        working-directory: ./java
+        run: ./mvnw --file wgtwo/pom-v0.xml package
