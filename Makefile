@@ -1,4 +1,4 @@
-all: buf_build java_package
+all: buf java_package
 
 clean:
 	find . -type d -name 'target' -exec rm -rf {} +
@@ -13,7 +13,7 @@ buf_generate: clean $(wildcard */*.proto)
 buf_push: clean $(wildcard */*.proto)
 	buf push
 
-buf_build: buf_image buf_generate
+buf: buf_image buf_generate
 
 # Java
 java_v0_package: $(wildcard */v0/pom.xml) $(wildcard */v0/*.proto)

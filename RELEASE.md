@@ -66,14 +66,8 @@ now been pushed to github so you'll have to edit the history and do a force push
 ## Build and release protobuf artifacts
 
 ```shell
-# Build FileDescriptorSet
-make buf_image
-
-# Generate Go code
-make buf_generate
-
-# Both above
-make buf_build
+# Build FileDescriptorSet and generate Go code
+make buf
 
 # Push to Buf Schema Registry
 make buf_push
