@@ -65,24 +65,25 @@ now been pushed to github so you'll have to edit the history and do a force push
 
 ## Build and release protobuf artifacts
 
-### Build FileDescriptorSet
-
 ```shell
-buf build -o image.bin
-```
+# Build FileDescriptorSet
+make buf_image
 
-### Generate Go code
+# Generate Go code
+make buf_generate
 
-```shell
-buf build -o image.bin
-buf generate
+# Both above
+make buf_build
+
+# Push to Buf Schema Registry
+make buf_push
 ```
 
 ### Push to Buf Schema Registry
 
+This requires that you have logged in to the Buf Schema Registry:
 ```shell
 buf registry login buf.build --username 'your username'
-buf push
 ```
 
 ## Required tooling
