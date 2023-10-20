@@ -31,4 +31,4 @@ jobs:
       - name: Package v1
         run: ./mvnw --file wgtwo/pom-v1.xml package
       - name: Package v0
-        run: ./mvnw --file wgtwo/pom-v1.xml package
+        run: ./mvnw --file wgtwo/pom-v0.xml package
