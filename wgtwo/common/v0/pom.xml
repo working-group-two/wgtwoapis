@@ -18,6 +18,13 @@
         <maven.deploy.skip>false</maven.deploy.skip>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-protobuf</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <extensions>
             <extension>
