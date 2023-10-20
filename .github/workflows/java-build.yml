@@ -1,0 +1,34 @@
+name: Build Java packages
+
+on:
+  push:
+    branches:
+      - 'master'
+    paths-ignore:
+      - '*.md'
+      - '.gitignore'
+  pull_request:
+    paths-ignore:
+      - '*.md'
+      - '.gitignore'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macOS-latest, ubuntu-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup rtx
+        uses: jdx/rtx-action@v1
+      - name: Make Maven Wrapper executable
+        if: contains(matrix.os, 'win') == false
+        run: chmod +x mvnw
+      - name: Package v1
+        run: ./mvnw --file wgtwo/pom-v1.xml package
+      - name: Package v0
+        run: ./mvnw --file wgtwo/pom-v0.xml package

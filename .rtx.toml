@@ -1,0 +1,3 @@
+[tools]
+java = "corretto-21"
+buf = "latest"
