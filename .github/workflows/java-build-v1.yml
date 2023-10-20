@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set up JDK ${{ matrix.java_version }}
         uses: actions/setup-java@v3
         with:
@@ -31,8 +31,6 @@ jobs:
           java-version: ${{ matrix.java_version }}
       - name: Make Maven Wrapper executable
         if: contains(matrix.os, 'win') == false
-        working-directory: ./java
         run: chmod +x mvnw
       - name: Package
-        working-directory: ./java
         run: ./mvnw --file wgtwo/pom-v1.xml package
