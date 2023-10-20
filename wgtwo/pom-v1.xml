@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -33,7 +34,9 @@
 
     <scm>
         <connection>scm:git:git@github.com:working-group-two/wgtwoapis.git</connection>
-        <developerConnection>scm:git:[push=]git@github.com:working-group-two/wgtwoapis.git[fetch=]git@github.com:working-group-two/wgtwoapis.git</developerConnection>
+        <developerConnection>
+            scm:git:[push=]git@github.com:working-group-two/wgtwoapis.git[fetch=]git@github.com:working-group-two/wgtwoapis.git
+        </developerConnection>
         <url>https://github.com/working-group-two/wgtwoapis.git</url>
         <tag>v1.10.1</tag>
     </scm>
@@ -80,7 +83,8 @@
                     <version>0.6.1</version>
                     <configuration>
                         <protoSourceRoot>${maven.multiModuleProjectDirectory}</protoSourceRoot>
-                        <protocArtifact>com.google.protobuf:protoc:3.21.12:exe:${os.detected.classifier}</protocArtifact>
+                        <protocArtifact>com.google.protobuf:protoc:3.21.12:exe:${os.detected.classifier}
+                        </protocArtifact>
                         <pluginId>grpc-java</pluginId>
                         <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.52.1:exe:${os.detected.classifier}
                         </pluginArtifact>
@@ -111,8 +115,10 @@
                     <artifactId>maven-release-plugin</artifactId>
                     <version>${maven-release-plugin.version}</version>
                     <configuration>
-                        <scmCommentPrefix>[RELEASE] </scmCommentPrefix>
-                        <tagNameFormat>v${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</tagNameFormat>
+                        <scmCommentPrefix>[RELEASE]</scmCommentPrefix>
+                        <tagNameFormat>
+                            v${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}
+                        </tagNameFormat>
                         <pomFileName>pom-v1.xml</pomFileName>
                     </configuration>
                 </plugin>
@@ -182,39 +188,39 @@
             </plugins>
         </pluginManagement>
         <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-          </plugin>
-          <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-          </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
     <licenses>
-      <license>
-        <name>The Apache License, Version 2.0</name>
-        <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      </license>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
     </licenses>
 
     <developers>
-      <developer>
-        <name>WG2 Products Team</name>
-        <email>products@wgtwo.com</email>
-        <organization>Working Group Two</organization>
-        <organizationUrl>https://www.wgtwo.com</organizationUrl>
-      </developer>
+        <developer>
+            <name>WG2 Products Team</name>
+            <email>products@wgtwo.com</email>
+            <organization>Working Group Two</organization>
+            <organizationUrl>https://www.wgtwo.com</organizationUrl>
+        </developer>
     </developers>
 
 </project>
