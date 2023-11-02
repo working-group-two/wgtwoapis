@@ -8,8 +8,8 @@
         <relativePath>../../pom-v0.xml</relativePath>
     </parent>
 
-    <name>${project.groupId} sipbreakout</name>
-    <artifactId>sipbreakout</artifactId>
+    <name>${project.groupId} products</name>
+    <artifactId>products</artifactId>
     <groupId>com.wgtwo.api.v0.grpc</groupId>
     <version>0.1.8-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -19,11 +19,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.wgtwo.api.v0.grpc</groupId>
-            <artifactId>common</artifactId>
-            <version>0.1.8-SNAPSHOT</version>
-        </dependency>
         <dependency>
           <groupId>io.grpc</groupId>
           <artifactId>grpc-protobuf</artifactId>
@@ -56,8 +51,7 @@
                 <configuration>
                     <includes>
                         <include>wgtwo/annotations/annotations.proto</include>
-                        <include>wgtwo/sipbreakout/v0/*.proto</include>
-                        <include>wgtwo/common/v0/*.proto</include>
+                        <include>wgtwo/products/v0/*.proto</include>
                     </includes>
                 </configuration>
             </plugin>
