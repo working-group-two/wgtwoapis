@@ -14,7 +14,6 @@
     <modules>
         <module>annotations/pom-v0.xml</module>
         <module>callforward/v0</module>
-        <module>calling/v0</module>
         <module>common/v0</module>
         <module>consents/v0</module>
         <module>data/v0</module>
