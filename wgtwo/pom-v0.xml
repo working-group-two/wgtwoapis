@@ -21,6 +21,7 @@
         <module>lookup/v0</module>
         <module>mms/v0</module>
         <module>products/v0</module>
+        <module>phonebook/v0</module>
         <module>sms/v0</module>
         <module>subscription/v0</module>
         <module>voicemail/v0</module>

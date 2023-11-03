@@ -8,8 +8,8 @@
         <relativePath>../../pom-v0.xml</relativePath>
     </parent>
 
-    <name>${project.groupId} data</name>
-    <artifactId>data</artifactId>
+    <name>${project.groupId} phonebook</name>
+    <artifactId>phonebook</artifactId>
     <groupId>com.wgtwo.api.v0.grpc</groupId>
     <version>0.1.9-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -29,8 +29,8 @@
           <artifactId>grpc-protobuf</artifactId>
         </dependency>
         <dependency>
-          <groupId>io.grpc</groupId>
-          <artifactId>grpc-stub</artifactId>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-stub</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
@@ -56,8 +56,8 @@
                 <configuration>
                     <includes>
                         <include>wgtwo/annotations/annotations.proto</include>
-                        <include>wgtwo/data/v0/*.proto</include>
                         <include>wgtwo/common/v0/*.proto</include>
+                        <include>wgtwo/mms/v0/*.proto</include>
                     </includes>
                 </configuration>
             </plugin>
