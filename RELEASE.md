@@ -85,11 +85,11 @@ buf registry login buf.build --username 'your username'
 1. Building image.bin and generating go code requires [buf](https://docs.buf.build/installation).
 2. Building the Java code requires a compatible Java version
 
-### `rtx`
+### `mise`
 
-We do recommend using [rtx](https://github.com/jdx/rtx) for managing these dependencies.
+We do recommend using [mise](https://github.com/jdx/mise for managing these dependencies.
 
-If `rtx` is installed, the required tooling should be automatically picked up from [.rtx.toml](.rtx.toml).
+If `mise` is installed, the required tooling should be automatically picked up from [.mise.toml](.mise.toml).
 
 ## NPM package
 
