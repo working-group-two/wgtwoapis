@@ -8,8 +8,8 @@
         <relativePath>../../pom-v0.xml</relativePath>
     </parent>
 
-    <name>${project.groupId} products</name>
-    <artifactId>products</artifactId>
+    <name>${project.groupId} images</name>
+    <artifactId>images</artifactId>
     <groupId>com.wgtwo.api.v0.grpc</groupId>
     <version>0.1.11-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -51,7 +51,6 @@
                 <configuration>
                     <includes>
                         <include>wgtwo/annotations/annotations.proto</include>
-                        <include>wgtwo/products/v0/*.proto</include>
                         <include>wgtwo/images/v0/*.proto</include>
                     </includes>
                 </configuration>

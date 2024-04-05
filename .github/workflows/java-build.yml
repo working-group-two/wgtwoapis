@@ -23,8 +23,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup rtx
-        uses: jdx/rtx-action@v1
+      - name: Setup mise
+        uses: jdx/mise-action@v2.0.3
       - name: Make Maven Wrapper executable
         if: contains(matrix.os, 'win') == false
         run: chmod +x mvnw
