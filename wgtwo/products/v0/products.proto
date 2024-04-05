@@ -19,6 +19,7 @@ package wgtwo.products.v0;
 
 import "google/protobuf/duration.proto";
 import "wgtwo/annotations/annotations.proto";
+import "wgtwo/images/v0/images.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/products/v0";
 
@@ -46,4 +47,7 @@ message Product {
   string subtitle = 3;
   string product_url = 4;
   string description = 5;
+  images.v0.Image icon = 6;
+  images.v0.Image banner = 7;
+  repeated images.v0.Image images = 8;
 }
