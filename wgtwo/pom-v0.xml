@@ -20,6 +20,7 @@
         <module>events/v0</module>
         <module>lookup/v0</module>
         <module>mms/v0</module>
+        <module>images/v0</module>
         <module>products/v0</module>
         <module>phonebook/v0</module>
         <module>sms/v0</module>
