@@ -1,0 +1,71 @@
+// Copyright 2024 Working Group Two AS
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+syntax = "proto3";
+
+package wgtwo.number_portability.v0;
+
+import "google/protobuf/timestamp.proto";
+import "wgtwo/annotations/annotations.proto";
+import "wgtwo/common/v1/phonenumber.proto";
+
+option java_package = "com.wgtwo.api.v0.number_portability";
+option java_outer_classname = "NumberPortabilityProto";
+option java_multiple_files = true;
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/number_portability/v0";
+
+// NumberPortabilityService is supposed to be used by tenants or third parties to import country-specific number
+// porting records into Working Group Two's number portability database. A porting record consists of a subscriber
+// number, recipient operator, porting date and optional routing code as well as tenant-specific metadata. Porting date
+// can both be a past or a future date.
+service NumberPortabilityService {
+  rpc CreatePortingRecords(CreatePortingRecordsRequest) returns (CreatePortingRecordsResponse) {
+    option (scope) = "number_portability.porting_record:write";
+  }
+
+  rpc ListPortingRecords(ListPortingRecordsRequest) returns (ListPortingRecordsResponse) {
+    option (scope) = "number_portability.porting_record:read";
+  }
+}
+
+message CreatePortingRecordsRequest {
+  repeated PortingRecord records = 1;
+}
+
+message CreatePortingRecordsResponse {
+}
+
+message ListPortingRecordsRequest {
+  optional string operator_code = 1;
+  optional string subscriber_number_prefix = 2;
+  optional google.protobuf.Timestamp valid_from = 3;
+}
+
+message ListPortingRecordsResponse {
+  repeated PortingRecord records = 1;
+}
+
+message PortingRecord {
+  // Subscriber number with a country code.
+  wgtwo.common.v1.E164 subscriber_number = 1;
+  // A new operator's code (in Sweden this is SPID allocated by SNPAC).
+  string operator_code = 2;
+  // Routing code of the new operator, used at least in Sweden.
+  string routing_code = 3;
+  // Porting date and time.
+  google.protobuf.Timestamp valid_from = 4;
+  // May be used to store tenant-specific data.
+  map<string, string> metadata = 5;
+}
