@@ -5,7 +5,7 @@
 
     <groupId>com.wgtwo.api.v0</groupId>
     <artifactId>grpc-pom</artifactId>
-    <version>0.2.1-SNAPSHOT</version>
+    <version>0.3.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>WGTwo APIs: parent pom</name>
     <url>https://github.com/working-group-two/wgtwoapis/tree/v0</url>
@@ -20,6 +20,7 @@
         <module>events/v0</module>
         <module>lookup/v0</module>
         <module>mms/v0</module>
+        <module>number_portability/v0</module>
         <module>images/v0</module>
         <module>products/v0</module>
         <module>phonebook/v0</module>
