@@ -132,6 +132,7 @@ message Registration {
   string mobile_terminating_prefix = 2;
 
   // sips:example.com or sips:example.com:8888
+  // If you want to use SRV DNS records, then use the domain name without port number
   string sip_uri = 3;
 
   RouteType route_type = 4;
