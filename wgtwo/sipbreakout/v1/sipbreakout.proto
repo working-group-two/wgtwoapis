@@ -1,4 +1,4 @@
-// Copyright 2022 Working Group Two AS
+// Copyright 2024 Cisco Systems, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,25 +26,25 @@ option java_multiple_files = true;
 option java_package = "com.wgtwo.api.v1.sipbreakout";
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sipbreakout/v1";
 
-// Virtual SIP Registration makes WG2 Core to involve third party Telephony Application Server (TAS)
+// Virtual SIP Registration makes Mobility Services' core involve a third party Telephony Application Server (TAS)
 // in to the call processing
-// WG2 Session Boarder Controller(SBC) will forward SIP signalling to the TAS based on presence of the
+// Core Session Boarder Controller(SBC) will forward SIP signalling to the TAS based on presence of the
 // SIP Registration and its type. The type can be one of "loop", "fork", or "fallback".
 //
 //       ┌───────┐                   |    ┌───────┐
 //       │ Alice ├───1───────┐       |    │ Alice ├───1───────┐
 //       └───────┘           │       |    └───────┘           │
 //                           │       |                        │
-//       ┌──────┐         ┌──▼──┐    |    ┌───────┐        ┌──▼──┐
-//       │ Bob  ◄────4────┤ WG2 │    |    │ Bob   ◄───2────┤ WG2 │
-//       └──────┘         └─▲──┬┘    |    └───────┘        └──┬──┘
-//                          3  2     |                        3
-//                          │  │     |                        │
-//                         ┌┴──▼┐    |                      ┌─▼──┐
-//                         │TAS │    |                      │TAS │
-//                         └────┘    |                      └────┘
+//       ┌──────┐         ┌──▼───┐   |    ┌───────┐        ┌──▼───┐
+//       │ Bob  ◄────4────┤ Core │   |    │ Bob   ◄───2────┤ Core │
+//       └──────┘         └─▲───┬┘   |    └───────┘        └──┬───┘
+//                          3   2    |                        3
+//                          │   │    |                        │
+//                         ┌┴───▼┐   |                     ┌──▼──┐
+//                         │ TAS │   |                     │ TAS │
+//                         └─────┘   |                     └─────┘
 //                                   |
-//               Loop               VS       Fork / Fallback
+//               Loop                VS       Fork / Fallback
 //
 // For `ROUTE_TYPE_LOOP` leg 4 is not created until call comes back as leg 3.
 // In this case, TAS is not obliged to create leg 3, and can itself answer or reject leg 2.
@@ -53,20 +53,33 @@ option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sipbreakout/v1
 //
 // For `ROUTE_TYPE_FALLBACK` case leg 3 will only be created if leg 2 is not answered.
 //
+// For better control of the Loop logic, 2 subtypes of LOOP route type exists:
+//
+// `ROUTE_TYPE_LOOP_MO`: Will loop a call only if direction of the call is mobile originating (outgoing call). This
+// means any MT calls for a registration with this route type would not be looped to the sip uri in the registration.
+// The use case for using this type would be for example: Call Center for outgoing calls
+//
+// `ROUTE_TYPE_LOOP_MT`: Will loop a call only if direction of the call is mobile terminating (incoming call). This
+// means any MO calls for a registration with this route type would not be looped to the sip uri in the registration.
+// The use case for using this type would be for example: Business Phone Systems with BYOD policy (route incoming
+// business calls to personal user devices)
+//
+// `ROUTE_TYPE_INGRESS` allows PBX/TAS to place calls to MSISDN attached to the registration of that type. Regular
+// calls to/from that MSISDN are not affected otherwise.
 //
 // Creating the registration
 //  SipBreakOutService.UpsertRegistration(Registration) - registration details select its type, prefixes to use
 //  on leg 2 (see above drawing), domain name of the TAS server.
 //
 // Prefix towards TAS
-//   Working Group Two can provide prefix in INVITE's URI to help TAS to figure out if call came because
-//   of the Caller or the Answerer. The prefix is set as follows
-//    ---------------------------------------------------------------------------------
-//    Caller has Registration        | Answerer has Registration       | Prefix
-//    -------------------------------|---------------------------------|---------------
-//              Yes                  | Yes                             | mobile_originating_prefix
-//              Yes                  | No                              | mobile_originating_prefix
-//              No                   | Yes                             | mobile_terminating_prefix
+// Cisco can provide prefix in INVITE's URI to help TAS to figure out if call came because
+// of the Caller or the Answerer. The prefix is set as follows
+//
+//  | Caller has Registration       | Answerer has Registration       | Prefix                    |
+//  | ------------------------------|---------------------------------|-------------------------- |
+//  |          Yes                  | Yes                             | mobile_originating_prefix |
+//  |          Yes                  | No                              | mobile_originating_prefix |
+//  |          No                   | Yes                             | mobile_terminating_prefix |
 //
 // Maintaining the registration
 //  Each SIP Registration has fixed TTL of 3600 seconds since last call to SipBreakOutService.UpsertRegistration()
@@ -81,7 +94,7 @@ option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sipbreakout/v1
 //  Registration.sip_uri
 //
 // Media
-//  WebRTC style SDPs are used between WG2 SBC and TAS to encrypt media sessions.
+//  WebRTC style SDPs are used between the core SBC and TAS to encrypt media sessions.
 service SipBreakoutService {
 
   // Add or replace a registration
@@ -95,10 +108,13 @@ service SipBreakoutService {
   };
 }
 
+// The request message to upsert a registration
 message UpsertRegistrationRequest {
+  // The registration to add or update.
   Registration registration = 1;
 }
 
+// The response message when attempting to upsert a registration
 message UpsertRegistrationResponse {
   // The response status for attempting to updating the registration
   StatusCode status_code = 1;
@@ -110,10 +126,13 @@ message UpsertRegistrationResponse {
   google.protobuf.Duration time_to_live = 3;
 }
 
+// The request message to delete a registration
 message DeleteRegistrationRequest {
+  // Registration to delete
   Registration registration = 1;
 }
 
+// The response message when attempting to delete a registration
 message DeleteRegistrationResponse {
   // The response status for attempting to updating the registration
   StatusCode status_code = 1;
@@ -122,6 +141,7 @@ message DeleteRegistrationResponse {
   string error_message = 2;
 }
 
+// The registration message to define a SIP registration
 message Registration {
   // If set to 00 then INVITE sip:+47112334455... becomes INVITE sip:+0047112334455
   // This field is optional
@@ -131,10 +151,11 @@ message Registration {
   // This field is optional
   string mobile_terminating_prefix = 2;
 
-  // sips:example.com or sips:example.com:8888
+  // `sips:example.com` or `sips:example.com:8888` <br>
   // If you want to use SRV DNS records, then use the domain name without port number
   string sip_uri = 3;
 
+  // The route type of the registration
   RouteType route_type = 4;
 
   // Must be provided if using client access token
@@ -142,17 +163,27 @@ message Registration {
 }
 
 enum StatusCode {
+  // Unspecified/default route type. Do not use.
   STATUS_CODE_UNSPECIFIED = 0;
+  // Registration was successfully updated.
   STATUS_CODE_OK = 1;
+  // Registration was not accepted.
   STATUS_CODE_NOT_ACCEPTABLE = 2;
 }
 
 enum RouteType {
+  // Unspecified/default route type. Do not use.
   ROUTE_TYPE_UNSPECIFIED = 0;
+  // See [SipBreakoutService](#sipbreakoutservice).
   ROUTE_TYPE_LOOP = 1;
+  // See [SipBreakoutService](#sipbreakoutservice).
   ROUTE_TYPE_FORK = 2;
+  // See [SipBreakoutService](#sipbreakoutservice).
   ROUTE_TYPE_FALLBACK = 3;
+  // See [SipBreakoutService](#sipbreakoutservice).
   ROUTE_TYPE_LOOP_MO = 4;
+  // See [SipBreakoutService](#sipbreakoutservice).
   ROUTE_TYPE_LOOP_MT = 5;
+  // See [SipBreakoutService](#sipbreakoutservice).
   ROUTE_TYPE_INGRESS = 6;
 }
