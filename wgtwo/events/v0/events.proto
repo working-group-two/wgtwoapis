@@ -251,6 +251,7 @@ message SmsEvent {
   Direction direction = 8;
   oneof content {
     string text = 9;
+    bytes bytes = 11;
   }
 
   /**
