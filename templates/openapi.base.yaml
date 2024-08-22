@@ -1,0 +1,24 @@
+info:
+  title: "HTTP/JSON API"
+  version: ""
+
+servers:
+  - url: https://sandbox.api.wgtwo.com
+  - url: https://api.shamrock.wgtwo.com
+  - url: https://api.oak.wgtwo.com
+  - url: https://api.sakura.wgtwo.com
+
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: This API uses OAuth 2 with the client credentials flow. [More info](https://docs.wgtwo.com/guide/oauth2)
+      flows:
+        clientCredentials:
+          tokenUrl: https://id.wgtwo.com/oauth2/token
+          scopes:
+            "sms.text:send_from_subscriber": "Send text SMS from subscriber"
+            "sms.text:send_to_subscriber": "Send text SMS to subscriber"
+            "sms.data:send_to_subscriber": "Send binary SMS to subscriber"
+            "number_portability.porting_record:write": "Create a porting record for one or more subscriber numbers"
+            "number_portability.porting_record:read": "List porting records"
