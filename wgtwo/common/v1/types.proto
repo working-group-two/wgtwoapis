@@ -1,4 +1,4 @@
-// Copyright 2021 Working Group Two AS
+// Copyright 2021 [Working Group Two]/[Cisco Systems]
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,6 +44,7 @@ message Country {
 // Please be aware that the 'value' field is deprecated and will be removed in the future.
 message SubscriptionIdentifier {
   string value = 1 [deprecated = true];
+  // The value of the Subscription identifier as a string
   string wg2rn = 2;
 }
 
@@ -59,6 +60,7 @@ message SubscriptionIdentifier {
 //    PLMN. Normally there are 10 digits, but can be fewer in the case of a 3-digit MNC or if
 //    national regulations indicate that the total length of the IMSI should be less than 15 digits.
 message Imsi {
+  // The value of the imsi as a string.
   string value = 1;
 }
 
@@ -70,16 +72,22 @@ message Imsi {
 //   4) an optional 2 digit Software Version Number (handled separately).
 // For more information see ETSI 123.003 Chapter 6 and Appendix B.
 message ImeiSv {
+  // The imei as a string.
   string imei = 1;
+  // The software version as a string.
   string software_version = 2;
 }
 
+// Home network identity; composed of a Mobile Country Code (MCC) and a Mobile Network Code (MNC).
 message NetworkIdentity {
+  // Mobile Country Code, e.g. `"262"` for Germany.
   string mcc = 1;
+  // Mobile Network Code, e.g. `"01"` for T-Mobile Germany, when mcc is `"262"`.
   string mnc = 2;
 }
 
 // IpAddress v4
 message IpAddressV4 {
+  // The ip address as a string.
   string value = 1;
 }

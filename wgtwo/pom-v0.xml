@@ -23,7 +23,6 @@
         <module>number_portability/v0</module>
         <module>images/v0</module>
         <module>products/v0</module>
-        <module>phonebook/v0</module>
         <module>sms/v0</module>
         <module>subscription/v0</module>
         <module>voicemail/v0</module>

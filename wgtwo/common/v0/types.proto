@@ -1,4 +1,4 @@
-// Copyright 2021 Working Group Two AS
+// Copyright 2021 [Working Group Two]/[Cisco Systems]
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,45 +38,68 @@ option java_outer_classname = "TypesProto";
 //    Normally there are 10 digits, but can be fewer in the case of a 3-digit MNC or if
 //    national regulations indicate that the total length of the IMSI should be less than 15 digits.
 message Imsi {
+  // The value as a string.
   string value = 1;
 }
 
+// TADIG code is a number uniquely identifying network operators in a GSM mobile network. The acronym TADIG expands to
+// "Transferred Account Data Interchange Group".
 message Tadig {
+  // The value as a string.
   string value = 1;
 }
 
+// The Integrated Circuit Card Identification number (ICCID) is an 18-22-digit number typically printed on the back of a
+// SIM card
 message Iccid {
+  // The value as a string.
   string value = 1;
 }
 
+// Home network identity; composed of a Mobile Country Code (MCC) and a Mobile Network Code (MNC).
 message NetworkIdentity {
+  // Mobile Country Code, e.g. `"262"` for Germany.
   string mcc = 1;
+  // Mobile Network Code, e.g. `"01"` for T-Mobile Germany, when mcc is `"262"`.
   string mnc = 2;
 }
 
+// Enum for network generations is a type of cellular network generally referred to by its number. E.g.: 2G, 3G, 4G, 5G.
 enum NetworkGeneration {
+  // Unspecified network generation; default value. Do not use.
   NETWORK_GENERATION_UNSPECIFIED = 0;
+  // 2G
   NETWORK_GENERATION_2G = 1;
+  // 3G
   NETWORK_GENERATION_3G = 2;
+  // 4G
   NETWORK_GENERATION_4G = 3;
+  // 5G
   NETWORK_GENERATION_5G = 4;
 }
 
+// A global title is an address used in the SCCP protocol for routing signaling messages on telecommunications networks.
 message GlobalTitle {
+  // The value as a string.
   string value = 1;
 }
 
 // Fully Qualified Domain Name
 message Fqdn {
+  // The value as a string.
   string value = 1;
 }
 
+// Subscription identifier message.
 message SubscriptionIdentifier {
   // A globally unique string identifying a subscription. This will stay the same even if msisdn of subscription changes
   string value = 1;
+  // The tenant (operator) of the subscription.
   Tenant tenant = 2;
 }
 
+// The tenant (operator) message.
 message Tenant {
+  // The name of the tenant (operator) on the platform.
   string name = 1;
 }

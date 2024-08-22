@@ -1,4 +1,4 @@
-// Copyright 2021 Working Group Two AS
+// Copyright 2021 [Working Group Two]/[Cisco Systems]
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 syntax = "proto3";
 
 package wgtwo.consents.v0;
@@ -25,17 +26,21 @@ option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/consents/v0";
 option java_package = "com.wgtwo.api.v0.consent";
 option java_outer_classname = "ConsentsProto";
 
+// ConsentService is a service for managing consents for a subscription.
 service ConsentService {
+  // Returns the consents for a subscription.
   rpc GetConsentsForSubscription (GetConsentsForSubscriptionRequest)
       returns (GetConsentsForSubscriptionResponse) {
     option (scope) = "subscription.consent:read";
   }
 
+  // Create a consent for a subscription.
   rpc CreateConsentForSubscription (CreateConsentForSubscriptionRequest)
       returns (CreateConsentForSubscriptionResponse) {
     option (scope) = "subscription.consent:write";
   }
 
+  // Revoke a consent for a subscription.
   rpc RevokeConsentForSubscription (RevokeConsentForSubscriptionRequest)
       returns (RevokeConsentForSubscriptionResponse) {
     option (scope) = "subscription.consent:write";
@@ -43,59 +48,96 @@ service ConsentService {
 
 }
 
+// Request to get consents for a subscription.
 message GetConsentsForSubscriptionRequest {
+  // The subscription identifier.
   wgtwo.common.v0.SubscriptionIdentifier id = 1;
-  wgtwo.common.v0.PhoneNumber phone_number = 2; // TODO to be removed
+  // The phone number of the subscriber.
+  // Planned for removal. Please use `id` above.
+  wgtwo.common.v0.PhoneNumber phone_number = 2;
 }
 
+// Response to get consents for a subscription.
 message GetConsentsForSubscriptionResponse {
+  // The consents for the subscription.
   repeated Consent consents = 1;
+  // The status code of the response.
   wgtwo.common.v0.StatusCode status_code = 2;
+  // The error message of the response. Empty for successes.
   string error_message = 3;
 }
 
+// Request to create a consent for a subscription.
 message CreateConsentForSubscriptionRequest {
+  // The subscription identifier.
   wgtwo.common.v0.SubscriptionIdentifier id = 1;
-  wgtwo.common.v0.PhoneNumber phone_number = 4; // TODO to be removed
+  // The phone number of the subscriber.
+  // Planned for removal. Please use `id` above.
+  wgtwo.common.v0.PhoneNumber phone_number = 4;
+  // The product identifier.
   string product_id = 2;
   map<string, string> metadata = 3;
 }
 
+// Create a consent for a subscription response.
 message CreateConsentForSubscriptionResponse {
+  // The status code of the response.
   wgtwo.common.v0.StatusCode status_code = 1;
+  // The error message of the response. Empty for successes.
   string error_message = 2;
 }
 
+// Request to revoke a consent for a subscription.
 message RevokeConsentForSubscriptionRequest {
+  // The subscription identifier.
   wgtwo.common.v0.SubscriptionIdentifier id = 1;
-  wgtwo.common.v0.PhoneNumber phone_number = 3; // TODO to be removed
+  // The phone number of the subscriber.
+  // Planned for removal. Please use `id` above.
+  wgtwo.common.v0.PhoneNumber phone_number = 3;
+  // The product identifier.
   string product_id = 2;
 }
 
+// Revoke a consent for a subscription response.
 message RevokeConsentForSubscriptionResponse {
+  // The status code of the response.
   wgtwo.common.v0.StatusCode status_code = 1;
+  // The error message of the response. Empty for successes.
   string error_message = 2;
 }
 
+// A consent for a subscription.
 message Consent {
+  // The owner of the consent.
   ConsentOwner owner = 1;
+  // The product identifier.
   string product_id = 2;
+  // The scopes of the consent.
   repeated Scope scopes = 3;
+  // Whether the consent is revocable.
   bool revokable = 4;
   map<string, string> metadata = 5;
 }
 
+// The owner of a consent.
 message ConsentOwner {
+  // The type of the owner.
   oneof value {
+    // The subscription owns the consent.
     Subscription subscription = 1;
+    // The tenant (operator) owns the consent, on behalf of the subscription.
     wgtwo.common.v0.Tenant tenant = 2;
   }
 }
 
+// A subscription message.
 message Subscription {
+  // The subscription identifier.
   wgtwo.common.v0.SubscriptionIdentifier subscription_identifier = 1;
 }
 
+// The scope of a consent.
 message Scope {
+  // The name of the scope, e.g. `"subscription.consent:read"`.
   string property = 1;
 }

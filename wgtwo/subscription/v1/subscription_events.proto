@@ -1,4 +1,4 @@
-// Copyright 2021 Working Group Two AS
+// Copyright 2021 [Working Group Two]/[Cisco Systems]
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 syntax = "proto3";
 
 package wgtwo.subscription.v1;
@@ -26,17 +27,22 @@ option java_package = "com.wgtwo.api.v1.subscription";
 option java_outer_classname = "SubscriptionEventsProto";
 
 // Service to handle events related to a subscription, and where the subscriber
-// is located. Each event has two operating methods: Stream*Event and Ack*Event.
+// is located. Each event has two operating methods: Stream\*Event and Ack\*Event.
 // See events.proto for details on subscribing.
 //
-// - First Attachment : When the subscriber first attaches to the network.
-// - Periodic Country : While the subscriber is in a country.
-// - Country Change   : When the subscriber changes current country location.
-// - Handset Change   : When the SIM card is moved from one handset to another.
+// | Event            | Description                                             |
+// | ---------------- | ------------------------------------------------------- |
+// | First Attachment | When the subscriber first attaches to the network.      |
+// | Periodic Country | While the subscriber is in a country.                   |
+// | Country Change   | When the subscriber changes current country location.   |
+// | Handset Change   | When the SIM card is moved from one handset to another. |
+//
 service SubscriptionEventService {
+  // Handset Change events are triggered whenever a SIM card is moved from one handset to another.
   rpc StreamHandsetChangeEvents (StreamHandsetChangeEventsRequest) returns (stream StreamHandsetChangeEventsResponse) {
     option (scope) = "subscription.handset_details:read";
   }
+  // Manually ack a handset change event.
   rpc AckHandsetChangeEvent (AckHandsetChangeEventRequest) returns (AckHandsetChangeEventResponse) {
     option (scope) = "subscription.handset_details:read";
   }
@@ -53,11 +59,11 @@ service SubscriptionEventService {
   }
   // Country change events are triggered whenever a SIM changes current country
   // location. It has both the current (new) country and the previous (old) country.
-  //
+  // <p/>
   // This event is triggered when the previously seen country and the currently seen country
   // are different. Note that subscribers being close to borders, or during travels may generate
   // a lot of CountryChange events. See 'PeriodicCountry' events for an alternative.
-  //
+  // <p/>
   // For subscribers with multiple SIM cards you will see an event for each SIM
   // (IMSI), as they can move between countries individually.
   rpc StreamCountryChangeEvents (StreamCountryChangeEventsRequest) returns (stream StreamCountryChangeEventsResponse) {
@@ -73,21 +79,21 @@ service SubscriptionEventService {
   // regular interval. E.g. if 'Operator X' is configured for a 2 week interval,
   // there will be an event every 14 days (or 336 hours or 1209600 seconds) as long
   // as the subscriber is still seen in that country.
-  //
+  // <p/>
   // As this event is not always triggered based on the subscriber moving between
   // countries, it does not contain the previously seen country. For getting the real-time
   // movement of the subscriber between countries, use 'CountryChange' event.
-  //
-  // This event is triggered:
-  //
+  // <p/>
+  // This event is triggered: <br>
+  // <br>
   // - When the subscriber first turns on the device and it connects to a network, it
   //   will be triggered for the country of the connected network at the same time as the
-  //   corresponding 'FirstAttachment' event.
+  //   corresponding 'FirstAttachment' event. <br>
   // - When the subscriber enters a new country (not visited before). This is triggered
-  //   at the same time as the corresponding 'CountryChange' event.
+  //   at the same time as the corresponding 'CountryChange' event. <br>
   // - When the subscriber is seen in a country, and the 'PeriodicCountry' event for that
-  //   subscriber and country has not been triggered for the configured time delay.
-  //
+  //   subscriber and country has not been triggered for the configured time delay. <br>
+  // <p/>
   // For subscribers with multiple SIM cards you will see an event for each SIM
   // (IMSI), as they can move between countries individually.
   rpc StreamPeriodicCountryEvents (StreamPeriodicCountryEventsRequest) returns (
@@ -100,78 +106,117 @@ service SubscriptionEventService {
   }
 }
 
+// Request message for streaming of handset change events.
 message StreamHandsetChangeEventsRequest {
+  // Configuration for the stream.
   wgtwo.events.v1.StreamConfiguration stream_configuration = 1;
 }
 
+// Response message for streaming of handset change events.
 message StreamHandsetChangeEventsResponse {
+  // Metadata for the stream.
   wgtwo.events.v1.Metadata metadata = 1;
+  // The handset change event.
   HandsetChangeEvent handset_change_event = 2;
 }
 
+// Request message for acknowledging a handset change event.
 message AckHandsetChangeEventRequest {
+  // Used to identify the event to acknowledge.
   wgtwo.events.v1.AckInfo ack_info = 1;
 }
 
+// Response message for acknowledging a handset change event.
 message AckHandsetChangeEventResponse {
+  // The status response (success/failure) of the acknowledgement.
   wgtwo.events.v1.AckStatus ack_status = 1;
 }
 
+// Request message for streaming of country change events.
 message StreamCountryChangeEventsRequest {
+  // Configuration for the stream.
   wgtwo.events.v1.StreamConfiguration stream_configuration = 1;
 }
 
+// Response message for streaming of country change events.
 message StreamCountryChangeEventsResponse {
+  // Metadata for the stream.
   wgtwo.events.v1.Metadata metadata = 1;
+  // The country change event.
   CountryChangeEvent country_change_event = 2;
 }
 
+// Request message for acknowledging a country change event.
 message AckCountryChangeEventRequest {
+  // Used to identify the event to acknowledge.
   wgtwo.events.v1.AckInfo ack_info = 1;
 }
 
+// Response message for acknowledging a country change event.
 message AckCountryChangeEventResponse {
+  // The status response (success/failure) of the acknowledgement.
   wgtwo.events.v1.AckStatus ack_status = 1;
 }
 
+// Request message for streaming of first attachment events.
 message StreamFirstAttachmentEventsRequest {
+  // Configuration for the stream.
   wgtwo.events.v1.StreamConfiguration stream_configuration = 1;
 }
 
+// Response message for streaming of first attachment events.
 message StreamFirstAttachmentEventsResponse {
+  // Metadata for the stream.
   wgtwo.events.v1.Metadata metadata = 1;
+  // The first attachment event.
   FirstAttachmentEvent first_attachment_event = 2;
 }
 
+// Request message for acknowledging a first attachment event.
 message AckFirstAttachmentEventRequest {
+  // Used to identify the event to acknowledge.
   wgtwo.events.v1.AckInfo ack_info = 1;
 }
 
+// Response message for acknowledging a first attachment event.
 message AckFirstAttachmentEventResponse {
+  // The status response (success/failure) of the acknowledgement.
   wgtwo.events.v1.AckStatus ack_status = 1;
 }
 
+// Request message for streaming of periodic country events.
 message StreamPeriodicCountryEventsRequest {
+  // Configuration for the stream.
   wgtwo.events.v1.StreamConfiguration stream_configuration = 1;
 }
 
+// Response message for streaming of periodic country events.
 message StreamPeriodicCountryEventsResponse {
+  // Metadata for the stream.
   wgtwo.events.v1.Metadata metadata = 1;
+  // The periodic country event.
   PeriodicCountryEvent periodic_country_event = 2;
 }
 
+// Request message for acknowledging a periodic country event.
 message AckPeriodicCountryEventRequest {
+  // Used to identify the event to acknowledge.
   wgtwo.events.v1.AckInfo ack_info = 1;
 }
 
+// Response message for acknowledging a periodic country event.
 message AckPeriodicCountryEventResponse {
+  // The status response (success/failure) of the acknowledgement.
   wgtwo.events.v1.AckStatus ack_status = 1;
 }
 
+// Handset message
 message Handset {
+  // The International Mobile station Equipment Identity and Software Version number.
   common.v1.ImeiSv imei_sv = 1;
 }
 
+// The handset change event message
 message HandsetChangeEvent {
   // The international number of the subscriber.
   common.v1.E164 number = 4;
@@ -184,6 +229,7 @@ message HandsetChangeEvent {
   Handset current = 2;
 }
 
+// The country change event message
 message CountryChangeEvent {
   // The international number of the subscriber.
   common.v1.E164 number = 3;
@@ -193,6 +239,7 @@ message CountryChangeEvent {
   wgtwo.common.v1.Country current = 2;
 }
 
+// The first attachment event message
 message FirstAttachmentEvent {
   // The international number of the subscriber.
   common.v1.E164 number = 1;
@@ -201,6 +248,7 @@ message FirstAttachmentEvent {
   common.v1.Imsi imsi = 2;
 }
 
+// The periodic country event message
 message PeriodicCountryEvent {
   // The international number of the subscriber.
   common.v1.E164 number = 1;

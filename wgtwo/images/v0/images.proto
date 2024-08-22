@@ -1,4 +1,4 @@
-// Copyright 2023 Working Group Two AS
+// Copyright 2023 [Working Group Two]/[Cisco Systems]
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,9 +21,10 @@ option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/images/v0";
 option java_package = "com.wgtwo.api.v0.images";
 option java_outer_classname = "ImagesProto";
 
+// Image is a message that represents an image.
 message Image {
   // Image URL
   // The URL might change and should not be stored by the client.
-  // Example: "https://example.com/image.png"
+  // Example: `"https://example.com/image.png"`
   string url = 1;
 }

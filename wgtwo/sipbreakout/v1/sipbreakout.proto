@@ -1,4 +1,4 @@
-// Copyright 2024 Cisco Systems, Inc.
+// Copyright 2022 [Working Group Two]/[Cisco Systems]
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,9 +27,9 @@ option java_package = "com.wgtwo.api.v1.sipbreakout";
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/sipbreakout/v1";
 
 // Virtual SIP Registration makes Mobility Services' core involve a third party Telephony Application Server (TAS)
-// in to the call processing
-// Core Session Boarder Controller(SBC) will forward SIP signalling to the TAS based on presence of the
-// SIP Registration and its type. The type can be one of "loop", "fork", or "fallback".
+// in to the call processing. The Mobility Services' core Session Boarder Controller (SBC) will forward SIP signalling
+// to the TAS based on presence of the SIP Registration and its type. The type can be one of "loop", "fork", or
+// "fallback".
 //
 //       ┌───────┐                   |    ┌───────┐
 //       │ Alice ├───1───────┐       |    │ Alice ├───1───────┐

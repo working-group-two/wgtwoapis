@@ -1,4 +1,4 @@
-// Copyright 2024 Cisco Systems, Inc.
+// Copyright 2020 [Working Group Two]/[Cisco Systems]
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ syntax = "proto3";
 
 package wgtwo.sms.v1;
 
+import "google/api/annotations.proto";
 import "google/protobuf/duration.proto";
 import "wgtwo/annotations/annotations.proto";
 
@@ -31,16 +32,34 @@ service SmsService {
   // can send to.
   rpc SendTextFromSubscriber (SendTextFromSubscriberRequest) returns (SendMessageResponse) {
     option (scope) = "sms.text:send_from_subscriber";
+
+    // The HTTP/JSON representation of this method is currently v0 and must be considered experimental.
+    option (google.api.http) = {
+      post: "/sms/v0/outboxes/{from_subscriber}/text"
+      body: "*"
+    };
   }
   // Send a text SMS message to the subscriber as any sender address the
   // product has a right to send as.
   rpc SendTextToSubscriber (SendTextToSubscriberRequest) returns (SendMessageResponse) {
     option (scope) = "sms.text:send_to_subscriber";
+
+    // The HTTP/JSON representation of this method is currently v0 and must be considered experimental.
+    option (google.api.http) = {
+      post: "/sms/v0/inboxes/{to_subscriber}/text"
+      body: "*"
+    };
   }
   // Send a data SMS message to the subscriber as any sender address the
   // product has a right to send as.
   rpc SendDataToSubscriber (SendDataToSubscriberRequest) returns (SendMessageResponse) {
     option (scope) = "sms.data:send_to_subscriber";
+
+    // The HTTP/JSON representation of this method is currently v0 and must be considered experimental.
+    option (google.api.http) = {
+      post: "/sms/v0/inboxes/{to_subscriber}/binary"
+      body: "*"
+    };
   }
 }
 
@@ -78,11 +97,11 @@ message SendTextToSubscriberRequest {
 
   // Origin address of the message.
   // <p/>
-  // It can either be a:<p/>
-  // - a phone number formatted as E.164 starting with '+'.<p/>
-  // - a alphanumeric sender ID.<p/>
-  // - short form number.<p/>
-  // - network specific number.<p/>
+  // It can either be a:<br/>
+  // - a phone number formatted as E.164 starting with '+'.<br/>
+  // - a alphanumeric sender ID.<br/>
+  // - short form number.<br/>
+  // - network specific number.<br/>
   // <p/>
   // Typical values here would be to send from your product's name.
   // <p/>
@@ -108,11 +127,11 @@ message SendDataToSubscriberRequest {
 
   // Origin address of the message.
   // <p/>
-  // It can either be a:<p/>
-  // - a phone number formatted as E.164 starting with '+'.<p/>
-  // - a alphanumeric sender ID.<p/>
-  // - short form number.<p/>
-  // - network specific number.<p/>
+  // It can either be a:<br/>
+  // - a phone number formatted as E.164 starting with '+'.<br/>
+  // - a alphanumeric sender ID.<br/>
+  // - short form number.<br/>
+  // - network specific number.<br/>
   // <p/>
   // Typical values here would be to send from your product's name.
   // <p/>

@@ -1,4 +1,4 @@
-// Copyright 2021 Working Group Two AS
+// Copyright 2021 [Working Group Two]/[Cisco Systems]
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ option java_outer_classname = "PhoneNumberProto";
  * as described above.
  */
 message E164 {
+  // The value as a string, e.g.: `"+4787654321"`
   string e164 = 1;
 }
 
@@ -45,6 +46,7 @@ message E164 {
  * of the number sequence is dependent on the country of the relevant operator.
  */
 message National {
+  // The value as a string, e.g.: `"87654321"`
   string number = 1;
 }
 
@@ -54,5 +56,6 @@ message National {
  * origin addresses.
  */
 message Alphanumeric {
+  // The value as a string, e.g.: `"MyService"`
   string text = 1;
 }

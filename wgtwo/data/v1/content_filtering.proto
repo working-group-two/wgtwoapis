@@ -1,4 +1,4 @@
-// Copyright 2022 Working Group Two AS
+// Copyright 2022 [Working Group Two]/[Cisco Systems]
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 syntax = "proto3";
 
 package wgtwo.data.v1;
@@ -23,7 +24,7 @@ option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/content_filter
 option java_package = "com.wgtwo.api.v1.contentFiltering";
 option java_outer_classname = "ContentFiltering";
 
-// Service for configuring content filtering
+// Service for configuring content filtering (**WARNING: ALPHA SOFTWARE**; not available for all customers).
 service ContentFilteringService {
 
   // Set filter for all subscriptions using the product
@@ -37,13 +38,14 @@ service ContentFilteringService {
   }
 }
 
+// Request message to set global filter
 message SetGlobalFilterRequest {
   // The filter to enable
   // Not setting a filter will disable the current filter
   Filter filter = 1;
 }
 
-
+// Response message for setting global filter
 message SetGlobalFilterResponse {
   // The response status for setting the filter
   SetFilterStatus status = 1;
@@ -52,7 +54,9 @@ message SetGlobalFilterResponse {
   string description = 2;
 }
 
+// Enum for the status of setting a filter
 enum SetFilterStatus {
+  // Not specified, do not use.
   SET_FILTER_STATUS_UNSPECIFIED = 0;
   // Filter has been successfully updated
   SET_FILTER_STATUS_OK = 1;
@@ -60,21 +64,26 @@ enum SetFilterStatus {
   SET_FILTER_STATUS_ERROR = 2;
 }
 
+// Request message to get global filter
 message GetGlobalFilterRequest {
 }
 
+// Response message for getting global filter
 message GetGlobalFilterResponse {
   Filter active_filter = 1;
 }
 
+// Filter to block categories
 message Filter {
+  // The categories to block
   repeated Category blocked_categories = 1;
-  // The ip to redirect to if the category is blocked
   oneof block_mode {
+    // The IP address to redirect to if the category is blocked
     BlockModeIp block_mode_ip = 2;
   }
 }
 
+// Enum for the categories to block
 enum Category {
   // Not specified
   // Using this category will be rejected with the error INVALID_ARGUMENT
@@ -125,6 +134,7 @@ enum Category {
   CATEGORY_WEAPONS = 46;
 }
 
+// IP v4 to block
 message BlockModeIp {
   common.v1.IpAddressV4 ipv4 = 1;
 }

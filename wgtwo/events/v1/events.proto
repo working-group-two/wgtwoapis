@@ -1,4 +1,4 @@
-// Copyright 2021 Working Group Two AS
+// Copyright 2021 [Working Group Two]/[Cisco Systems]
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 syntax = "proto3";
 
 package wgtwo.events.v1;
@@ -97,7 +98,9 @@ option java_outer_classname = "EventsProto";
 message StreamConfiguration {
   // Optional: Will use DurableQueue by default
   oneof stream_type {
+    // Receives messages only while connected; misses messages published when disconnected.
     RegularStream regular = 1;
+    // Remembers message position, resumes receiving messages after disconnection within a permissible time frame.
     DurableQueue durable_queue = 2;
   }
 
@@ -142,8 +145,9 @@ message DurableQueue {
   string custom_name = 1;
 }
 
-// This contains a opaque string which should be included in the ack request to identify the event
+// This contains a opaque string which must be included in the ack request to identify the event
 message AckInfo {
+  // Opaque string that must be included in the ack request to identify the event
   string value = 1;
 }
 
@@ -152,27 +156,34 @@ message AckInfo {
 // If status is not successful, the ack request may be retried.
 // Everything except AckStatusCodeACK_STATUS_SUCCESS should be treated as a failure
 message AckStatus {
+  // Status of the ack request enum
   enum StatusCode {
+    // Unspecified status code; it's a server error if this is returned
     STATUS_CODE_UNSPECIFIED = 0;
+    // The ack request failed
     STATUS_CODE_FAILURE = 1;
+    // The ack request was successful
     STATUS_CODE_SUCCESS = 2;
   }
+  // Status of the ack request
   StatusCode status_code = 1;
 }
 
 // Ack request, which is required for sending a ack of an event
-message AckRequest{
+message AckRequest {
+  // Information that must be included in the ack request to identify the event
   AckInfo ack_info = 1;
 }
 
-
-
 // This response includes the status of the ack request
-message AckResponse{
+message AckResponse {
+  // If the ack request was successful or not
   AckStatus ack_status = 1;
 }
+
 // Identity of the subscription this event was generated for.
 message Identifier {
+  // The subscription identifier
   wgtwo.common.v1.SubscriptionIdentifier subscription_identifier = 1;
 }
 

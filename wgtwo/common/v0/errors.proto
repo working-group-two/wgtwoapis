@@ -1,4 +1,4 @@
-// Copyright 2021 Working Group Two AS
+// Copyright 2021 [Working Group Two]/[Cisco Systems]
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,10 +21,17 @@ option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/common/v0";
 option java_package = "com.wgtwo.api.v0.common";
 option java_outer_classname = "ErrorsProto";
 
+// Shared status codes
 enum StatusCode {
+  // Unspecified/default status code; do not use.
   STATUS_CODE_UNSPECIFIED = 0;
+  // Success.
   STATUS_CODE_OK = 1;
+  // The request is not acceptable.
   STATUS_CODE_NOT_ACCEPTABLE = 2;
+  // Access denied. The request is not authorized; the access token may not have the necessary scopes or targeting the
+  // wrong resource.
   STATUS_CODE_ACCESS_DENIED = 3;
+  // Internal error. The request could not be processed due to an error on the server side.
   STATUS_CODE_INTERNAL_ERROR = 4;
 }
