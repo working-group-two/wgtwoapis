@@ -10,6 +10,10 @@ buf_image: clean $(wildcard */*.proto)
 buf_generate: clean $(wildcard */*.proto)
 	buf generate
 
+	# Merge the generated OpenAPI file with the OpenAPI base file
+	yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' gen/openapi.yaml templates/openapi.base.yaml > openapi.yaml
+	rm gen/openapi.yaml
+
 buf_push: clean $(wildcard */*.proto)
 	buf push
 
