@@ -1,0 +1,443 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+  title: "HTTP/JSON API"
+  version: ""
+paths:
+  /number-portability/v0/porting-records:
+    get:
+      tags:
+        - NumberPortabilityService
+      description: ListPortingRecords is used to list porting records from the number portability database.
+      operationId: NumberPortabilityService_ListPortingRecords
+      parameters:
+        - name: operatorCode
+          in: query
+          description: Optional subscriber number prefix to filter porting records.
+          schema:
+            type: string
+        - name: subscriberNumberPrefix
+          in: query
+          description: Optional operator code to filter porting records.
+          schema:
+            type: string
+        - name: validFrom
+          in: query
+          description: Optional porting date to filter porting records.
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListPortingRecordsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+    post:
+      tags:
+        - NumberPortabilityService
+      description: CreatePortingRecords is used to import porting records into the number portability database.
+      operationId: NumberPortabilityService_CreatePortingRecords
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePortingRecordsRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatePortingRecordsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+  /sms/v0/inboxes/{toSubscriber}/binary:
+    post:
+      tags:
+        - SmsService
+      description: |-
+        Send a data SMS message to the subscriber as any sender address the
+         product has a right to send as.
+      operationId: SmsService_SendDataToSubscriber
+      parameters:
+        - name: toSubscriber
+          in: path
+          description: |-
+            The destination phone number of the subscriber to receive the
+             message. Must be international number starting with '+'.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendDataToSubscriberRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendMessageResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+  /sms/v0/inboxes/{toSubscriber}/text:
+    post:
+      tags:
+        - SmsService
+      description: |-
+        Send a text SMS message to the subscriber as any sender address the
+         product has a right to send as.
+      operationId: SmsService_SendTextToSubscriber
+      parameters:
+        - name: toSubscriber
+          in: path
+          description: |-
+            The destination phone number of the subscriber to receive the
+             message. Must be international number starting with '+'.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendTextToSubscriberRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendMessageResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+  /sms/v0/outboxes/{fromSubscriber}/text:
+    post:
+      tags:
+        - SmsService
+      description: |-
+        Send a text SMS message from the subscriber to any number the subscriber
+         can send to.
+      operationId: SmsService_SendTextFromSubscriber
+      parameters:
+        - name: fromSubscriber
+          in: path
+          description: |-
+            The subscriber number to send this. The sending product must have a right
+             to send as the subscriber specifically. E.g. operators can only send as
+             their own subscribers, third party products only as subscribers who have
+             enabled the product. Must be international number starting with '+'.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendTextFromSubscriberRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendMessageResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+components:
+  schemas:
+    ApplicationPort:
+      type: object
+      properties:
+        originatorPort:
+          type: integer
+          description: The originator application port.
+          format: uint32
+        destinationPort:
+          type: integer
+          description: The destination application port.
+          format: uint32
+      description: |-
+        Application ports are used to send data SMS messages to specific applications
+         on the handset. If a reply to the message is sent, it should use the same
+         ports but swap originator and destination port numbers.
+    CreatePortingRecordsRequest:
+      type: object
+      properties:
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortingRecord'
+          description: Porting records to be created.
+      description: Request message to create porting records.
+    CreatePortingRecordsResponse:
+      type: object
+      properties: {}
+      description: Response message for create porting records.
+    E164:
+      type: object
+      properties:
+        e164:
+          type: string
+          description: 'The value as a string, e.g.: `"+4787654321"`'
+      description: |-
+        *
+         An international phone number formatted as E.164 with leading plus sign
+
+         This contains three components:
+         - The plus prefix
+         - Country code, 1 to 3 digits
+         - Subscriber number
+
+         Example "+4787654321" as '+' '47' '87654321'.
+
+         The number may contain sequences that do not strictly conform to the E.164
+         number standard (e.g. too long), but shall always follow the three components
+         as described above.
+    GoogleProtobufAny:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    ListPortingRecordsResponse:
+      type: object
+      properties:
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortingRecord'
+          description: Porting records.
+      description: Response message for list porting records.
+    PortingRecord:
+      type: object
+      properties:
+        subscriberNumber:
+          allOf:
+            - $ref: '#/components/schemas/E164'
+          description: Subscriber number with a country code.
+        operatorCode:
+          type: string
+          description: A new operator's code (in Sweden this is SPID allocated by SNPAC).
+        routingCode:
+          type: string
+          description: Routing code of the new operator, used at least in Sweden.
+        validFrom:
+          type: string
+          description: Porting date and time.
+          format: date-time
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+          description: May be used to store tenant-specific data.
+      description: Message representing a porting record.
+    SendDataToSubscriberRequest:
+      type: object
+      properties:
+        content:
+          type: string
+          description: |-
+            The binary content of the data SMS. Must be at least 1 byte, and maximum
+             2000 bytes.
+          format: bytes
+        toSubscriber:
+          type: string
+          description: |-
+            The destination phone number of the subscriber to receive the
+             message. Must be international number starting with '+'.
+        fromAddress:
+          type: string
+          description: |-
+            Origin address of the message.
+             <p/>
+             It can either be a:<br/>
+             - a phone number formatted as E.164 starting with '+'.<br/>
+             - a alphanumeric sender ID.<br/>
+             - short form number.<br/>
+             - network specific number.<br/>
+             <p/>
+             Typical values here would be to send from your product's name.
+             <p/>
+             Important: Address must be pre-approved by Cisco.
+             See docs on origin addresses for what is allowed.
+        deliveryDeadline:
+          pattern: ^-?(?:0|[1-9][0-9]{0,11})(?:\.[0-9]{1,9})?s$
+          type: string
+          description: |-
+            Deadline to which the message needs to be delivered. If this is passed
+             and a delivery is not succeeded, the message delivery will fail. If not set
+             will use the maximum deadline. Maximum is 7 days.
+        messageClass:
+          type: integer
+          description: The message class to use for the data SMS message.
+          format: enum
+        applicationPort:
+          allOf:
+            - $ref: '#/components/schemas/ApplicationPort'
+          description: The application port for the message.
+      description: The request message to send data SMS to a subscriber.
+    SendMessageResponse:
+      type: object
+      properties:
+        messageId:
+          type: string
+          description: |-
+            An ID representing the message. For events etc related to the message, this ID
+             will be used in the event as identifier.
+        status:
+          type: integer
+          description: The response status for attempting to send the message.
+          format: enum
+        description:
+          type: string
+          description: Human readable description for what failed or rejected the message.
+        numFragments:
+          type: integer
+          description: |-
+            Number of fragments sent. This is because of the underlying SMS protocols only
+             supports sending 140 bytes per message after encoding and packing. This is including
+             extra encoding info and correlation and part handling for multi-fragmented messages.
+          format: uint32
+      description: The response message for sending a SMS.
+    SendTextFromSubscriberRequest:
+      type: object
+      properties:
+        content:
+          type: string
+          description: |-
+            The message text content. Minimum 1 character, maximum 2000 characters. Supports
+             unicode, though completeness is dependent on the receiver handset.
+        fromSubscriber:
+          type: string
+          description: |-
+            The subscriber number to send this. The sending product must have a right
+             to send as the subscriber specifically. E.g. operators can only send as
+             their own subscribers, third party products only as subscribers who have
+             enabled the product. Must be international number starting with '+'.
+        toAddress:
+          type: string
+          description: |-
+            The destination number of the message. Can be international starting
+             with '+', short form number or network specific numbers.
+        deliveryDeadline:
+          pattern: ^-?(?:0|[1-9][0-9]{0,11})(?:\.[0-9]{1,9})?s$
+          type: string
+          description: |-
+            Deadline to which the message needs to be delivered. If this is passed
+             and a delivery is not succeeded, the message delivery will fail. If not set
+             will use the maximum deadline. Maximum is 7 days.
+      description: The request message to send a text SMS from a subscriber.
+    SendTextToSubscriberRequest:
+      type: object
+      properties:
+        content:
+          type: string
+          description: |-
+            The message text content. Minimum 1 character, maximum 2000 characters. Supports
+             unicode, though completeness is dependent on the receiver handset.
+        toSubscriber:
+          type: string
+          description: |-
+            The destination phone number of the subscriber to receive the
+             message. Must be international number starting with '+'.
+        fromAddress:
+          type: string
+          description: |-
+            Origin address of the message.
+             <p/>
+             It can either be a:<br/>
+             - a phone number formatted as E.164 starting with '+'.<br/>
+             - a alphanumeric sender ID.<br/>
+             - short form number.<br/>
+             - network specific number.<br/>
+             <p/>
+             Typical values here would be to send from your product's name.
+             <p/>
+             Important: Address must be pre-approved by Cisco.
+             See docs on origin addresses for what is allowed.
+        deliveryDeadline:
+          pattern: ^-?(?:0|[1-9][0-9]{0,11})(?:\.[0-9]{1,9})?s$
+          type: string
+          description: |-
+            Deadline to which the message needs to be delivered. If this is passed
+             and a delivery is not succeeded, the message delivery will fail. If not set
+             will use the maximum deadline. Maximum is 7 days.
+      description: The request message to send text SMS to a subscriber.
+    Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleProtobufAny'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: This API uses OAuth 2 with the client credentials flow. [More info](https://docs.wgtwo.com/guide/oauth2)
+      flows:
+        clientCredentials:
+          tokenUrl: https://id.wgtwo.com/oauth2/token
+          scopes:
+            "sms.text:send_from_subscriber": "Send text SMS from subscriber"
+            "sms.text:send_to_subscriber": "Send text SMS to subscriber"
+            "sms.data:send_to_subscriber": "Send binary SMS to subscriber"
+            "number_portability.porting_record:write": "Create a porting record for one or more subscriber numbers"
+            "number_portability.porting_record:read": "List porting records"
+tags:
+  - name: NumberPortabilityService
+    description: |-
+      NumberPortabilityService is supposed to be used by tenants or third parties to import country-specific number
+       porting records into Working Group Two's number portability database. A porting record consists of a subscriber
+       number, recipient operator, porting date and optional routing code as well as tenant-specific metadata. Porting date
+       can both be a past or a future date.
+  - name: SmsService
+    description: Service to handle sending of SMS messages to and from subscribers.
+servers:
+  - url: https://sandbox.api.wgtwo.com
+  - url: https://api.shamrock.wgtwo.com
+  - url: https://api.oak.wgtwo.com
+  - url: https://api.sakura.wgtwo.com
