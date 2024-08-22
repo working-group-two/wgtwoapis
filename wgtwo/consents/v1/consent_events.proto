@@ -1,4 +1,4 @@
-// Copyright 2021 Working Group Two AS
+// Copyright 2021 [Working Group Two]/[Cisco Systems]
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 syntax = "proto3";
 
 package wgtwo.consents.v1;
@@ -24,53 +25,86 @@ option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/consents/v1";
 option java_package = "com.wgtwo.api.v1.consent";
 option java_outer_classname = "ConsentEventsProto";
 
+/*
+Consent events are events triggered by granting, updating or revoking consents for your product, either for a single
+user or for an operator. The events can originate from:
+
+- Bundling of your product for a subscriber
+- Preview consent added by Cisco on your behalf
+- Operator consent covering all subscribers for an operator
+- Subscriber signing up to your product
+*/
 service ConsentEventService {
+  // Stream consent change events.
   rpc StreamConsentChangeEvents (StreamConsentChangeEventsRequest) returns (stream StreamConsentChangeEventsResponse) {
     option (scope) = "";
   }
+  // Acknowledge a consent change event.
   rpc AckConsentChangeEvent (AckConsentChangeEventRequest) returns (AckConsentChangeEventResponse) {
     option (scope) = "";
   }
 }
 
+// Request message for streaming consent change events.
 message StreamConsentChangeEventsRequest {
+  // The stream configuration.
   wgtwo.events.v1.StreamConfiguration stream_configuration = 1;
 }
 
+// Response message for streaming consent change events.
 message StreamConsentChangeEventsResponse {
+  // Metadata for the stream.
   wgtwo.events.v1.Metadata metadata = 1;
+  // The consent change event.
   ConsentChangeEvent consent_change_event = 2;
 }
 
+// Request message for acknowledging a consent change event.
 message AckConsentChangeEventRequest {
+  // Used to identify the event to acknowledge.
   wgtwo.events.v1.AckInfo ack_info = 1;
 }
 
+// Response message for acknowledging a consent change event.
 message AckConsentChangeEventResponse {
+  // The status response (success/failure) of the acknowledgement.
   wgtwo.events.v1.AckStatus ack_status = 1;
 }
 
-
+// The consent change event message.
 message ConsentChangeEvent {
+  // The type of the event.
   oneof type {
+    // A consent was added.
     ConsentAdded added = 1;
+    // A consent was updated.
     ConsentUpdated updated = 2;
+    // A consent was revoked.
     ConsentRevoked revoked = 3;
   }
+
+  // The target of the event.
   oneof target {
     // The international number of the subscriber.
     common.v1.E164 number = 4;
+    // The operator (tenant) on the platform.
     string tenant = 5;
   }
 }
 
+// The consent added event message.
 message ConsentAdded {
+  // The scopes for the consent.
   repeated string scopes = 1;
 }
 
+
+// The consent updated event message.
 message ConsentUpdated {
+  // The updated scopes for the consent.
   repeated string scopes = 1;
 }
 
+// The consent revoked event message.
 message ConsentRevoked {
 }

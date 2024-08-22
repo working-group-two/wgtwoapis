@@ -1,4 +1,4 @@
-// Copyright 2020 Working Group Two AS
+// Copyright 2020 [Working Group Two]/[Cisco Systems]
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "wgtwo/annotations/annotations.proto";
 import "wgtwo/common/v0/phonenumber.proto";
-import "wgtwo/common/v0/types.proto";
 
 option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/events/v0";
 option java_package = "com.wgtwo.api.v0.events";

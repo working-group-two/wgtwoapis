@@ -1,4 +1,4 @@
-// Copyright 2023 Working Group Two AS
+// Copyright 2023 [Working Group Two]/[Cisco Systems]
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ syntax = "proto3";
 
 package wgtwo.products.v0;
 
-import "google/protobuf/duration.proto";
 import "wgtwo/annotations/annotations.proto";
 import "wgtwo/images/v0/images.proto";
 

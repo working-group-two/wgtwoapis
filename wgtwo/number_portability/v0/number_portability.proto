@@ -1,4 +1,4 @@
-// Copyright 2024 Working Group Two AS
+// Copyright 2024 [Working Group Two]/[Cisco Systems]
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ syntax = "proto3";
 
 package wgtwo.number_portability.v0;
 
+import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "wgtwo/annotations/annotations.proto";
 import "wgtwo/common/v1/phonenumber.proto";
@@ -31,32 +32,52 @@ option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/number_portabi
 // number, recipient operator, porting date and optional routing code as well as tenant-specific metadata. Porting date
 // can both be a past or a future date.
 service NumberPortabilityService {
+
+  // CreatePortingRecords is used to import porting records into the number portability database.
   rpc CreatePortingRecords(CreatePortingRecordsRequest) returns (CreatePortingRecordsResponse) {
     option (scope) = "number_portability.porting_record:write";
+    option (google.api.http) = {
+      post: "/number-portability/v0/porting-records"
+      body: "*"
+    };
   }
 
+  // ListPortingRecords is used to list porting records from the number portability database.
   rpc ListPortingRecords(ListPortingRecordsRequest) returns (ListPortingRecordsResponse) {
     option (scope) = "number_portability.porting_record:read";
+    option (google.api.http) = {
+      get: "/number-portability/v0/porting-records"
+    };
   }
 }
 
+// Request message to create porting records.
 message CreatePortingRecordsRequest {
+  // Porting records to be created.
   repeated PortingRecord records = 1;
 }
 
+// Response message for create porting records.
 message CreatePortingRecordsResponse {
 }
 
+// Request message to list porting records.
 message ListPortingRecordsRequest {
+  // Optional subscriber number prefix to filter porting records.
   optional string operator_code = 1;
+  // Optional operator code to filter porting records.
   optional string subscriber_number_prefix = 2;
+  // Optional porting date to filter porting records.
   optional google.protobuf.Timestamp valid_from = 3;
 }
 
+// Response message for list porting records.
 message ListPortingRecordsResponse {
+  // Porting records.
   repeated PortingRecord records = 1;
 }
 
+// Message representing a porting record.
 message PortingRecord {
   // Subscriber number with a country code.
   wgtwo.common.v1.E164 subscriber_number = 1;
