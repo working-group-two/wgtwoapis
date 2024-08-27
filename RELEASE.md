@@ -83,11 +83,11 @@ buf registry login buf.build --username 'your username'
 ## Required tooling
 
 1. Building image.bin and generating go code requires [buf](https://docs.buf.build/installation).
-2. Building the Java code requires a compatible Java version
+2. Building the Java code requires a compatible Java version.
 
 ### `mise`
 
-We do recommend using [mise](https://github.com/jdx/mise for managing these dependencies.
+We recommend using [mise](https://github.com/jdx/mise) for managing these dependencies.
 
 If `mise` is installed, the required tooling should be automatically picked up from [.mise.toml](.mise.toml).
 
