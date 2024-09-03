@@ -18,7 +18,8 @@ jobs:
       - name: Install yq
         run: snap install yq
 
-      - uses: bufbuild/buf-action@v1
+      - name: Setup buf environment
+        uses: bufbuild/buf-action@v1
         with:
           token: ${{ secrets.BUF_TOKEN }}
           setup_only: true
@@ -32,6 +33,16 @@ jobs:
           buf generate
           # Merge the generated OpenAPI file with the OpenAPI base file
           yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' gen/openapi.yaml templates/openapi.base.yaml > openapi.yaml
+
+      - name: Create release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: false
+          automatic_release_tag: "latest"
+          files: |
+            openapi.yaml
+            mobility.binpb
 
       - name: Push to Buf Schema Registry
         run: buf push
