@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  buf:
+  automatic-release:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -38,12 +38,12 @@ jobs:
       - name: Push to Buf Schema Registry
         run: buf push
 
-      - name: Create release
-        uses: marvinpinto/action-automatic-releases@latest
+      - name: Release
+        uses: softprops/action-gh-release@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          prerelease: false
-          automatic_release_tag: "latest"
+          make_latest: true
+          body: |
+            Automatic release of the OpenAPI spec and the Buf image
           files: |
             openapi.yaml
             mobility.binpb
