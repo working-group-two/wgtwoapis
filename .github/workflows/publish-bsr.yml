@@ -1,8 +1,9 @@
-name: Publish package to Buf Schema Registry
+name: Automatic Release on Push
 
 on:
-  release:
-    types: [ created ]
+  push:
+    branches:
+      - master
 
 jobs:
   buf:
@@ -34,15 +35,15 @@ jobs:
           # Merge the generated OpenAPI file with the OpenAPI base file
           yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' gen/openapi.yaml templates/openapi.base.yaml > openapi.yaml
 
+      - name: Push to Buf Schema Registry
+        run: buf push
+
       - name: Create release
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: false
-          automatic_release_tag: "latest"
+          automatic_release_tag: "${{ github.ref }}"
           files: |
             openapi.yaml
             mobility.binpb
-
-      - name: Push to Buf Schema Registry
-        run: buf push
