@@ -2,8 +2,8 @@ name: Automatic Release on Push
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - '*'
 
 jobs:
   automatic-release:
@@ -36,10 +36,12 @@ jobs:
           yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' gen/openapi.yaml templates/openapi.base.yaml > openapi.yaml
 
       - name: Push to Buf Schema Registry
+        if: startsWith(github.ref, 'refs/tags/')
         run: buf push
 
       - name: Release
         uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           make_latest: true
           body: |
