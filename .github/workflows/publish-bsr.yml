@@ -1,0 +1,49 @@
+name: Automatic Release on Push
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  buf:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install yq
+        run: snap install yq
+
+      - name: Setup buf environment
+        uses: bufbuild/buf-action@v1
+        with:
+          token: ${{ secrets.BUF_TOKEN }}
+          setup_only: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate buf image
+        run: buf build -o mobility.binpb
+
+      - name: Generate OpenAPI spec
+        run: |
+          buf generate
+          # Merge the generated OpenAPI file with the OpenAPI base file
+          yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' gen/openapi.yaml templates/openapi.base.yaml > openapi.yaml
+
+      - name: Push to Buf Schema Registry
+        run: buf push
+
+      - name: Create release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: false
+          automatic_release_tag: "${{ github.ref }}"
+          files: |
+            openapi.yaml
+            mobility.binpb
