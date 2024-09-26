@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 syntax = "proto3";
 
 package wgtwo.subscription.v0;
@@ -70,8 +71,8 @@ message AttachmentAttempt {
   wgtwo.common.v0.NetworkIdentity network_identity = 4;
   wgtwo.common.v0.NetworkGeneration network_generation = 5;
 
-  // TADIG code, if present
-  // May be empty
+  // TADIG code, if present.
+  // May be empty.
   wgtwo.common.v0.Tadig tadig = 6;
   Status status = 7;
 }
@@ -104,12 +105,20 @@ message NetworkInfo {
 }
 
 enum Code {
+  // Is the default value and will not be used.
   CODE_UNSPECIFIED = 0;
+  // Indicates that the attachment was successful.
   CODE_OK = 1;
+  // Currently not used.
   CODE_ABSENT_PROFILE = 2;
+  // Currently not used.
   CODE_ABSENT_SUBSCRIBER = 3;
+  // Indicates that the subscriber was not allowed to attach because it is not provisioned on the platform.
   CODE_UNKNOWN_PROFILE = 4;
+  // Indicates that the subscriber was not allowed to attach because it is inactive/blocked.
   CODE_BLOCKED_PROFILE = 5;
+  // Indicates that the subscriber was not allowed to attach because it either was missing the roaming services or
+  // because the roaming profile of the subscriber did not allow the it to roam at that location.
   CODE_ROAMING_NOT_ALLOWED = 6;
 }
 
