@@ -11,3 +11,14 @@ option java_outer_classname = "AnnotationsProto";
 extend google.protobuf.MethodOptions {
   string scope = 50013;
 }
+
+enum ReleaseStatus {
+  UNSPECIFIED = 0;
+  STABLE = 1;
+  BETA = 2;
+  DEPRECATED = 3;
+}
+
+extend google.protobuf.MethodOptions {
+  ReleaseStatus status = 50015;
+}
