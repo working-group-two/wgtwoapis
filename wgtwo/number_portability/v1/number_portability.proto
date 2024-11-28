@@ -1,0 +1,241 @@
+// Copyright 2024 Cisco Systems
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+syntax = "proto3";
+
+package wgtwo.number_portability.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "wgtwo/annotations/annotations.proto";
+import "wgtwo/common/v1/phonenumber.proto";
+
+option java_package = "com.wgtwo.api.v1.number_portability";
+option java_outer_classname = "NumberPortabilityProto";
+option java_multiple_files = true;
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/number_portability/v1";
+
+// NumberPortabilityService is supposed to be used by tenants or third parties to import country-specific number
+// porting records into Working Group Two's number portability database. A porting record consists of a subscriber
+// number, routing destination, porting date and optional routing code as well as tenant-specific metadata. Porting date
+// can both be a past or a future date.
+service NumberPortabilityService {
+
+  // CreatePortingRecords is used to import porting records into the number portability database.
+  // It may also be used to clear the porting record to return it to it's original number block -
+  // for that, destination_id, operator_code and routing_code in the PortingRecords should be set to empty values.
+  rpc CreatePortingRecords(CreatePortingRecordsRequest) returns (CreatePortingRecordsResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+    option (google.api.http) = {
+      post: "/number-portability/v1/porting-records"
+      body: "*"
+    };
+  }
+
+  // ListPortingRecords is used to list porting records from the number portability database.
+  rpc ListPortingRecords(ListPortingRecordsRequest) returns (ListPortingRecordsResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+    option (google.api.http) = {
+      get: "/number-portability/v1/porting-records"
+    };
+  }
+}
+
+// RoutingDestinationService is supposed to be used by tenants or third parties to create, update, delete and list
+// routing destinations, which define how SMS messages or called should be routed. A porting record may be associated
+// either directly to the routing code or indirectly via routing destinations (destination_id field of the PortingRecord
+// message). Indirect association facilitates routing code changes without updating all porting records.
+service RoutingDestinationService {
+  // Creates a new or updates an existing routing destination.
+  rpc CreateOrUpdateDestination(CreateOrUpdateDestinationRequest) returns (CreateOrUpdateDestinationResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  };
+  // Deletes an existing routing destination.
+  rpc DeleteDestination(DeleteDestinationRequest) returns (DeleteDestinationResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  };
+  // List existing mobile routing destinations.
+  rpc ListDestinations(ListDestinationsRequest) returns (ListDestinationsResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  };
+}
+
+// In some countries, a subscriber number itself may not be sufficient to determine the routing code for non-ported
+// numbers.
+// For example, in Belgium, an earliest number prefix allocated to an operator must be used, separately for fixed-line
+// and mobile numbers.
+// NumberBlockService allows to create, update, delete and list number blocks allocated to operators
+// by a regulator.
+service NumberBlockService {
+  // Creates a new or updates an existing number block.
+  rpc CreateOrUpdateNumberBlock(CreateOrUpdateNumberBlockRequest) returns (CreateOrUpdateNumberBlockResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  };
+  // Deletes an existing number block.
+  rpc DeleteNumberBlock(DeleteNumberBlockRequest) returns (DeleteNumberBlockResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  };
+  // List existing number blocks.
+  rpc ListNumberBlocks(ListNumberBlocksRequest) returns (ListNumberBlocksResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  };
+}
+
+// Request message to create porting records.
+message CreatePortingRecordsRequest {
+  // Porting records to be created.
+  repeated PortingRecord records = 1;
+}
+
+// Response message for create porting records.
+message CreatePortingRecordsResponse {
+  // Intentionally left blank.
+}
+
+// Request message to list porting records.
+message ListPortingRecordsRequest {
+  // Optional operator code to filter porting records.
+  optional string operator_code = 1;
+  // Optional subscriber number prefix to filter porting records.
+  optional string subscriber_number_prefix = 2;
+  // Optional destination ID to filter porting records.
+  optional string destination_id = 3;
+  // Optional minimum porting date to filter porting records.
+  optional google.protobuf.Timestamp valid_from = 4;
+}
+
+// Response message for list porting records.
+message ListPortingRecordsResponse {
+  // Porting records.
+  repeated PortingRecord records = 1;
+}
+
+// Message representing a porting record (or lack thereof, in case destination_id, operator_code and routing_code are
+// empty).
+message PortingRecord {
+  // Subscriber number with a country code.
+  wgtwo.common.v1.E164 subscriber_number = 1;
+  // Porting date and time.
+  google.protobuf.Timestamp valid_from = 2;
+  // Destination ID to route calls or messages to.
+  // May be empty if destinations are not used.
+  string destination_id = 3;
+  // A free-form operator code (in Sweden this is SPID allocated by SNPAC). May be empty.
+  string operator_code = 4;
+  // Country-specific code used to route calls or messages
+  // If empty and destination_id is set, the effective routing code is resolved from the destination.
+  string routing_code = 5;
+  // May be used to store tenant-specific data.
+  map<string, string> metadata = 6;
+}
+
+message CreateOrUpdateDestinationRequest {
+  RoutingDestination destination = 1;
+}
+
+message CreateOrUpdateDestinationResponse {
+  string destination_id = 1;
+}
+
+message DeleteDestinationRequest {
+  string destination_id = 1;
+}
+
+message DeleteDestinationResponse {
+  // Intentionally left blank.
+}
+
+message ListDestinationsRequest {
+  optional string destination_id = 1;
+}
+
+message ListDestinationsResponse {
+  repeated RoutingDestination destinations = 1;
+}
+
+// Routing destination defines how the messages or calls should be routed.
+// It can correspond to an operator, a particular subset of numbers, an interconnect partner, etc.
+// In the current implementation, it defines the routing code which is appended to the subscriber number when
+// sending messages or making calls.
+message RoutingDestination {
+  // Destination's unique identifier. Mandatory.
+  string id = 1;
+  // Informational destination name.
+  string name = 2;
+  // Country-specific code used to route calls or messages
+  // In Belgium this is a C-code that is the earliest block assigned to an operator by the regulator.
+  string routing_code = 3;
+}
+
+message CreateOrUpdateNumberBlockRequest {
+  NumberBlock block = 1;
+}
+
+message CreateOrUpdateNumberBlockResponse {
+  // Intentionally left blank.
+}
+
+message DeleteNumberBlockRequest {
+  string destination_id = 1;
+  string prefix = 2;
+}
+
+message DeleteNumberBlockResponse {
+  // Intentionally left blank.
+}
+
+message ListNumberBlocksRequest {
+  optional string destination_id = 1;
+  optional string prefix = 2;
+  optional NumberBlockStatus status = 3;
+}
+
+message ListNumberBlocksResponse {
+  repeated NumberBlock blocks = 1;
+}
+
+// A block of subscriber numbers identified by a prefix.
+// Non-ported numbers will be matched against the prefixes to determine the routing destination,
+// which in turn will be used to determine the routing code.
+message NumberBlock {
+  // A reference to the destination created in the RoutingDestinationService.
+  string destination_id = 1;
+  // Subscriber number prefix.
+  string prefix = 2;
+  // Status of a number block.
+  // Only reserved and allocated blocks are used for the lookups.
+  NumberBlockStatus status = 3;
+  // Only blocks with assignment date in the past are used for the lookups.
+  optional google.protobuf.Timestamp assignment_date = 4;
+}
+
+enum NumberBlockStatus {
+  UNKNOWN_UNSPECIFIED = 0;
+  R_RESERVED = 1; // R Number Range reserved
+  A_ALLOCATED = 2; // A Allocated
+  F_FREE = 3; // F Number range Free
+  RC_RESERVED = 4; // RC Number Range reserved
+  T_RESERVED_UNDER_TESTING = 5; // T Number range reserved under testing
+  U_UNAVAILABLE = 6; // U Unavailable
+  B_BLOCKED = 7; // B Blocked (no reservation possible)
+}

@@ -1,0 +1,42 @@
+// Copyright 2024 Cisco Systems
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+syntax = "proto3";
+
+package cisco.mobility.sms.v1;
+
+import "google/protobuf/duration.proto";
+
+option java_package = "com.cisco.mobility.api.v1.sms";
+option java_outer_classname = "SmsProto";
+
+service SmsService {
+  rpc SendTextMessage (SendTextMessageRequest) returns (SendTextMessageResponse) {}
+}
+
+message SendTextMessageRequest {
+  oneof to_address {
+    string msisdn = 1;
+    string iccid = 2;
+  }
+  string from_address = 3;
+  string content = 4;
+  google.protobuf.Duration delivery_deadline = 5;
+}
+
+message SendTextMessageResponse {
+  string message_id = 1;
+  string error = 2;
+}
