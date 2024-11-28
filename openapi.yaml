@@ -66,6 +66,74 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Status'
+  /number-portability/v1/porting-records:
+    get:
+      tags:
+        - NumberPortabilityService
+      description: ListPortingRecords is used to list porting records from the number portability database.
+      operationId: NumberPortabilityService_ListPortingRecords
+      parameters:
+        - name: operatorCode
+          in: query
+          description: Optional operator code to filter porting records.
+          schema:
+            type: string
+        - name: subscriberNumberPrefix
+          in: query
+          description: Optional subscriber number prefix to filter porting records.
+          schema:
+            type: string
+        - name: destinationId
+          in: query
+          description: Optional destination ID to filter porting records.
+          schema:
+            type: string
+        - name: validFrom
+          in: query
+          description: Optional minimum porting date to filter porting records.
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListPortingRecordsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+    post:
+      tags:
+        - NumberPortabilityService
+      description: |-
+        CreatePortingRecords is used to import porting records into the number portability database.
+         It may also be used to clear the porting record to return it to it's original number block -
+         for that, destination_id, operator_code and routing_code in the PortingRecords should be set to empty values.
+      operationId: NumberPortabilityService_CreatePortingRecords
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePortingRecordsRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatePortingRecordsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
   /sms/v0/inboxes/{toSubscriber}/binary:
     post:
       tags:
@@ -433,6 +501,12 @@ tags:
       NumberPortabilityService is supposed to be used by tenants or third parties to import country-specific number
        porting records into Working Group Two's number portability database. A porting record consists of a subscriber
        number, recipient operator, porting date and optional routing code as well as tenant-specific metadata. Porting date
+       can both be a past or a future date.
+  - name: NumberPortabilityService
+    description: |-
+      NumberPortabilityService is supposed to be used by tenants or third parties to import country-specific number
+       porting records into Working Group Two's number portability database. A porting record consists of a subscriber
+       number, routing destination, porting date and optional routing code as well as tenant-specific metadata. Porting date
        can both be a past or a future date.
   - name: SmsService
     description: Service to handle sending of SMS messages to and from subscribers.
