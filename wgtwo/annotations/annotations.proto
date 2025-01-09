@@ -9,16 +9,38 @@ option java_package = "com.wgtwo.api.annotations";
 option java_outer_classname = "AnnotationsProto";
 
 extend google.protobuf.MethodOptions {
+  // Specifies the required access scope for this method.
   string scope = 50013;
 }
 
+// Enum representing the release status of API methods.
+//
+// More guidance around release status can be found in the
+// [API Lifecycle documentation](https://developer.cisco.com/docs/mobility-services/api-lifecycle/).
 enum ReleaseStatus {
+  // Default status when unspecified.
   UNSPECIFIED = 0;
+
+  // Indicates a stable method, suitable for production use.
+  // No breaking changes will be made to this method.
   STABLE = 1;
+
+  // Indicates a beta method, suitable for initial development and testing.
+  // Note that breaking changes may occur without notice.
+  //
+  // Most new methods will be released as beta, awaiting feedback from developers.
   BETA = 2;
+
+  // Indicates a deprecated method.
+  // It is recommended to migrate to newer alternatives if available.
+  //
+  // Please consult the
+  // [Cisco DevNet Mobility Services API documentation](https://docs.mobility.cisco.com/)
+  // for guidance.
   DEPRECATED = 3;
 }
 
 extend google.protobuf.MethodOptions {
+  // The release status of the method.
   ReleaseStatus status = 50015;
 }
