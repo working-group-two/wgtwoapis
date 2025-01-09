@@ -19,6 +19,7 @@ package wgtwo.consents.v0;
 
 import "wgtwo/annotations/annotations.proto";
 import "wgtwo/common/v0/errors.proto";
+import "wgtwo/common/v0/pagination.proto";
 import "wgtwo/common/v0/phonenumber.proto";
 import "wgtwo/common/v0/types.proto";
 
@@ -46,6 +47,19 @@ service ConsentService {
     option (scope) = "subscription.consent:write";
   }
 
+  rpc ListConsentsForProduct (ListConsentsForProductRequest)
+      returns (ListConsentsForProductResponse) {
+    option (scope) = "";
+  }
+}
+
+message ListConsentsForProductRequest {
+  wgtwo.common.v0.PaginationRequest pagination = 1;
+}
+
+message ListConsentsForProductResponse {
+  repeated Consent consents = 1;
+  wgtwo.common.v0.PaginationResponse pagination = 2;
 }
 
 // Request to get consents for a subscription.
@@ -115,7 +129,7 @@ message Consent {
   // The scopes of the consent.
   repeated Scope scopes = 3;
   // Whether the consent is revocable.
-  bool revokable = 4;
+  bool revocable = 4;
   map<string, string> metadata = 5;
 }
 
