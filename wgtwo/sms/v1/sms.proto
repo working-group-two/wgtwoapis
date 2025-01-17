@@ -149,6 +149,11 @@ message SendDataToSubscriberRequest {
 
   // The application port for the message.
   ApplicationPort application_port = 6;
+
+  // SMS protocol identifier.
+  // Only the least-significant 8 bits must be used, rest fixed at 0.
+  // Default is 0.
+  int32 protocol_identifier = 7;
 }
 
 /**
