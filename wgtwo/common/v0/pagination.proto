@@ -9,6 +9,7 @@ option java_outer_classname = "PaginationProto";
 message PaginationRequest {
   // 1 is reserved for 'parent'
   int32 page_size = 2;
+  // page_token is required to be base64 encoded.
   string page_token = 3;
 }
 

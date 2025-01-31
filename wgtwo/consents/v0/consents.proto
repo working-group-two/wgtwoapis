@@ -47,8 +47,18 @@ service ConsentService {
     option (scope) = "subscription.consent:write";
   }
 
+  // Retrieves a list of consents for a specific product.
+  //
+  // Pagination:
+  // - `pagination.page_size`: Specifies the number of consents to return per page.
+  // - Acceptable values range from 100 to 1000, inclusive.
+  //
+  //
+  // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
+  // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
   rpc ListConsentsForProduct (ListConsentsForProductRequest)
       returns (ListConsentsForProductResponse) {
+    option (status) = BETA;
     option (scope) = "";
   }
 }
