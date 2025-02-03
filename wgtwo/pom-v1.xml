@@ -20,7 +20,6 @@
         <module>sipbreakout/v1</module>
         <module>number_portability/v1</module>
         <module>consents/v1</module>
-        <module>data/v1</module>
     </modules>
 
     <properties>
