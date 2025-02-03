@@ -16,7 +16,6 @@
         <module>callforward/v0</module>
         <module>common/v0</module>
         <module>consents/v0</module>
-        <module>data/v0</module>
         <module>events/v0</module>
         <module>lookup/v0</module>
         <module>mms/v0</module>
