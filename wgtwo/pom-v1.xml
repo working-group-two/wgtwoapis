@@ -5,7 +5,7 @@
 
     <groupId>com.wgtwo.api.v1</groupId>
     <artifactId>grpc-pom</artifactId>
-    <version>1.16.1-SNAPSHOT</version>
+    <version>1.16.1</version>
     <packaging>pom</packaging>
     <name>WgTwo APIs: parent pom</name>
     <url>https://github.com/working-group-two/wgtwoapis/tree/v1</url>
@@ -37,7 +37,7 @@
             scm:git:[push=]git@github.com:working-group-two/wgtwoapis.git[fetch=]git@github.com:working-group-two/wgtwoapis.git
         </developerConnection>
         <url>https://github.com/working-group-two/wgtwoapis.git</url>
-        <tag>v1.10.4</tag>
+        <tag>v1.16.1</tag>
     </scm>
 
     <distributionManagement>
