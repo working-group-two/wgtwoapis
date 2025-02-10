@@ -1,3 +1,5 @@
+// Copyright (C) 2025 Cisco Systems, Inc.
+
 syntax = "proto3";
 
 package wgtwo.common.v0;
@@ -7,9 +9,9 @@ option java_package = "com.wgtwo.api.v0.common";
 option java_outer_classname = "PaginationProto";
 
 message PaginationRequest {
-  // 1 is reserved for 'parent'
+  // page_size is the number of items to return per page.
   int32 page_size = 2;
-  // page_token is required to be base64 encoded.
+  // page_token is an opaque string.
   string page_token = 3;
 }
 

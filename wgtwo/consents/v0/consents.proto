@@ -47,14 +47,14 @@ service ConsentService {
     option (scope) = "subscription.consent:write";
   }
 
-  // Retrieves a list of consents for a specific product.
-  //
+  // Retrieves a list of consents for a specific product.<br>
+  // <br>
   // Pagination:
-  // - `pagination.page_size`: Specifies the number of consents to return per page.
-  // - Acceptable values range from 100 to 1000, inclusive.
-  //
-  //
-  // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
+  // <br>
+  // - `pagination.page_size`: Specifies the number of consents to return per page. <br>
+  // - Acceptable values range from 100 to 1000, inclusive. <br>
+  // <br>
+  // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE <br>
   // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
   rpc ListConsentsForProduct (ListConsentsForProductRequest)
       returns (ListConsentsForProductResponse) {

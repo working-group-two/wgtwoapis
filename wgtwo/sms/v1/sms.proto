@@ -1,4 +1,4 @@
-// Copyright 2020 [Working Group Two]/[Cisco Systems]
+// Copyright (C) 2022 Cisco Systems, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -154,6 +154,12 @@ message SendDataToSubscriberRequest {
   // Only the least-significant 8 bits must be used, rest fixed at 0.
   // Default is 0.
   int32 protocol_identifier = 7;
+
+  // If set to true, the UDH (User-Data Header) of the SMS will contain
+  // the CPI (Command Packet Identifier) for an SMS-PP (Single Short Message
+  // Point to Point) as defined in the 3GPP TS 31.115.
+  // Default is false.
+  bool set_sms_pp_cpi = 8;
 }
 
 /**
