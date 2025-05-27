@@ -144,9 +144,6 @@ message SendDataToSubscriberRequest {
   // will use the maximum deadline. Maximum is 7 days.
   google.protobuf.Duration delivery_deadline = 4;
 
-  // The message class to use for the data SMS message.
-  MessageClass message_class = 5;
-
   // The application port for the message.
   ApplicationPort application_port = 6;
 
@@ -160,7 +157,30 @@ message SendDataToSubscriberRequest {
   // Point to Point) as defined in the 3GPP TS 31.115.
   // Default is false.
   bool set_sms_pp_cpi = 8;
+
+  // General Data Coding Group
+  message DcsCodingGroupGeneral {
+    // The message class to use for the data SMS message.
+    optional MessageClass message_class = 1;
+  }
+
+  // Message Class Data Coding Group
+  message DcsCodingGroupMessageClass {
+    // The message class to use for the data SMS message.
+    MessageClass message_class = 1;
+  }
+
+  // The Data Coding Group for the message.
+  // If the coding group is not specified, the default is General.
+  oneof dcsCodingGroup {
+    DcsCodingGroupGeneral coding_group_general = 9;
+    DcsCodingGroupMessageClass coding_group_message_class = 10;
+    // The message class to use for the data SMS message. This is a Deprecated config value for message class.
+    // Instead of using this, set message class value in the coding group config.
+    MessageClass message_class = 5 [deprecated = true];
+  }
 }
+
 
 /**
  * The class of the message.
