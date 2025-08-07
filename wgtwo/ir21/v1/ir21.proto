@@ -1,0 +1,289 @@
+// Copyright 2024 [Working Group Two]/[Cisco Systems]
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+syntax = "proto3";
+
+package wgtwo.ir21.v1;
+
+import "google/api/annotations.proto";
+import "wgtwo/annotations/annotations.proto";
+import "wgtwo/common/v1/types.proto";
+
+option java_package = "com.wgtwo.api.v1.ir21";
+option java_outer_classname = "Ir21Proto";
+option java_multiple_files = true;
+option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/ir21/v1";
+
+// This service is used to import IR.21 data into an IR21 database.
+//
+// IR21 data consists of organisation information, such as organisation name, country, TADIGs, MCCMNCs, GT prefixes,
+// and realms. The data is used when subscribers are roaming.
+service Ir21Service {
+
+  // CreateOrUpdateOrganisation is used to import organisation information into the IR21 database. An organisation
+  // consists of a name, country, TADIGs, MCCMNCs, GT prefixes, realms, and notes, and is part of a dataset.
+  //
+  // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
+  // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
+  rpc CreateOrUpdateOrganisation(CreateOrUpdateOrganisationRequest) returns (CreateOrUpdateOrganisationResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  }
+
+  // CreateOrUpdateOrganisationFromXml is used to import organisation information from an XML file into the IR21
+  // database. The XML file should contain the organisation data.
+  //
+  // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
+  // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
+  rpc CreateOrUpdateOrganisationFromXml(CreateOrUpdateOrganisationFromXmlRequest)
+      returns (CreateOrUpdateOrganisationFromXmlResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  }
+
+  // DeleteOrganisation is used to delete an organisation from the IR21 database. The organisation is identified by its
+  // UUID and is part of a dataset.
+  //
+  // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
+  // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
+  rpc DeleteOrganisation(DeleteOrganisationRequest) returns (DeleteOrganisationResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  }
+
+  // ListOrganisations is used to list organisations from a dataset in the IR21 database.
+  //
+  // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
+  // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
+  rpc ListOrganisations(ListOrganisationsRequest) returns (ListOrganisationsResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  }
+
+  // GetOrganisation is used to get an organisation from the IR21 database. The organisation is identified by its UUID.
+  //
+  // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
+  // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
+  rpc GetOrganisation(GetOrganisationRequest) returns (GetOrganisationResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  }
+
+  // ListDatasets is used to list datasets from the IR21 database.
+  //
+  // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
+  // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
+  rpc ListDatasets(ListDatasetsRequest) returns (ListDatasetsResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  }
+
+  // CreateDataset is used to create a dataset in the IR21 database. A dataset has a name and a UUID.
+  //
+  // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
+  // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
+  rpc CreateDataset(CreateDatasetRequest) returns (CreateDatasetResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  }
+
+  // DeleteDataset is used to delete a dataset from the IR21 database. The dataset is identified by its UUID.
+  //
+  // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
+  // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
+  rpc DeleteDataset(DeleteDatasetRequest) returns (DeleteDatasetResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  }
+
+  // CopyDataset is used to copy a dataset in the IR21 database.
+  //
+  // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
+  // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
+  rpc CopyDataset(CopyDatasetRequest) returns (CopyDatasetResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  }
+
+  // SetCurrentDatasetForTenant is used to set the active dataset for a tenant in the IR21 database.
+  //
+  // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
+  // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
+  rpc SetActiveDataset(SetActiveDatasetRequest) returns (SetActiveDatasetResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  }
+
+  // GetActiveDatasets gets a list of pairs where each pair contains a dataset UUID and a tenant UUID.
+  //
+  // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
+  // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
+  rpc GetActiveDatasets(GetActiveDatasetsRequest) returns (GetActiveDatasetsResponse) {
+    option (status) = BETA;
+    option (scope) = "";
+  }
+
+}
+
+// Dataset represents a dataset in the IR21 database. A dataset is identified by a UUID and has a name as metadata.
+message Dataset {
+  bytes uuid = 1;
+  string comment = 2;
+}
+
+// Request message to list datasets.
+message ListDatasetsRequest {
+}
+
+// Response message for list datasets.
+message ListDatasetsResponse {
+  repeated Dataset datasets = 1;
+}
+
+// Request message to set the active dataset for a tenant.
+message SetActiveDatasetRequest {
+  bytes dataset_uuid = 1;
+  repeated bytes tenant_uuids = 2;
+}
+
+// Response message for set active dataset for tenant.
+message SetActiveDatasetResponse {
+  repeated ActiveDataset active_datasets = 1;
+}
+
+// Request message to create a dataset.
+message CreateDatasetRequest {
+  bytes uuid = 1; // if uuid is empty, generates uuid and returns it.
+  string comment = 2;
+}
+
+// Response message for create dataset.
+message CreateDatasetResponse {
+  bytes uuid = 1;
+}
+
+// Request message to delete a dataset. The dataset is identified by its UUID.
+message DeleteDatasetRequest {
+  bytes uuid = 1;
+}
+
+// Response message for delete dataset.
+message DeleteDatasetResponse {
+  bytes uuid = 1;
+}
+
+// Request message to copy a dataset.
+message CopyDatasetRequest {
+  bytes source_uuid = 1;
+  bytes destination_uuid = 2; // if empty, generates uuid and returns it.
+  string comment = 3;
+}
+
+// Response message for copy dataset.
+message CopyDatasetResponse {
+  bytes uuid = 1;
+}
+
+// Request message to create or update an organisation in the IR21 database.
+message CreateOrUpdateOrganisationRequest {
+  bytes dataset_uuid = 1;
+  Organisation organisation = 2;
+}
+
+// Response message for create or update organisation.
+message CreateOrUpdateOrganisationResponse {
+  bytes uuid = 1;
+}
+
+// Request message to create or update an organisation from an XML file in the IR21 database.
+message CreateOrUpdateOrganisationFromXmlRequest {
+  bytes dataset_uuid = 1;
+  bytes xml_file = 2;
+  string comment = 3;
+}
+
+// Response message for create or update organisation from XML.
+message CreateOrUpdateOrganisationFromXmlResponse {
+  bytes uuid = 1;
+}
+
+// Request message to delete an organisation from the IR21 database.
+message DeleteOrganisationRequest {
+  bytes dataset_uuid = 1;
+  bytes organisation_uuid = 2;
+}
+
+// Response message for delete organisation.
+message DeleteOrganisationResponse {
+  bytes uuid = 1;
+}
+
+// Request message to list organisations from a dataset in the IR21 database.
+message ListOrganisationsRequest {
+  bytes dataset_uuid = 1;
+  // TODO: add fields for filters
+}
+
+// Response message for list organisations. Returns the dataset metadata and a list of organisations containing IR.21
+// data.
+message ListOrganisationsResponse {
+  Dataset dataset = 1;
+  repeated Organisation organisations = 2;
+}
+
+// Request message to get an organisation from the IR21 database.
+message GetOrganisationRequest {
+  bytes dataset_uuid = 1;
+  bytes organisation_uuid = 2;
+}
+
+// Response message for get organisation.
+message GetOrganisationResponse {
+  Organisation organisation = 1;
+}
+
+// Request message to get active datasets.
+message GetActiveDatasetsRequest {
+}
+
+// Response message for get active datasets.
+message GetActiveDatasetsResponse {
+  repeated ActiveDataset active_datasets = 1;
+}
+
+// Indicates which dataset is currently active for a tenant.
+message ActiveDataset {
+  bytes dataset_uuid = 1;
+  bytes tenant_uuid = 2;
+}
+
+// Organisation represents an organisation in the IR21 database. An organisation has a UUID, name, country, country
+// initials, TADIGs, MCCMNCs, GT prefixes, realms, and a comment. If the UUID is not set, it is generated by the server.
+// If UUID was in the request, it is treated as an Update, otherwise as a Create.
+message Organisation {
+  bytes uuid = 1; // Unique identifier for the organisation. If empty, a UUID will be generated.
+  string name = 2; // Name of the organisation.
+  string country_name = 3; // Human-readable name of the country. For example, 'Norway'.
+  string country_initials = 4; // Three-letter country initials from RAEX IR.21. Examples: 'AAM', 'AAZ', 'NOR', 'USA'.
+  repeated Tadig tadigs = 5; // List of TADIGs associated with the organisation.
+  string comment = 6; // Additional comments or notes about the organisation.
+}
+
+message Tadig {
+  string tadig = 1; // TADIG code for the network.
+  repeated wgtwo.common.v1.NetworkIdentity mccmncs = 2; // List of MCCMNCs associated with this TADIG.
+  repeated string realms = 3; // List of realms associated with the MCCMNCs.
+  repeated string gt_prefixes = 4; // List of GT prefixes associated with the MCCMNCs.
+}
