@@ -266,11 +266,46 @@ message SmsDeliveryReportEvent {
     FROM_SUBSCRIBER = 1;
     TO_SUBSCRIBER = 2;
   }
+  // Summarised status derived from the TP-Status field defined in 3GPP TS 23.040
   enum Status {
     STATUS_UNKNOWN = 0;
+    // Delivery successful. <br>
+    // Derived from TP-Status values: <br>
+    // - 'Short message received by the SME' <br>
+    // - 'Short message forwarded by the SC to the SME but the SC is unable to confirm delivery' <br>
+    // - 'Short message replaced by the SC' <br>
     DELIVERED = 1;
+    // Delivery unsuccessful but will retry. <br>
+    // Derived from TP-Status values: <br>
+    // - 'Congestion' <br>
+    // - 'SME busy' <br>
+    // - 'No response from SME' <br>
+    // - 'Service rejected' <br>
+    // - 'Quality of service not available' <br>
+    // - 'Error in SME' <br>
     TEMPORARY_FAILURE = 2;
+    // Delivery unsuccessful and will NOT retry. <br>
+    // Derived from TP-Status values: <br>
+    // - 'Remote procedure error' <br>
+    // - 'Incompatible destination' <br>
+    // - 'Connection rejected by SME' <br>
+    // - 'Not obtainable' <br>
+    // - 'Quality of service not available' <br>
+    // - 'No interworking available' <br>
+    // - 'SM Deleted by originating SME' <br>
+    // - 'SM Deleted by SC Administration' <br>
+    // - 'SM does not exist' <br>
+    // SC is not making any more transfer attempts after following temporary errors <br>
+    // - 'Congestion' <br>
+    // - 'SME busy' <br>
+    // - 'No response from SME' <br>
+    // - 'Service rejected' <br>
+    // - 'Quality of service not available' <br>
+    // - 'Error in SME' <br>
     FINAL_FAILURE = 3;
+    // Delivery unsuccessful and will NOT retry. <br>
+    // Derived from TP-Status values: <br>
+    // - 'SM Validity Period Expired' <br>
     EXPIRED = 4;
   }
 
@@ -287,6 +322,7 @@ message SmsDeliveryReportEvent {
   }
   Direction direction = 8;
   string sms_id = 9;
+  // Summary of delivery status. See Status enum for details on how status is mapped.
   Status status = 10;
 }
 
