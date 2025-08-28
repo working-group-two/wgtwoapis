@@ -33,8 +33,8 @@ option go_package = "github.com/working-group-two/wgtwoapis/wgtwo/ir21/v1";
 service Ir21Service {
 
   // CreateOrUpdateOrganisation is used to import organisation information into the IR21 database. An organisation
-  // consists of a name, country, TADIGs, MCCMNCs, GT prefixes, realms, and notes, and is part of a dataset.
-  //
+  // consists of a name, country, TADIGs, MCCMNCs, GT prefixes, realms, and notes, and is part of a dataset. <br>
+  // <br>
   // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
   // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
   rpc CreateOrUpdateOrganisation(CreateOrUpdateOrganisationRequest) returns (CreateOrUpdateOrganisationResponse) {
@@ -43,8 +43,8 @@ service Ir21Service {
   }
 
   // CreateOrUpdateOrganisationFromXml is used to import organisation information from an XML file into the IR21
-  // database. The XML file should contain the organisation data.
-  //
+  // database. The XML file should contain the organisation data. <br>
+  // <br>
   // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
   // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
   rpc CreateOrUpdateOrganisationFromXml(CreateOrUpdateOrganisationFromXmlRequest)
@@ -54,8 +54,8 @@ service Ir21Service {
   }
 
   // DeleteOrganisation is used to delete an organisation from the IR21 database. The organisation is identified by its
-  // UUID and is part of a dataset.
-  //
+  // UUID and is part of a dataset. <br>
+  // <br>
   // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
   // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
   rpc DeleteOrganisation(DeleteOrganisationRequest) returns (DeleteOrganisationResponse) {
@@ -63,8 +63,8 @@ service Ir21Service {
     option (scope) = "";
   }
 
-  // ListOrganisations is used to list organisations from a dataset in the IR21 database.
-  //
+  // ListOrganisations is used to list organisations from a dataset in the IR21 database. <br>
+  // <br>
   // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
   // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
   rpc ListOrganisations(ListOrganisationsRequest) returns (ListOrganisationsResponse) {
@@ -72,8 +72,8 @@ service Ir21Service {
     option (scope) = "";
   }
 
-  // GetOrganisation is used to get an organisation from the IR21 database. The organisation is identified by its UUID.
-  //
+  // GetOrganisation is used to get an organisation from the IR21 database. The organisation is identified by its UUID. <br>
+  // <br>
   // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
   // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
   rpc GetOrganisation(GetOrganisationRequest) returns (GetOrganisationResponse) {
@@ -81,8 +81,8 @@ service Ir21Service {
     option (scope) = "";
   }
 
-  // ListDatasets is used to list datasets from the IR21 database.
-  //
+  // ListDatasets is used to list datasets from the IR21 database. <br>
+  // <br>
   // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
   // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
   rpc ListDatasets(ListDatasetsRequest) returns (ListDatasetsResponse) {
@@ -90,8 +90,8 @@ service Ir21Service {
     option (scope) = "";
   }
 
-  // CreateDataset is used to create a dataset in the IR21 database. A dataset has a name and a UUID.
-  //
+  // CreateDataset is used to create a dataset in the IR21 database. A dataset has a name and a UUID. <br>
+  // <br>
   // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
   // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
   rpc CreateDataset(CreateDatasetRequest) returns (CreateDatasetResponse) {
@@ -99,8 +99,8 @@ service Ir21Service {
     option (scope) = "";
   }
 
-  // DeleteDataset is used to delete a dataset from the IR21 database. The dataset is identified by its UUID.
-  //
+  // DeleteDataset is used to delete a dataset from the IR21 database. The dataset is identified by its UUID. <br>
+  // <br>
   // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
   // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
   rpc DeleteDataset(DeleteDatasetRequest) returns (DeleteDatasetResponse) {
@@ -108,8 +108,8 @@ service Ir21Service {
     option (scope) = "";
   }
 
-  // CopyDataset is used to copy a dataset in the IR21 database.
-  //
+  // CopyDataset is used to copy a dataset in the IR21 database. <br>
+  // <br>
   // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
   // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
   rpc CopyDataset(CopyDatasetRequest) returns (CopyDatasetResponse) {
@@ -117,8 +117,8 @@ service Ir21Service {
     option (scope) = "";
   }
 
-  // SetCurrentDatasetForTenant is used to set the active dataset for a tenant in the IR21 database.
-  //
+  // SetCurrentDatasetForTenant is used to set the active dataset for a tenant in the IR21 database. <br>
+  // <br>
   // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
   // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
   rpc SetActiveDataset(SetActiveDatasetRequest) returns (SetActiveDatasetResponse) {
@@ -126,8 +126,8 @@ service Ir21Service {
     option (scope) = "";
   }
 
-  // GetActiveDatasets gets a list of pairs where each pair contains a dataset UUID and a tenant UUID.
-  //
+  // GetActiveDatasets gets a list of pairs where each pair contains a dataset UUID and a tenant UUID. <br>
+  // <br>
   // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
   // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
   rpc GetActiveDatasets(GetActiveDatasetsRequest) returns (GetActiveDatasetsResponse) {
