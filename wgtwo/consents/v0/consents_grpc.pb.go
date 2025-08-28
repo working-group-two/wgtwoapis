@@ -37,6 +37,7 @@ const (
 	ConsentService_GetConsentsForSubscription_FullMethodName   = "/wgtwo.consents.v0.ConsentService/GetConsentsForSubscription"
 	ConsentService_CreateConsentForSubscription_FullMethodName = "/wgtwo.consents.v0.ConsentService/CreateConsentForSubscription"
 	ConsentService_RevokeConsentForSubscription_FullMethodName = "/wgtwo.consents.v0.ConsentService/RevokeConsentForSubscription"
+	ConsentService_ListConsentsForProduct_FullMethodName       = "/wgtwo.consents.v0.ConsentService/ListConsentsForProduct"
 )
 
 // ConsentServiceClient is the client API for ConsentService service.
@@ -51,6 +52,16 @@ type ConsentServiceClient interface {
 	CreateConsentForSubscription(ctx context.Context, in *CreateConsentForSubscriptionRequest, opts ...grpc.CallOption) (*CreateConsentForSubscriptionResponse, error)
 	// Revoke a consent for a subscription.
 	RevokeConsentForSubscription(ctx context.Context, in *RevokeConsentForSubscriptionRequest, opts ...grpc.CallOption) (*RevokeConsentForSubscriptionResponse, error)
+	// Retrieves a list of consents for a specific product.<br>
+	// <br>
+	// Pagination:
+	// <br>
+	// - `pagination.page_size`: Specifies the number of consents to return per page. <br>
+	// - Acceptable values range from 100 to 1000, inclusive. <br>
+	// <br>
+	// NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE <br>
+	// See https://developer.cisco.com/docs/mobility-services/api-lifecycle
+	ListConsentsForProduct(ctx context.Context, in *ListConsentsForProductRequest, opts ...grpc.CallOption) (*ListConsentsForProductResponse, error)
 }
 
 type consentServiceClient struct {
@@ -91,6 +102,16 @@ func (c *consentServiceClient) RevokeConsentForSubscription(ctx context.Context,
 	return out, nil
 }
 
+func (c *consentServiceClient) ListConsentsForProduct(ctx context.Context, in *ListConsentsForProductRequest, opts ...grpc.CallOption) (*ListConsentsForProductResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListConsentsForProductResponse)
+	err := c.cc.Invoke(ctx, ConsentService_ListConsentsForProduct_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ConsentServiceServer is the server API for ConsentService service.
 // All implementations should embed UnimplementedConsentServiceServer
 // for forward compatibility.
@@ -103,6 +124,16 @@ type ConsentServiceServer interface {
 	CreateConsentForSubscription(context.Context, *CreateConsentForSubscriptionRequest) (*CreateConsentForSubscriptionResponse, error)
 	// Revoke a consent for a subscription.
 	RevokeConsentForSubscription(context.Context, *RevokeConsentForSubscriptionRequest) (*RevokeConsentForSubscriptionResponse, error)
+	// Retrieves a list of consents for a specific product.<br>
+	// <br>
+	// Pagination:
+	// <br>
+	// - `pagination.page_size`: Specifies the number of consents to return per page. <br>
+	// - Acceptable values range from 100 to 1000, inclusive. <br>
+	// <br>
+	// NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE <br>
+	// See https://developer.cisco.com/docs/mobility-services/api-lifecycle
+	ListConsentsForProduct(context.Context, *ListConsentsForProductRequest) (*ListConsentsForProductResponse, error)
 }
 
 // UnimplementedConsentServiceServer should be embedded to have
@@ -120,6 +151,9 @@ func (UnimplementedConsentServiceServer) CreateConsentForSubscription(context.Co
 }
 func (UnimplementedConsentServiceServer) RevokeConsentForSubscription(context.Context, *RevokeConsentForSubscriptionRequest) (*RevokeConsentForSubscriptionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RevokeConsentForSubscription not implemented")
+}
+func (UnimplementedConsentServiceServer) ListConsentsForProduct(context.Context, *ListConsentsForProductRequest) (*ListConsentsForProductResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListConsentsForProduct not implemented")
 }
 func (UnimplementedConsentServiceServer) testEmbeddedByValue() {}
 
@@ -195,6 +229,24 @@ func _ConsentService_RevokeConsentForSubscription_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ConsentService_ListConsentsForProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListConsentsForProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ConsentServiceServer).ListConsentsForProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ConsentService_ListConsentsForProduct_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ConsentServiceServer).ListConsentsForProduct(ctx, req.(*ListConsentsForProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ConsentService_ServiceDesc is the grpc.ServiceDesc for ConsentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -213,6 +265,10 @@ var ConsentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RevokeConsentForSubscription",
 			Handler:    _ConsentService_RevokeConsentForSubscription_Handler,
+		},
+		{
+			MethodName: "ListConsentsForProduct",
+			Handler:    _ConsentService_ListConsentsForProduct_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -14,12 +14,13 @@
     <modules>
         <module>annotations/pom-v1.xml</module>
         <module>common/v1</module>
+        <module>consents/v1</module>
         <module>events/v1</module>
+        <module>ir21/v1</module>
+        <module>number_portability/v1</module>
+        <module>sipbreakout/v1</module>
         <module>sms/v1</module>
         <module>subscription/v1</module>
-        <module>sipbreakout/v1</module>
-        <module>number_portability/v1</module>
-        <module>consents/v1</module>
     </modules>
 
     <properties>
