@@ -72,7 +72,8 @@ service Ir21Service {
     option (scope) = "";
   }
 
-  // GetOrganisation is used to get an organisation from the IR21 database. The organisation is identified by its UUID. <br>
+  // GetOrganisation is used to get an organisation from the IR21 database.
+  // The organisation is identified by its UUID. <br>
   // <br>
   // NOTE: THIS METHOD IS CURRENTLY IN BETA RELEASE
   // See https://developer.cisco.com/docs/mobility-services/api-lifecycle
@@ -286,4 +287,12 @@ message Tadig {
   repeated wgtwo.common.v1.NetworkIdentity mccmncs = 2; // List of MCCMNCs associated with this TADIG.
   repeated string realms = 3; // List of realms associated with the MCCMNCs.
   repeated string gt_prefixes = 4; // List of GT prefixes associated with the MCCMNCs.
+  repeated GtRange gt_ranges = 5; // List of GT ranges associated with the MCCMNCs.
+}
+
+// GT range is a closed interval and corresponds to SN Range Start / SN Range Stop values
+// in a RAEX IR.21 document.
+message GtRange {
+  int64 start = 1; // Range start, e.g., 4712345000
+  int64 stop = 2;  // Range stop, e.g., 4712345999
 }
