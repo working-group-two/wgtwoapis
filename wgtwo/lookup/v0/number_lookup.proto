@@ -1,3 +1,5 @@
+// Copyright (C) 2023 Cisco Systems, Inc.
+
 // Copyright 2023 [Working Group Two]/[Cisco Systems]
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,6 +39,8 @@ message NumberLookupRequest {
   string id = 1;
   // The number to lookup
   wgtwo.common.v0.PhoneNumber number = 2;
+  // Only present if the client has scope "lookup.number_detailed:read"
+  wgtwo.common.v0.PhoneNumber recipient = 3;
 }
 
 message NumberLookupResponse {
